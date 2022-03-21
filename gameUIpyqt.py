@@ -8,6 +8,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from math import log2
 import GameMgr
+# import pprint
 
 SIZE = 4
 BOARD_SIZE_PX = 450
@@ -33,15 +34,19 @@ class CentralWidget(QtWidgets.QWidget):
             raise TypeError("CentralWidget keyPressEvent() event is NOT QKeyEvent() ")
 
         if event.key() == QtCore.Qt.Key.Key_Up.value:
+            self.releaseKeyboard()
             self.ui_mainwindow.game.move_vert(0)        # '0' means 'Up'
 
         elif event.key() == QtCore.Qt.Key.Key_Left.value:
+            self.releaseKeyboard()
             self.ui_mainwindow.game.move_horiz(0)       # '0' means 'Left'
 
         elif event.key() == QtCore.Qt.Key.Key_Down.value:
+            self.releaseKeyboard()
             self.ui_mainwindow.game.move_vert(1)        # '1' means 'Down'
 
         elif event.key() == QtCore.Qt.Key.Key_Right.value:
+            self.releaseKeyboard()
             self.ui_mainwindow.game.move_horiz(1)       # '1' means 'Right'
 
 
@@ -79,29 +84,25 @@ class TileWidget(QtWidgets.QLabel):
 
         self._num = num
 
-        if self._num < 1000:
+        if self._num < 10000:
             self.setStyleSheet("margin: 2px; border: 4px solid grey; border-radius: 5px; " +
                                "background-color: #" + TileWidget.tile_colors[int(log2(self._num)) - 1] +
                                "; font: bold 32px;")
-        elif self._num > 999 and self._num < 10000:
-            self.setStyleSheet("margin: 2px; border: 4px solid grey; border-radius: 5px; " +
-                               "background-color: #" + TileWidget.tile_colors[int(log2(self._num)) - 1] +
-                               "; font: bold 24px;")
         elif self._num > 9999:
             self.setStyleSheet("margin: 2px; border: 4px solid grey; border-radius: 5px; " +
                                "background-color: #" + TileWidget.tile_colors[int(log2(self._num)) - 1] +
-                               "; font: bold 18px;")
+                               "; font: bold 24px;")
 
         self.setText(str(self._num))
 
 
-class Ui_MainWindow(object):
+class UiMainWindow(object):
 
-    def __init__(self, MainWindow):
+    def __init__(self, main_window):
 
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(500, 775)
-        self.centralwidget = CentralWidget(MainWindow, self)      # Custom subclass of QWidget
+        main_window.setObjectName("MainWindow")
+        main_window.resize(500, 775)
+        self.centralwidget = CentralWidget(main_window, self)      # Custom subclass of QWidget
         self.centralwidget.setObjectName("centralwidget")
 
         # Game Title
@@ -117,10 +118,10 @@ class Ui_MainWindow(object):
 
         # Scores Area
         self.layoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.layoutWidget.setGeometry(QtCore.QRect(50, 70, 99, 54))
+        self.layoutWidget.setGeometry(QtCore.QRect(50, 70, 133, 54))
         self.layoutWidget.setObjectName("layoutWidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.layoutWidget)
-        self.verticalLayout.setContentsMargins(10, 10, 10, 10)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.curr_score_label = QtWidgets.QLabel(self.layoutWidget)
         font = QtGui.QFont()
@@ -231,25 +232,27 @@ class Ui_MainWindow(object):
         self.ap_start_button.setObjectName("ap_start_button")
         self.verticalLayout_3.addWidget(self.ap_start_button)
 
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        main_window.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(main_window)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 499, 22))
         self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        main_window.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(main_window)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        main_window.setStatusBar(self.statusbar)
 
         # for enabling multi-language support
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslate_ui(main_window)
+        QtCore.QMetaObject.connectSlotsByName(main_window)
 
         self.game = None
+        self.current_game = False
+        self.is_paused = True
+        self.anim_group = None
 
-
-    def retranslateUi(self, MainWindow):
+    def retranslate_ui(self, main_window):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        main_window.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.game_title.setText(_translate("MainWindow", "2048"))
         self.start_button.setText(_translate("MainWindow", "Start"))
         self.save_button.setText(_translate("MainWindow", "Save Game"))
@@ -260,7 +263,6 @@ class Ui_MainWindow(object):
         self.record_score.setText(_translate("MainWindow", "0"))
         self.ap_spd_label.setText(_translate("MainWindow", "Auto-Play Speed"))
         self.ap_start_button.setText(_translate("MainWindow", "Start Auto-Play"))
-
 
     def start_clicked(self):
 
@@ -284,8 +286,19 @@ class Ui_MainWindow(object):
                 self.centralwidget.releaseKeyboard()
                 self.start_button.setText("Play")
 
-
     def animate_tiles(self, vectors):
+
+        # DEBUG
+        # print("Raw Tiles")
+        # pprint.pp(self.game.raw_tiles)
+        # print("Tile Widgets")
+        # pprint.pp(self.game.tile_widgets)
+        # print("Vectors")
+        # pprint.pp(vectors)
+        # print("Next Raw Tiles")
+        # pprint.pp(self.game.next_raw_tiles)
+        # print("Next Tile Widgets")
+        # pprint.pp(self.game.next_tile_widgets)
 
         self.anim_group = QtCore.QParallelAnimationGroup()
         anims = []
@@ -314,6 +327,6 @@ if __name__ == "__main__":
     tile_id = ord("A")-1
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow(MainWindow)
+    ui = UiMainWindow(MainWindow)
     MainWindow.show()
     sys.exit(app.exec())
