@@ -34,21 +34,29 @@ class CentralWidget(QtWidgets.QWidget):
             raise TypeError("CentralWidget keyPressEvent() event is NOT QKeyEvent() ")
 
         if event.key() == QtCore.Qt.Key.Key_Up.value:
+            # print("MOVE UP")
             self.releaseKeyboard()
-            self.ui_mainwindow.game.move_vert(0)        # '0' means 'Up'
+            valid_move, tile_move_vect = self.ui_mainwindow.game.move_vert(0)        # '0' means 'Up'
 
         elif event.key() == QtCore.Qt.Key.Key_Left.value:
+            # print("MOVE LEFT")
             self.releaseKeyboard()
-            self.ui_mainwindow.game.move_horiz(0)       # '0' means 'Left'
+            valid_move, tile_move_vect = self.ui_mainwindow.game.move_horiz(0)       # '0' means 'Left'
 
         elif event.key() == QtCore.Qt.Key.Key_Down.value:
+            # print("MOVE DOWN")
             self.releaseKeyboard()
-            self.ui_mainwindow.game.move_vert(1)        # '1' means 'Down'
+            valid_move, tile_move_vect = self.ui_mainwindow.game.move_vert(1)        # '1' means 'Down'
 
         elif event.key() == QtCore.Qt.Key.Key_Right.value:
+            # print("MOVE RIGHT")
             self.releaseKeyboard()
-            self.ui_mainwindow.game.move_horiz(1)       # '1' means 'Right'
+            valid_move, tile_move_vect = self.ui_mainwindow.game.move_horiz(1)       # '1' means 'Right'
 
+        if valid_move:
+            self.ui_mainwindow.animate_tiles(tile_move_vect)
+        else:
+            self.grabKeyboard()
 
 # Custom class for the Tiles displayed on board, subclass of "QLabel"
 class TileWidget(QtWidgets.QLabel):
@@ -267,13 +275,8 @@ class UiMainWindow(object):
     def start_clicked(self):
 
         # If no game is in progress
-        if not self.game:
-            self.game = GameMgr.Game(self)
-            self.current_game = True
-            self.is_paused = False
-            self.start_button.setText("Pause")
-            self.centralwidget.grabKeyboard()  # Enable keyboard events to be processed
-            self.game.add_random_tile()
+        if not self.current_game:
+            self.new_game()
 
         else:
             if self.is_paused:  # User clicked "Play"
@@ -319,7 +322,103 @@ class UiMainWindow(object):
 
         self.anim_group.finished.connect(self.game.delete_and_new)
         self.anim_group.start()
+        # self.centralwidget.releaseKeyboard()
+
+    def game_over(self):
+
         self.centralwidget.releaseKeyboard()
+        game_over_dlg = QtWidgets.QMessageBox(self.centralwidget)
+        game_over_dlg.setWindowTitle("Game Over. New Game?")
+        game_over_dlg.setText("Game Over.")
+        game_over_dlg.setInformativeText("Start New Game?")
+        game_over_dlg.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No)
+        game_over_dlg.setDefaultButton(QtWidgets.QMessageBox.StandardButton.Yes)
+
+        selection = game_over_dlg.exec()
+
+        if selection == QtWidgets.QMessageBox.StandardButton.Yes:
+            self.new_game()
+        elif selection == QtWidgets.QMessageBox.StandardButton.No:
+            self.stop_game()
+        else:
+            raise ValueError("Invalid selection returned from Game_Over dialog")
+
+
+
+        # # Add text and buttons
+        # v_layout = QtWidgets.QVBoxLayout(game_over_dlg)
+        #
+        # game_over_label = QtWidgets.QLabel("Game Over.")
+        # game_over_label.setStyleSheet("font: bold 32px;")
+        # game_over_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        # v_layout.addWidget(game_over_label)
+        #
+        # new_game_label = QtWidgets.QLabel("Start New Game?")
+        # new_game_label.setStyleSheet("font: bold 24px;")
+        # new_game_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        # v_layout.addWidget(new_game_label)
+        #
+        # butt_layout = QtWidgets.QHBoxLayout(v_layout)
+        #
+        # new_game_button = QtWidgets.QPushButton(game_over_dlg)
+        # # new_game_button.setGeometry(QtCore.QRect(20, 610, 100, 100))
+        # font = QtGui.QFont()
+        # font.setPointSize(12)
+        # new_game_button.setFont(font)
+        # new_game_button.setObjectName("start_new_game")
+        # new_game_button.setText("Yes")
+        # new_game_button.clicked.connect(self.new_game)
+        #
+        # stop_button = QtWidgets.QPushButton(game_over_dlg)
+        # # stop_button.setGeometry(QtCore.QRect(20, 610, 100, 100))
+        # font = QtGui.QFont()
+        # font.setPointSize(12)
+        # stop_button.setFont(font)
+        # stop_button.setObjectName("cont_")
+        # stop_button.setText("Start New Game")
+        # stop_button.clicked.connect(self.new_game)
+        #
+        # v_layout.addLayout(butt_layout)
+
+    def won_game(self):
+
+        self.centralwidget.releaseKeyboard()
+        won_game_dlg = QtWidgets.QMessageBox(self.centralwidget)
+        won_game_dlg.setWindowTitle("You Win!!")
+        won_game_dlg.setText("You Win!!")
+        won_game_dlg.setInformativeText("Continue Playing?")
+        won_game_dlg.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No)
+        won_game_dlg.setDefaultButton(QtWidgets.QMessageBox.StandardButton.Yes)
+
+        selection = won_game_dlg.exec()
+
+        if selection == QtWidgets.QMessageBox.StandardButton.Yes:
+            return True
+        elif selection == QtWidgets.QMessageBox.StandardButton.Yes:
+            return False
+
+    def new_game(self):
+
+        # If a previous game exists, clear previous tiles on board
+        if self.game:
+            for row in range(SIZE):
+                for col in range(SIZE):
+                    if self.game.tile_widgets[row][col]:
+                        self.game.tile_widgets[row][col].hide()
+                        self.game.tile_widgets[row][col].destroy()
+
+        self.game = GameMgr.Game(self)
+        self.current_game = True
+        self.is_paused = False
+        self.start_button.setText("Pause")
+        self.centralwidget.grabKeyboard()  # Enable keyboard events to be processed
+        self.game.add_random_tile()
+
+    def stop_game(self):
+
+        self.current_game = False
+        self.is_paused = True
+        self.start_button.setText("New Game")
 
 
 if __name__ == "__main__":

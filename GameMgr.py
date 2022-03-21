@@ -21,6 +21,7 @@ class Game(object):
         self.rand = default_rng()
         self.tiles_to_delete = []
         self.score = 0
+        self.already_won = False
 
     def move_vert(self, direction):
 
@@ -46,12 +47,10 @@ class Game(object):
                 place_row = 0
                 eval_row = 1
                 inc = 1
-                # print("MOVE UP")
             else:  # Down
                 place_row = SIZE - 1
                 eval_row = SIZE - 2
                 inc = -1
-                # print("MOVE DOWN")
 
             while (eval_row > -1) and (eval_row < SIZE):
 
@@ -105,12 +104,16 @@ class Game(object):
                         place_row += inc
                         continue
 
-        if not valid_move:
-            # self.tiles_to_delete.clear()
-            self.ui_main.centralwidget.grabKeyboard()
-            return
+        return valid_move, tile_move_vect
 
-        self.ui_main.animate_tiles(tile_move_vect)
+        # if valid_move:
+        #     return ()
+        # if not valid_move:
+        #     # self.tiles_to_delete.clear()
+        #     self.ui_main.centralwidget.grabKeyboard()
+        #     return
+        #
+        # self.ui_main.animate_tiles(tile_move_vect)
 
     def move_horiz(self, direction):
 
@@ -139,12 +142,10 @@ class Game(object):
                 place_col = 0
                 eval_col = 1
                 inc = 1
-                # print("MOVE LEFT")
             else:  # Right
                 place_col = SIZE - 1
                 eval_col = SIZE - 2
                 inc = -1
-                # print("MOVE RIGHT")
 
             while (eval_col > -1) and (eval_col < SIZE):
 
@@ -198,12 +199,14 @@ class Game(object):
                         place_col += inc
                         continue
 
-        if not valid_move:
-            # self.tiles_to_delete.clear()
-            self.ui_main.centralwidget.grabKeyboard()
-            return
+        return valid_move, tile_move_vect
 
-        self.ui_main.animate_tiles(tile_move_vect)
+        # if not valid_move:
+        #     # self.tiles_to_delete.clear()
+        #     self.ui_main.centralwidget.grabKeyboard()
+        #     return
+        #
+        # self.ui_main.animate_tiles(tile_move_vect)
 
     def delete_and_new(self):
 
@@ -211,14 +214,15 @@ class Game(object):
             tile.hide()
             tile.destroy()
 
+        self.ui_main.curr_score.setText(str(self.score))
         self.tile_widgets = self.next_tile_widgets
         self.raw_tiles = self.next_raw_tiles
 
         empty = 0
         for row in range(SIZE):
             for col in range(SIZE):
-                if self.raw_tiles[row][col] == 0:
 
+                if self.raw_tiles[row][col] == 0:
                     empty += 1
 
                     # if self.tile_widgets[row][col]:
@@ -229,10 +233,17 @@ class Game(object):
                     self.tile_widgets[row][col].update_num(self.raw_tiles[row][col])
                     self.tile_widgets[row][col].show()
 
+                    if (not self.already_won) and self.raw_tiles[row][col] == 2048:
+                        keep_playing = self.ui_main.won_game()
+                        if keep_playing:
+                            self.already_won = True
+                            continue
+                        else:
+                            self.ui_main.stop_game()
+
         self.num_empty = empty
 
         self.tiles_to_delete.clear()
-        self.ui_main.curr_score.setText(str(self.score))
         self.add_random_tile()
         self.ui_main.centralwidget.grabKeyboard()
 
@@ -267,3 +278,18 @@ class Game(object):
 
         self.tile_widgets[row][col] = gameUIpyqt.TileWidget(self.ui_main.game_board, value, row, col)
         self.tile_widgets[row][col].show()
+
+        if self.num_empty == 0:
+            self.check_game_over()
+
+    def check_game_over(self):
+
+        up_valid, _ = self.move_vert(0)
+        down_valid, _ = self.move_vert(1)
+        left_valid, _ = self.move_horiz(0)
+        right_valid, _ = self.move_horiz(1)
+
+        if not (up_valid or down_valid or left_valid or right_valid):
+            self.ui_main.game_over()
+
+
