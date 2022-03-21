@@ -207,7 +207,6 @@ class Game(object):
 
     def delete_and_new(self):
 
-
         for tile in self.tiles_to_delete:
             tile.hide()
             tile.destroy()
