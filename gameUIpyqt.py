@@ -194,6 +194,7 @@ class UiMainWindow(object):
         font.setPointSize(12)
         self.load_but.setFont(font)
         self.load_but.setObjectName("load_but")
+        self.load_but.setEnabled(False)
 
         self.line = QtWidgets.QFrame(self.centralwidget)
         self.line.setGeometry(QtCore.QRect(240, 600, 20, 131))
