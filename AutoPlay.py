@@ -1,182 +1,144 @@
-from numpy.random import default_rng
+import numpy as np
 
-class Game(object):
+# Finish implementation of "move_tiles" using numpy linear algebra...rotate 2D array 90 deg.
 
-    def __init__(self, size):
+SIZE = 4
 
-        self._size = size
-        self._tiles = [[0]*size for i in range(size)]
 
-        # Tiles are indexed as follows
-        #  -------------
-        # | 0  1  2  3  |
-        # | 4  5  6  7  |
-        # | 8  9  10 11 |
-        # | 12 13 14 15 |
-        #  -------------
+class MoveNode:
 
-        self.rand = default_rng()
+    def __init__(self, prev, tiles, score):
 
-        # Generate UI
-        # app = QApplication([])
-        # main_window = QMainWindow()
-        # ui = Ui_MainWindow()
-        # ui.setupUi(main_window)
-        # main_window.show()
-        # sys.exit(app.exec())
+        self.tiles = tiles
+        self.metric = None
+        self.prev = prev
+        self.score = score
 
-    def __repr__(self):
+        self.level = 0 if (prev is None) else (prev.level + 1)
 
-        out = []
-        header = ["{:^4d}".format(num) for num in range(self._size)]
-        out.append(" ".join(header) + "\n")
-        out.append("".join(["-"]*20) + "\n")
+        # If already traversed 3 levels deep, stop
+        if self.level > 2:
+            self.next = [None]*4
 
-        for tile_row in self._tiles:
-            strlist = ["{:^4d}".format(num) for num in tile_row]
-            out.append("| " + "".join(strlist) + "\n")
-        outstr = ''.join(out)
-
-        return outstr
-
-    def get_tiles(self):
-        return (tuple(tile_row) for tile_row in self._tiles)
-
-    def add_random_tile(self):
-
-        open_positions = self.find_open_positions()
-        num_open = len(open_positions)
-        if num_open == 0:
-            return
-
-        rand_idx = self.rand.integers(0, num_open)
-        pos = open_positions.pop(rand_idx)
-        row_idx = pos // self._size
-        col_idx = pos % self._size
-
-        value = 2 if (self.rand.random() < 0.9) else 4
-        self._tiles[row_idx][col_idx] = value
-
-    def find_open_positions(self):
-
-        open_positions = []
-
-        for idx in range(16):
-            if self._tiles[idx // 4][idx % 4] == 0:
-                open_positions.append(idx)
-
-        return open_positions
-
-    def move_tiles(self, direction):
-
-        # NEED to check if a move is "valid"...if there is something to move
-        if not isinstance(direction, int):
-            raise TypeError("'direction' input to move_tiles() is not of type 'int'")
-
-        if direction == 0 or direction == 2:    # Up or Down
-            self.move_tiles_vert(direction // 2)
-
-        elif direction == 1 or direction == 3:  # Left or Right
-            self.move_tiles_horiz((direction-1) // 2)
-
+        # Else build next level of tree
         else:
-            raise ValueError("'direction' input to move_tiles() is not between 0-3"
-                             "")
+            self.next = []
 
-    def move_tiles_vert(self, direction):
+            # Children Moves: 0 - Up, 1 - Left, 2 - Right, 3 - Down
+            for direction in range(4):
+                valid_move, new_tiles, new_score, num_empty = move_tiles(direction, tiles, score)
 
-        for col in range(4):  # In each column
-
-            if direction == 0:  # Up
-                place_row = 0
-                eval_row = 1
-                inc = 1
-            else:               # Down
-                place_row = self._size - 1
-                eval_row = self._size - 2
-                inc = -1
-
-            # Evaluate, move and combine row tiles
-            # starting from "direction" edge and moving across
-
-            while (eval_row > -1) and (eval_row < self._size):
-                if self._tiles[eval_row][col] == 0:  # If tile spot empty
-                    eval_row += inc
-                    continue
+                if valid_move:
+                    self.next.append(MoveNode(self, new_tiles, new_score))
                 else:
-                    if place_row == eval_row:
-                        eval_row += inc
-                        continue
-                    elif self._tiles[place_row][col] == 0:
-                        self._tiles[place_row][col] = self._tiles[eval_row][col]
-                        self._tiles[eval_row][col] = 0
-                        eval_row += inc
-                        continue
-                    elif self._tiles[place_row][col] == self._tiles[eval_row][col]:
-                        tile_sum: int = self._tiles[place_row][col] + self._tiles[eval_row][col]
-                        self._tiles[place_row][col] = tile_sum
-                        self._tiles[eval_row][col] = 0
-                        eval_row += inc
-                        place_row += inc
-                    else:
-                        place_row += inc
+                    self.next.append([None])
 
-    def move_tiles_horiz(self, direction):
 
-        for row in range(4):  # In each row
+class AutoPlayer:
 
-            if direction == 0:  # Left
-                place_col = 0
-                eval_col = 1
-                inc = 1
-            else:               # Right
-                place_col = self._size - 1
-                eval_col = self._size - 2
-                inc = -1
-            # Evaluate, move and combine row tiles
-            # starting from "direction" edge and moving backwards
+    def __init__(self, ui_main, raw_tiles, score):
 
-            while (eval_col > -1) and (eval_col < self._size):
-                if self._tiles[row][eval_col] == 0:  # If tile spot empty
-                    eval_col += inc
+        self.tiles = np.array(raw_tiles)
+        self.ui_main = ui_main
+        self.keep_playing = True
+        self.move_tree = MoveNode(None, self.tiles, score)
+
+
+def move_tiles(direction, tiles, score):
+
+    valid_move = False
+
+    # For each row (if left/right) or col (if up/down)
+    for idx1 in range(SIZE):
+
+        if direction == 0:      # Move up
+            (col1, col2, place_idx, eval_idx, inc) = (idx1, idx1, 0, 1, 1)
+        elif direction == 1:    # Move Right
+            (row1, row2, place_idx, eval_idx, inc) = (idx1, idx1, SIZE - 1, SIZE - 2, -1)
+        elif direction == 2:    # Move Down
+            (col1, col2, place_idx, eval_idx, inc) = (idx1, idx1, SIZE - 1, SIZE - 2, -1)
+        elif direction == 3:    # Move Left
+            (row1, row2, place_idx, eval_idx, inc) = (idx1, idx1, 0, 1, 1)
+        else:
+            raise ValueError("'direction' value invalid.  Must be 0-3.")
+
+        # Traverse: (across cols in row if left/right) (across rows in col if up/down)
+        while (eval_idx > -1) and (eval_idx < SIZE):
+
+            if direction in [0, 2]:  # If move is up/down, traverse rows in column
+                (row1, row2) = (place_idx, eval_idx)
+            else:                   # If move is left/right, traverse cols in row
+                (col1, col2) = (place_idx, eval_idx)
+
+            if place_idx == eval_idx:
+                eval_idx += inc
+                continue
+
+            # If the "place" cell is empty
+            elif tiles[row1][col1] == 0:
+
+                # And the next tile is also empty
+                if tiles[row2][col2] == 0:
+                    eval_idx += inc
                     continue
+
+                # Found a tile, move to empty
                 else:
-                    if place_col == eval_col:
-                        eval_col += inc
-                        continue
-                    # If "place" col empty, move "eval" tile into empty spot
-                    elif self._tiles[row][place_col] == 0:
-                        self._tiles[row][place_col] = self._tiles[row][eval_col]
-                        self._tiles[row][eval_col] = 0
-                        eval_col += inc
-                        continue
-                    elif self._tiles[row][place_col] == self._tiles[row][eval_col]:
-                        tile_sum: int = self._tiles[row][place_col] + self._tiles[row][eval_col]
-                        self._tiles[row][place_col] = tile_sum
-                        self._tiles[row][eval_col] = 0
-                        place_col += inc
-                        eval_col += inc
-                    else:
-                        place_col += inc
+                    tiles[row1][col1] = tiles[row2][col2]
+                    tiles[row2][col2] = 0
+                    valid_move = True
+                    eval_idx += inc
+                    continue
 
-    def is_game_over(self):
-        pass
+            # If the "place" cell is NOT empty
+            else:
+
+                # And the "eval" tile is empty, move "eval" to next tile
+                if tiles[row2][col2] == 0:
+                    eval_idx += inc
+                    continue
+
+                # "Place" and "eval" tiles equal.  Merge.
+                elif tiles[row1][col1] == tiles[row2][col2]:
+                    tile_sum = tiles[row1][col1] + tiles[row2][col2]
+                    tiles[row1][col1] = tile_sum
+                    tiles[row2][col2] = 0
+                    valid_move = True
+                    place_idx += inc
+                    eval_idx += inc
+                    score += tile_sum
+                    continue
+
+                # Tiles are different. Move "place" forward
+                else:
+                    place_idx += inc
+                    continue
+
+    new_tiles, num_empty = add_random_tile(tiles)
+
+    return valid_move, new_tiles, score, num_empty
 
 
-if __name__ == '__main__':
-    from gameUIpyqt import *
-    # from PyQt6.QtWidgets import QApplication, QMainWindow
-    from numpy import random
-    import sys
-    game1 = Game(4)
-    print(game1)
-    print(f"len(game1._tiles) = {len(game1._tiles)}")
-    print(f"len(game1._tiles[0]) = {len(game1._tiles[0])}")
+def add_random_tile(tiles):
+    # Find open positions
+    open_positions = []
+    for idx in range(16):
+        if tiles[idx // 4][idx % 4] == 0:
+            open_positions.append(idx)
 
-    for i in range(100):
-        game1.add_random_tile()
-        opens = game1.find_open_positions()
-        print(f"Num Open: {len(opens)}")
-        print(' '.join([f"{i}" for i in opens]))
-        print(game1)
-        game1.move_tiles(int(input("0:Up 1:Right 2:Down 3:Left : ")))
+    num_empty = len(open_positions)
+    if num_empty == 0:
+        return tiles, num_empty
+
+    rand = np.random.default_rng()
+    rand_idx = rand.integers(0, num_empty)
+    pos = open_positions.pop(rand_idx)
+    row = pos // SIZE
+    col = pos % SIZE
+
+    value = 2 if (rand.random() < 0.9) else 4
+
+    tiles[row][col] = value
+    num_empty -= 1
+
+    return tiles, num_empty
