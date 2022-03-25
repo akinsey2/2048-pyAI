@@ -134,10 +134,6 @@ class Game(object):
                 if self.tiles_nums[row][col] == 0:
                     empty += 1
 
-                    # if self.tile_widgets[row][col]:
-                    #     self.tile_widgets[row][col].hide()
-                    #     self.tile_widgets[row][col].destroy()
-
                 elif self.tile_widgets[row][col]:
                     self.tile_widgets[row][col].update_num(self.tiles_nums[row][col])
                     self.tile_widgets[row][col].show()
@@ -197,7 +193,6 @@ class Game(object):
         right_valid, _ = self.move_tiles(1)
         down_valid, _ = self.move_tiles(2)
         left_valid, _ = self.move_tiles(3)
-
 
         if not (up_valid or down_valid or left_valid or right_valid):
             self.ui_main.game_over()

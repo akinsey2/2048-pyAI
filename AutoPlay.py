@@ -16,7 +16,7 @@ class MoveNode:
         self.prev = prev
         self.score = score
         self.level = 0 if (prev is None) else (prev.level + 1)
-        self.metrics, self.metric = self.calc_metrics3()
+        self.metrics, self.metric = self.calc_metrics4()
 
         # Base Case: If already traversed 3 levels deep, stop
         if self.level > TREE_DEPTH-1:
@@ -70,29 +70,68 @@ class MoveNode:
 
         col_sums = self.tiles.sum(axis=0, dtype=np.int32)
 
-        metric = int(self.tiles[0][3]*60 + self.tiles[1][3]*56 +
-                     self.tiles[2][3]*52 + self.tiles[3][3]*48 +
-                     self.tiles[3][2]*44 + self.tiles[2][2]*40 +
-                     self.tiles[1][2]*36 + self.tiles[0][2]*32 +
-                     self.tiles[0][1]*28 + self.tiles[1][1]*24 +
-                     self.tiles[2][1]*20 + self.tiles[3][1]*16 +
-                     self.tiles[3][0]*12 + self.tiles[2][0]*8  +
-                     self.tiles[1][0]*4  + self.tiles[0][0])
+        metric = int(self.tiles[0][3]*(2**12) + self.tiles[1][3]*(2**11) +
+                     self.tiles[2][3]*(2**10) + self.tiles[3][3]*(2**9) +
+                     self.tiles[3][2]*(2**8) + self.tiles[2][2]*(2**7) +
+                     self.tiles[1][2]*(2**6) + self.tiles[0][2]*(2**5) +
+                     self.tiles[0][1]*(2**4) + self.tiles[1][1]*(2**3) +
+                     self.tiles[2][1]*(2**2) + self.tiles[3][1]*(2**1) +
+                     self.tiles[3][0]      + self.tiles[2][0]  +
+                     self.tiles[1][0]      + self.tiles[0][0])
+
+        return col_sums, metric
+
+    def calc_metrics4(self):
+
+        col_sums = self.tiles.sum(axis=0, dtype=np.int32)
+
+        metric = int(self.tiles[0][3]*(2**8) + self.tiles[1][3]*(2**7) +
+                     self.tiles[2][3]*(2**6) + self.tiles[3][3]*(2**5) +
+                     self.tiles[3][2]*(2**4) + self.tiles[2][2]*(2**3) +
+                     self.tiles[1][2]*(2**2) + self.tiles[0][2]*(2**1))
 
         return col_sums, metric
 
 
 class AutoPlayer:
 
-    def __init__(self, ui_main, tiles_nums, score):
+    def __init__(self, tiles_nums, score):
 
         self.tiles = np.array(tiles_nums, dtype=np.int32)
-        self.ui_main = ui_main
-        self.score = score
-        self.keep_playing = True
+        self.score = deepcopy(score)
+        self.move_tree = None
+
+    def get_move(self, tiles_nums):
+
+        self.tiles = np.array(tiles_nums, dtype=np.int32)
+
         self.move_tree = MoveNode(None, self.tiles, self.score)
 
+        move_score = list()
+
+        # Search "forward" in move tree
+        # Record the "max metric" found in "move_score[i]"
+        # For each possible initial move
+        # i=0: Up, i=1: Right, i=2: Down, i=3: Left
+        for move_dir in range(SIZE):
+
+            # If this was an invalid move (no node exists).
+            if self.move_tree.next[move_dir] is None:
+                move_score.append(0.0)
+                continue
+            else:
+                max_metrics = np.zeros(32, dtype=np.int32)
+                max_metrics[31] = self.move_tree.next[move_dir].metric
+                # new_max = node_tree_max_DFS(self.move_tree.next[move_dir], max_metric)
+                max_metrics = node_tree_max_DFS(self.move_tree.next[move_dir], max_metrics)
+                move_score.append(max_metrics.sum() / 10.0)
+
+        best_move = move_score.index(max(move_score))
+        return best_move
+
     def auto_move(self):
+
+        self.move_tree = MoveNode(None, self.tiles, self.score)
 
         move_score = list()
 
