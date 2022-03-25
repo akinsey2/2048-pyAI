@@ -296,17 +296,17 @@ class UiMainWindow(object):
 
     def animate_tiles(self, vectors):
 
-        # DEBUG
-        print("Raw Tiles")
-        pprint.pp(self.game.tiles_nums)
-        print("Tile Widgets")
-        pprint.pp(self.game.tile_widgets)
-        print("Vectors")
-        pprint.pp(vectors)
-        print("Next Raw Tiles")
-        pprint.pp(self.game.next_tiles_nums)
-        print("Next Tile Widgets")
-        pprint.pp(self.game.next_tile_widgets)
+        # # DEBUG
+        # print("Raw Tiles")
+        # pprint.pp(self.game.tiles_nums)
+        # print("Tile Widgets")
+        # pprint.pp(self.game.tile_widgets)
+        # print("Vectors")
+        # pprint.pp(vectors)
+        # print("Next Raw Tiles")
+        # pprint.pp(self.game.next_tiles_nums)
+        # print("Next Tile Widgets")
+        # pprint.pp(self.game.next_tile_widgets)
 
         self.anim_group = QtCore.QParallelAnimationGroup()
         anims = []
