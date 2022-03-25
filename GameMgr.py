@@ -13,25 +13,27 @@ class Game(object):
         self.ui_main = ui_main
         self.current_game = True
         self.is_paused = False
-        self.raw_tiles = [[0] * SIZE for _ in range(SIZE)]
-        self.next_raw_tiles = [[0] * SIZE for _ in range(SIZE)]
+        self.tiles_nums = [[0] * SIZE for _ in range(SIZE)]
+        self.next_tiles_nums = [[0] * SIZE for _ in range(SIZE)]
         self.num_empty = SIZE * SIZE
         self.tile_widgets = [[None] * SIZE for _ in range(SIZE)]
         self.next_tile_widgets = [[None] * SIZE for _ in range(SIZE)]
         self.rand = default_rng()
         self.tiles_to_delete = []
+        self.last_move_valid = True
         self.score = 0
         self.already_won = False
 
-    def move_vert(self, direction):
+
+    def move_tiles(self, direction):
 
         if not isinstance(direction, int):
             raise TypeError("Ui_MainWindow.move_vert() direction is not int.")
 
         tile_move_vect = [[[0, 0] for _ in range(SIZE)] for __ in range(SIZE)]
 
-        # Create copies of raw_tiles and tile widget array to hold tiles after move
-        self.next_raw_tiles = deepcopy(self.raw_tiles)
+        # Create copies of tiles_nums and tile widget array to hold tiles after move
+        self.next_tiles_nums = deepcopy(self.tiles_nums)
         self.next_tile_widgets = [[None] * SIZE for _ in range(SIZE)]
         for row in range(SIZE):
             for col in range(SIZE):
@@ -39,174 +41,81 @@ class Game(object):
 
         valid_move = False
 
-        # Method 1
+        # For each row (if left/right) or col (if up/down)
+        for idx1 in range(SIZE):
 
-        for col in range(SIZE):
+            if direction == 0:  # Move up
+                (col1, col2, place_idx, eval_idx, inc) = (idx1, idx1, 0, 1, 1)
+            elif direction == 1:  # Move Right
+                (row1, row2, place_idx, eval_idx, inc) = (idx1, idx1, SIZE - 1, SIZE - 2, -1)
+            elif direction == 2:  # Move Down
+                (col1, col2, place_idx, eval_idx, inc) = (idx1, idx1, SIZE - 1, SIZE - 2, -1)
+            elif direction == 3:  # Move Left
+                (row1, row2, place_idx, eval_idx, inc) = (idx1, idx1, 0, 1, 1)
+            else:
+                raise ValueError("'direction' value invalid.  Must be 0-3.")
 
-            if direction == 0:  # Up
-                place_row = 0
-                eval_row = 1
-                inc = 1
-            else:  # Down
-                place_row = SIZE - 1
-                eval_row = SIZE - 2
-                inc = -1
+            # Traverse: (across cols in row if left/right) (across rows in col if up/down)
+            while (eval_idx > -1) and (eval_idx < SIZE):
 
-            while (eval_row > -1) and (eval_row < SIZE):
+                if direction in [0, 2]:  # If move is up/down, traverse rows in column
+                    (row1, row2) = (place_idx, eval_idx)
+                else:  # If move is left/right, traverse cols in row
+                    (col1, col2) = (place_idx, eval_idx)
 
-                if place_row == eval_row:
-                    eval_row += inc
+                if place_idx == eval_idx:
+                    eval_idx += inc
                     continue
 
                 # If the "place" cell is empty
-                elif self.next_raw_tiles[place_row][col] == 0:
+                elif self.next_tiles_nums[row1][col1] == 0:
 
                     # And the next tile is also empty
-                    if self.next_raw_tiles[eval_row][col] == 0:
-                        eval_row += inc
+                    if self.next_tiles_nums[row2][col2] == 0:
+                        eval_idx += inc
                         continue
 
                     # Found a tile, move to empty
                     else:
-                        self.next_raw_tiles[place_row][col] = self.next_raw_tiles[eval_row][col]
-                        self.next_tile_widgets[place_row][col] = self.next_tile_widgets[eval_row][col]
-                        self.next_raw_tiles[eval_row][col] = 0
-                        self.next_tile_widgets[eval_row][col] = None
-                        tile_move_vect[eval_row][col][1] = place_row - eval_row
+                        self.next_tiles_nums[row1][col1] = self.next_tiles_nums[row2][col2]
+                        self.next_tile_widgets[row1][col1] = self.next_tile_widgets[row2][col2]
+                        self.next_tiles_nums[row2][col2] = 0
+                        self.next_tile_widgets[row2][col2] = None
+                        tile_move_vect[row2][col2] = [col1 - col2, row1 - row2]
                         valid_move = True
-                        eval_row += inc
+                        eval_idx += inc
                         continue
 
                 # If the "place" cell is NOT empty
                 else:
 
                     # And the next tile is empty
-                    if self.next_raw_tiles[eval_row][col] == 0:
-                        eval_row += inc
+                    if self.next_tiles_nums[row2][col2] == 0:
+                        eval_idx += inc
                         continue
 
                     # "Place" and "eval" tiles equal.  Merge.
-                    elif self.next_raw_tiles[place_row][col] == self.next_raw_tiles[eval_row][col]:
-                        tile_sum = self.next_raw_tiles[place_row][col] + self.next_raw_tiles[eval_row][col]
-                        self.next_raw_tiles[place_row][col] = tile_sum
-                        self.tiles_to_delete.append(self.tile_widgets[eval_row][col])
-                        self.next_tile_widgets[eval_row][col] = None
-                        self.next_raw_tiles[eval_row][col] = 0
-                        tile_move_vect[eval_row][col][1] = place_row - eval_row
+                    elif self.next_tiles_nums[row1][col1] == self.next_tiles_nums[row2][col2]:
+                        tile_sum = self.next_tiles_nums[row1][col1] + self.next_tiles_nums[row2][col2]
+                        self.next_tiles_nums[row1][col1] = tile_sum
+                        self.tiles_to_delete.append(self.tile_widgets[row2][col2])
+                        self.next_tiles_nums[row2][col2] = 0
+                        self.next_tile_widgets[row2][col2] = None
+                        tile_move_vect[row2][col2] = [col1 - col2, row1 - row2]
                         valid_move = True
-                        place_row += inc
-                        eval_row += inc
+                        place_idx += inc
+                        eval_idx += inc
                         self.score += tile_sum
                         continue
 
                     # Tiles are different. Move "place" forward
                     else:
-                        place_row += inc
+                        place_idx += inc
                         continue
+
+        self.last_move_valid = valid_move
 
         return valid_move, tile_move_vect
-
-        # if valid_move:
-        #     return ()
-        # if not valid_move:
-        #     # self.tiles_to_delete.clear()
-        #     self.ui_main.centralwidget.grabKeyboard()
-        #     return
-        #
-        # self.ui_main.animate_tiles(tile_move_vect)
-
-    def move_horiz(self, direction):
-
-        # print("Raw Tiles")
-        # pprint.pp(self.raw_tiles)
-        # print("Tile Widgets")
-        # pprint.pp(self.tile_widgets)
-
-        if not isinstance(direction, int):
-            raise TypeError("Ui_MainWindow.move_vert() direction is not int.")
-
-        tile_move_vect = [[[0, 0] for _ in range(SIZE)] for __ in range(SIZE)]
-
-        # Create copies of raw_tiles and tile widget array to hold tiles after move
-        self.next_raw_tiles = deepcopy(self.raw_tiles)
-        self.next_tile_widgets = [[None] * SIZE for _ in range(SIZE)]
-        for row in range(SIZE):
-            for col in range(SIZE):
-                self.next_tile_widgets[row][col] = self.tile_widgets[row][col]
-
-        valid_move = False
-
-        for row in range(SIZE):
-
-            if direction == 0:  # Left
-                place_col = 0
-                eval_col = 1
-                inc = 1
-            else:  # Right
-                place_col = SIZE - 1
-                eval_col = SIZE - 2
-                inc = -1
-
-            while (eval_col > -1) and (eval_col < SIZE):
-
-                if place_col == eval_col:
-                    eval_col += inc
-                    continue
-
-                # If the "place" cell is empty
-                elif self.next_raw_tiles[row][place_col] == 0:
-
-                    # And the next tile is also empty
-                    if self.next_raw_tiles[row][eval_col] == 0:
-                        eval_col += inc
-                        continue
-
-                    # Found a tile, move to empty
-                    else:
-                        self.next_raw_tiles[row][place_col] = self.next_raw_tiles[row][eval_col]
-                        self.next_tile_widgets[row][place_col] = self.next_tile_widgets[row][eval_col]
-                        self.next_raw_tiles[row][eval_col] = 0
-                        self.next_tile_widgets[row][eval_col] = None
-                        tile_move_vect[row][eval_col][0] = place_col - eval_col
-                        valid_move = True
-                        eval_col += inc
-                        continue
-
-                # If the "place" cell is NOT empty
-                else:
-
-                    # And the next tile is empty
-                    if self.next_raw_tiles[row][eval_col] == 0:
-                        eval_col += inc
-                        continue
-
-                    # "Place" and "eval" tiles equal.  Merge.
-                    elif self.next_raw_tiles[row][place_col] == self.next_raw_tiles[row][eval_col]:
-                        tile_sum = self.next_raw_tiles[row][place_col] + self.next_raw_tiles[row][eval_col]
-                        self.next_raw_tiles[row][place_col] = tile_sum
-                        self.tiles_to_delete.append(self.tile_widgets[row][eval_col])
-                        self.next_tile_widgets[row][eval_col] = None
-                        self.next_raw_tiles[row][eval_col] = 0
-                        tile_move_vect[row][eval_col][0] = place_col - eval_col
-                        valid_move = True
-                        self.score += tile_sum
-                        place_col += inc
-                        eval_col += inc
-                        continue
-
-                    # Tiles are different. Move "place" forward
-                    else:
-                        place_col += inc
-                        continue
-
-        return valid_move, tile_move_vect
-
-        # if not valid_move:
-        #     # self.tiles_to_delete.clear()
-        #     self.ui_main.centralwidget.grabKeyboard()
-        #     return
-        #
-        # self.ui_main.animate_tiles(tile_move_vect)
 
     def delete_and_new(self):
 
@@ -216,13 +125,13 @@ class Game(object):
 
         self.ui_main.curr_score.setText(str(self.score))
         self.tile_widgets = self.next_tile_widgets
-        self.raw_tiles = self.next_raw_tiles
+        self.tiles_nums = self.next_tiles_nums
 
         empty = 0
         for row in range(SIZE):
             for col in range(SIZE):
 
-                if self.raw_tiles[row][col] == 0:
+                if self.tiles_nums[row][col] == 0:
                     empty += 1
 
                     # if self.tile_widgets[row][col]:
@@ -230,10 +139,10 @@ class Game(object):
                     #     self.tile_widgets[row][col].destroy()
 
                 elif self.tile_widgets[row][col]:
-                    self.tile_widgets[row][col].update_num(self.raw_tiles[row][col])
+                    self.tile_widgets[row][col].update_num(self.tiles_nums[row][col])
                     self.tile_widgets[row][col].show()
 
-                    if (not self.already_won) and self.raw_tiles[row][col] == 2048:
+                    if (not self.already_won) and self.tiles_nums[row][col] == 2048:
                         keep_playing = self.ui_main.won_game()
                         if keep_playing:
                             self.already_won = True
@@ -249,31 +158,31 @@ class Game(object):
 
         # # DEBUG
         # print("Raw Tiles")
-        # pprint.pp(self.raw_tiles)
+        # pprint.pp(self.tiles_nums)
         # print("Tile Widgets")
         # pprint.pp(self.tile_widgets)
-
 
     def add_random_tile(self):
 
         # Find open positions
         open_positions = []
         for idx in range(16):
-            if self.raw_tiles[idx // 4][idx % 4] == 0:
+            if self.tiles_nums[idx // 4][idx % 4] == 0:
                 open_positions.append(idx)
 
-        num_open = len(open_positions)
-        if num_open == 0:
+        self.num_empty = len(open_positions)
+
+        if self.num_empty == 0:
             return
 
-        rand_idx = self.rand.integers(0, num_open)
+        rand_idx = self.rand.integers(0, self.num_empty)
         pos = open_positions.pop(rand_idx)
         row = pos // SIZE
         col = pos % SIZE
 
         value = 2 if (self.rand.random() < 0.9) else 4
 
-        self.raw_tiles[row][col] = value
+        self.tiles_nums[row][col] = value
         self.num_empty -= 1
 
         self.tile_widgets[row][col] = gameUIpyqt.TileWidget(self.ui_main.game_board, value, row, col)
@@ -284,10 +193,11 @@ class Game(object):
 
     def check_game_over(self):
 
-        up_valid, _ = self.move_vert(0)
-        down_valid, _ = self.move_vert(1)
-        left_valid, _ = self.move_horiz(0)
-        right_valid, _ = self.move_horiz(1)
+        up_valid, _ = self.move_tiles(0)
+        right_valid, _ = self.move_tiles(1)
+        down_valid, _ = self.move_tiles(2)
+        left_valid, _ = self.move_tiles(3)
+
 
         if not (up_valid or down_valid or left_valid or right_valid):
             self.ui_main.game_over()

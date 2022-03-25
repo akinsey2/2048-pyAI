@@ -8,7 +8,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from math import log2
 import GameMgr
-# import pprint
+import pprint
 
 SIZE = 4
 BOARD_SIZE_PX = 450
@@ -36,27 +36,31 @@ class CentralWidget(QtWidgets.QWidget):
         if event.key() == QtCore.Qt.Key.Key_Up.value:
             # print("MOVE UP")
             self.releaseKeyboard()
-            valid_move, tile_move_vect = self.ui_mainwindow.game.move_vert(0)        # '0' means 'Up'
-
-        elif event.key() == QtCore.Qt.Key.Key_Left.value:
-            # print("MOVE LEFT")
-            self.releaseKeyboard()
-            valid_move, tile_move_vect = self.ui_mainwindow.game.move_horiz(0)       # '0' means 'Left'
-
-        elif event.key() == QtCore.Qt.Key.Key_Down.value:
-            # print("MOVE DOWN")
-            self.releaseKeyboard()
-            valid_move, tile_move_vect = self.ui_mainwindow.game.move_vert(1)        # '1' means 'Down'
+            valid_move, tile_move_vect = self.ui_mainwindow.game.move_tiles(0)  # '0' means 'Up'
 
         elif event.key() == QtCore.Qt.Key.Key_Right.value:
             # print("MOVE RIGHT")
             self.releaseKeyboard()
-            valid_move, tile_move_vect = self.ui_mainwindow.game.move_horiz(1)       # '1' means 'Right'
+            valid_move, tile_move_vect = self.ui_mainwindow.game.move_tiles(1)  # '1' means 'Right'
+
+        elif event.key() == QtCore.Qt.Key.Key_Down.value:
+            # print("MOVE DOWN")
+            self.releaseKeyboard()
+            valid_move, tile_move_vect = self.ui_mainwindow.game.move_tiles(2)  # '2' means 'Down'
+
+        elif event.key() == QtCore.Qt.Key.Key_Left.value:
+            # print("MOVE LEFT")
+            self.releaseKeyboard()
+            valid_move, tile_move_vect = self.ui_mainwindow.game.move_tiles(3)  # '3' means 'Left'
+
+        else:
+            valid_move = False
 
         if valid_move:
             self.ui_mainwindow.animate_tiles(tile_move_vect)
         else:
             self.grabKeyboard()
+
 
 # Custom class for the Tiles displayed on board, subclass of "QLabel"
 class TileWidget(QtWidgets.QLabel):
@@ -293,16 +297,16 @@ class UiMainWindow(object):
     def animate_tiles(self, vectors):
 
         # DEBUG
-        # print("Raw Tiles")
-        # pprint.pp(self.game.raw_tiles)
-        # print("Tile Widgets")
-        # pprint.pp(self.game.tile_widgets)
-        # print("Vectors")
-        # pprint.pp(vectors)
-        # print("Next Raw Tiles")
-        # pprint.pp(self.game.next_raw_tiles)
-        # print("Next Tile Widgets")
-        # pprint.pp(self.game.next_tile_widgets)
+        print("Raw Tiles")
+        pprint.pp(self.game.tiles_nums)
+        print("Tile Widgets")
+        pprint.pp(self.game.tile_widgets)
+        print("Vectors")
+        pprint.pp(vectors)
+        print("Next Raw Tiles")
+        pprint.pp(self.game.next_tiles_nums)
+        print("Next Tile Widgets")
+        pprint.pp(self.game.next_tile_widgets)
 
         self.anim_group = QtCore.QParallelAnimationGroup()
         anims = []

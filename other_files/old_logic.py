@@ -164,7 +164,7 @@ class Game(object):
 
 
 if __name__ == '__main__':
-    from gameUIpyqt import *
+    # from gameUIpyqt import *
     # from PyQt6.QtWidgets import QApplication, QMainWindow
     from numpy import random
     import sys
