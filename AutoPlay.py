@@ -10,16 +10,24 @@ class MoveNode:
 
     # Initializes Node AND
     # Recursively builds 4-ary tree to "TREE_DEPTH"
-    def __init__(self, prev, tiles, score):
+    def __init__(self, prev, tiles, score, tree_depth, calc_option):
 
         self.tiles = deepcopy(tiles)
         self.prev = prev
         self.score = score
         self.level = 0 if (prev is None) else (prev.level + 1)
-        self.metrics, self.metric = self.calc_metrics4()
+
+        if calc_option == 0:
+            self.metrics, self.metric = self.calc_metrics0()
+        elif calc_option == 1:
+            self.metrics, self.metric = self.calc_metrics1()
+        elif calc_option == 2:
+            self.metrics, self.metric = self.calc_metrics2()
+        elif calc_option == 3:
+            self.metrics, self.metric = self.calc_metrics3()
 
         # Base Case: If already traversed 3 levels deep, stop
-        if self.level > TREE_DEPTH-1:
+        if self.level > tree_depth - 1:
             self.next = None
 
         # Recursively build next level of tree
@@ -29,10 +37,10 @@ class MoveNode:
             # Children Moves: 0 - Up, 1 - Right, 2 - Down, 3 - Left
             for direction in range(4):
 
-                valid_move, new_tiles, new_score = move_tiles(direction, tiles, score)
+                valid_move, new_tiles, new_score, num_empty = move_tiles(direction, tiles, score)
 
                 if valid_move:
-                    self.next.append(MoveNode(self, new_tiles, new_score))
+                    self.next.append(MoveNode(self, new_tiles, new_score, tree_depth, calc_option))
                 else:
                     self.next.append(None)
 
@@ -47,7 +55,7 @@ class MoveNode:
 
         return "".join(out)
 
-    def calc_metrics1(self):
+    def calc_metrics0(self):
 
         col_sums = self.tiles.sum(axis=0, dtype=np.int32)
         row_sums = self.tiles.sum(axis=1, dtype=np.int32)
@@ -58,7 +66,7 @@ class MoveNode:
 
         return sorted_sums, metric
 
-    def calc_metrics2(self):
+    def calc_metrics1(self):
 
         col_sums = self.tiles.sum(axis=0, dtype=np.int32)
 
@@ -66,7 +74,7 @@ class MoveNode:
 
         return col_sums, metric
 
-    def calc_metrics3(self):
+    def calc_metrics2(self):
 
         col_sums = self.tiles.sum(axis=0, dtype=np.int32)
 
@@ -81,7 +89,7 @@ class MoveNode:
 
         return col_sums, metric
 
-    def calc_metrics4(self):
+    def calc_metrics3(self):
 
         col_sums = self.tiles.sum(axis=0, dtype=np.int32)
 
@@ -92,20 +100,25 @@ class MoveNode:
 
         return col_sums, metric
 
+# ****************************************
 
 class AutoPlayer:
 
-    def __init__(self, tiles_nums, score):
+    def __init__(self, tiles_nums, score, tree_depth, topx, calc_option):
 
         self.tiles = np.array(tiles_nums, dtype=np.int32)
+        self.num_empty = SIZE*SIZE
         self.score = deepcopy(score)
         self.move_tree = None
+        self.tree_depth = tree_depth
+        self.topx = topx
+        self.calc_option = calc_option
 
     def get_move(self, tiles_nums):
 
         self.tiles = np.array(tiles_nums, dtype=np.int32)
 
-        self.move_tree = MoveNode(None, self.tiles, self.score)
+        self.move_tree = MoveNode(None, self.tiles, self.score, self.tree_depth, self.calc_option)
 
         move_score = list()
 
@@ -131,7 +144,7 @@ class AutoPlayer:
 
     def auto_move(self):
 
-        self.move_tree = MoveNode(None, self.tiles, self.score)
+        self.move_tree = MoveNode(None, self.tiles, self.score, self.tree_depth, self.calc_option)
 
         move_score = list()
 
@@ -146,22 +159,25 @@ class AutoPlayer:
                 move_score.append(0.0)
                 continue
             else:
-                max_metrics = np.zeros(10, dtype=np.int32)
-                max_metrics[9] = self.move_tree.next[move_dir].metric
+                max_metrics = np.zeros(self.topx, dtype=np.int32)
+                max_metrics[self.topx - 1] = self.move_tree.next[move_dir].metric
                 # new_max = node_tree_max_DFS(self.move_tree.next[move_dir], max_metric)
                 max_metrics = node_tree_max_DFS(self.move_tree.next[move_dir], max_metrics)
-                move_score.append(max_metrics.sum() / 10.0)
+                move_score.append(max_metrics.sum() / float(self.topx))
 
-        print(f"Move Score: Up = {move_score[0]}, Right = {move_score[1]}, " +
-              f"Down = {move_score[2]}, Left = {move_score[3]}\n")
+        # print(f"Move Score: Up = {move_score[0]}, Right = {move_score[1]}, " +
+        #       f"Down = {move_score[2]}, Left = {move_score[3]}\n")
 
         best_move = move_score.index(max(move_score))
 
-        print(f"Best Move: {best_move}\n")
+        # print(f"Best Move: {best_move}\n")
 
-        valid_move, self.tiles, self.score = move_tiles(best_move, self.tiles, self.score)
-        self.move_tree = MoveNode(None, self.tiles, self.score)
+        valid_move, self.tiles, self.score, self.num_empty = move_tiles(best_move, self.tiles, self.score)
 
+        if valid_move:
+            self.move_tree = MoveNode(None, self.tiles, self.score, self.tree_depth, self.calc_option)
+
+        return valid_move, self.tiles, self.score, self.num_empty
 
 def node_tree_max_DFS(node, max_metrics):
 
@@ -210,7 +226,7 @@ def move_tiles(direction, tiles, score):
         # Traverse: (across cols in row if left/right) (across rows in col if up/down)
         while (eval_idx > -1) and (eval_idx < SIZE):
 
-            if direction in [0, 2]:  # If move is up/down, traverse rows in column
+             if direction in [0, 2]:  # If move is up/down, traverse rows in column
                 (row1, row2) = (place_idx, eval_idx)
             else:                   # If move is left/right, traverse cols in row
                 (col1, col2) = (place_idx, eval_idx)
@@ -259,11 +275,9 @@ def move_tiles(direction, tiles, score):
                     place_idx += inc
                     continue
 
-    if valid_move:
-        new_tiles = add_random_tile(tiles)
-        return valid_move, new_tiles, score
+    tiles, num_empty = add_random_tile(tiles)
 
-    return valid_move, tiles, score
+    return valid_move, tiles, score, num_empty
 
 
 def add_random_tile(tiles):
@@ -289,7 +303,7 @@ def add_random_tile(tiles):
     tiles[row][col] = value
     num_empty -= 1
 
-    return tiles
+    return tiles, num_empty
 
 
 if __name__ == '__main__':
