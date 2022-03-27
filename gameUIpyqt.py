@@ -328,7 +328,7 @@ class UiMainWindow(object):
 
     def autoplay_start(self):
         self.centralwidget.releaseKeyboard()
-        self.autoplayer = AutoPlay.AutoPlayer(self.game.tiles_nums, self.game.score)
+        self.autoplayer = AutoPlay.AutoPlayer(self.game.tiles_nums, self.game.score, 6, 8, 3)
         self.autoplaying = True
         self.ap_start_button.setText("Pause AutoPlay")
         self.autoplay_timer.start()

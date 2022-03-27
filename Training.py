@@ -8,7 +8,7 @@ if __name__ == '__main__':
     tree_depth_max = 8
     topx_max = 8
 
-    start_tiles = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+    start_tiles = [[0, 0, 0, 0], [0, 0, 2, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
 
     for calc_option in range(0,4):
 
