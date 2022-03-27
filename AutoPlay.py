@@ -3,7 +3,6 @@ from copy import deepcopy
 import cProfile
 
 SIZE = 4
-TREE_DEPTH = 5
 
 # import time
 # from functools import wraps
@@ -127,7 +126,7 @@ class AutoPlayer:
 
     def __init__(self, tiles_nums, score, tree_depth, topx, calc_option):
 
-        self.tiles = np.array(tiles_nums, dtype=np.int32)
+        self.tiles = np.array(tiles_nums, dtype=np.intc)
         self.num_empty = SIZE*SIZE
         self.score = deepcopy(score)
         self.move_tree = None
@@ -146,7 +145,7 @@ class AutoPlayer:
 
     def get_move(self, tiles_nums):
 
-        self.tiles = np.array(tiles_nums, dtype=np.int32)
+        self.tiles = np.array(tiles_nums, dtype=np.intc)
 
         self.move_tree = MoveNode(None, self.tiles, self.rand, self.score, self.tree_depth, self.calc_option)
 
