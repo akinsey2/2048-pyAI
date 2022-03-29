@@ -192,6 +192,8 @@ class AutoPlayer:
 
     def auto_move(self):
 
+        if self.game_over:
+            return
         # DEBUG
         # print(f"rand_idx = {self.rand_idx}")
 
@@ -212,7 +214,7 @@ class AutoPlayer:
                 move_score.append(0.0)
                 continue
             else:
-                max_metrics = np.zeros(self.topx, dtype=np.int32)
+                max_metrics = np.zeros(2**self.topx, dtype=np.int32)
                 max_metrics[self.topx - 1] = self.move_tree.next[move_dir].metric
                 # new_max = node_tree_max_DFS(self.move_tree.next[move_dir], max_metric)
                 max_metrics = node_tree_max_DFS(self.move_tree.next[move_dir], max_metrics)
@@ -394,11 +396,11 @@ def play_games(num):
         move_count = 0
         print(f"Starting Game {i}...\n|          |\n|")
 
-        ap = AutoPlayer(stiles, 0, 1, 1, 3)
+        ap = AutoPlayer(stiles, 0, 6, 8, 3)
 
         while not ap.game_over:
 
-            for j in range(10):
+            for j in range(50):
 
                 ap.auto_move()
                 move_count += 1
@@ -407,6 +409,8 @@ def play_games(num):
             ans = input("Continue? ")
             if ans in ["N", "n"]:
                 return
+
+
 
 
 if __name__ == '__main__':
@@ -435,12 +439,12 @@ if __name__ == '__main__':
 
     # cProfile.run('nums = gen_timing(50000000)')
     # tiles, score = run_num_moves(start_tiles, 100, tree_depth, topx, calc_option)
-    cProfile.run('tiles, score = run_num_moves(start_tiles, 100, tree_depth, topx, calc_option)')
+    # cProfile.run('tiles, score = run_num_moves(start_tiles, 100, tree_depth, topx, calc_option)')
     #
     # print(f"Score: {score}")
     # print(repr(tiles))
 
-    # play_games(1)
+    play_games(1)
 
     # keep_playing = True
     # limit = 100

@@ -99,9 +99,9 @@ def move_tiles(short direction, short size, tiles, int score):
 
 def add_random_tile( tiles, float[:] rands, int rand_idx1, short size):
 
-    cdef short row, col, empty, rand_idx2
+    cdef short row, col, rand_idx2
     cdef short open_positions[16][2]
-    cdef int value
+    cdef int value, empty
 
     cdef int[:,:] tiles2 = tiles
 
@@ -126,8 +126,9 @@ def add_random_tile( tiles, float[:] rands, int rand_idx1, short size):
     rand_idx1 += 1
 
     tiles2[row, col] = value
+    empty -= 1
 
-    return tiles, value, rand_idx1
+    return tiles, empty, rand_idx1
 
 def calc_metrics0(int[:,:] tiles):
     cdef int i = 0
