@@ -1,25 +1,10 @@
 import numpy as np
 from copy import deepcopy
 import cProfile
+import Utils
 
 SIZE = 4
-
-# import time
-# from functools import wraps
-#
-#
-# def speed_test(func):
-#     @wraps(func)
-#     def wrapper(*args, **kwargs):
-#         print(f"Executing {func.__name__}")
-#         start_time = time.time()
-#         result = func(*args, **kwargs)
-#         end_time = time.time()
-#         print(f"Time Elapsed: {end_time - start_time}")
-#
-#         return result
-#
-#     return wrapper
+USE_CYTHON = True
 
 
 # Nodes of individual game state
@@ -28,24 +13,35 @@ class MoveNode:
 
     # Initializes Node AND
     # Recursively builds 4-ary tree to "TREE_DEPTH"
-    def __init__(self, prev, tiles, rand, score, tree_depth, calc_option):
+    def __init__(self, prev, tiles, score, game_AP):
 
         self.tiles = tiles.copy()
         self.prev = prev
         self.score = score
         self.level = 0 if (prev is None) else (prev.level + 1)
 
-        if calc_option == 0:
-            self.metrics, self.metric = self.calc_metrics0(tiles)
-        elif calc_option == 1:
-            self.metrics, self.metric = self.calc_metrics1(tiles)
-        elif calc_option == 2:
-            self.metrics, self.metric = self.calc_metrics2(tiles)
-        elif calc_option == 3:
-            self.metrics, self.metric = self.calc_metrics3(tiles)
+        if USE_CYTHON:  # Use fast Cython functions
+            if game_AP.calc_option == 0:
+                self.metric = Utils.calc_metrics0(tiles)
+            elif game_AP.calc_option == 1:
+                self.metric = Utils.calc_metrics1(tiles)
+            elif game_AP.calc_option == 2:
+                self.metric = Utils.calc_metrics2(tiles)
+            elif game_AP.calc_option == 3:
+                self.metric = Utils.calc_metrics3(tiles)
+
+        else:   # Use slower Python functions
+            if game_AP.calc_option == 0:
+                self.metrics, self.metric = self.calc_metrics0(tiles)
+            elif game_AP.calc_option == 1:
+                game_AP.self.metrics, self.metric = self.calc_metrics1(tiles)
+            elif game_AP.calc_option == 2:
+                self.metrics, self.metric = self.calc_metrics2(tiles)
+            elif game_AP.calc_option == 3:
+                self.metrics, self.metric = self.calc_metrics3(tiles)
 
         # Base Case: If already traversed 3 levels deep, stop
-        if self.level > tree_depth - 1:
+        if self.level > game_AP.tree_depth - 1:
             self.next = None
 
         # Recursively build next level of tree
@@ -55,11 +51,25 @@ class MoveNode:
             # Children Moves: 0 - Up, 1 - Right, 2 - Down, 3 - Left
             for direction in range(4):
 
-                valid_move, new_tiles, new_score = move_tiles(direction, tiles, score)
+                # Move Tiles
+                if USE_CYTHON:
+                    valid_move, new_tiles, new_score = Utils.move_tiles(direction, 4, tiles, score)
+                else:
+                    valid_move, new_tiles, new_score = move_tiles(direction, tiles, score)
 
+                # If valid move, add random tile
                 if valid_move:
-                    new_tiles, num_empty = add_random_tile(new_tiles, rand)
-                    self.next.append(MoveNode(self, new_tiles, rand, new_score, tree_depth, calc_option))
+
+                    if USE_CYTHON:
+                        new_tiles, num_empty, game_AP.rand_idx = \
+                            Utils.add_random_tile(new_tiles, game_AP.rands,
+                                                  game_AP.rand_idx, 4)
+                    else:
+                        new_tiles, num_empty, game_AP.rand_idx = \
+                            add_random_tile(new_tiles, game_AP.rands, game_AP.rand_idx)
+
+                    self.next.append(MoveNode(self, new_tiles, new_score, game_AP))
+
                 else:
                     self.next.append(None)
 
@@ -69,7 +79,6 @@ class MoveNode:
         out.append("-"*20 + "\n")
         out.append(f"Tree Level: {self.level}  |  Score: {self.score}")
         out.append(f"  |  Metric: {self.metric}\n")
-        out.append("Metrics: " + repr(self.metrics) + "\n")
 
         return "".join(out)
 
@@ -129,11 +138,21 @@ class AutoPlayer:
         self.tiles = np.array(tiles_nums, dtype=np.intc)
         self.num_empty = SIZE*SIZE
         self.score = deepcopy(score)
+        self.num_moves = 0
+        self.game_over = False
         self.move_tree = None
         self.tree_depth = tree_depth
         self.topx = topx
         self.calc_option = calc_option
+
+        # It is MUCH, MUCH faster to go ahead and generate all random numbers needed upfront
+        # ~0.25 sec to generate 200 million rands at once using NumPy,
+        # Versus many seconds (cumulatively) if generated one-by-one on the fly
+        # self.rand_idx must be incremented each time one is used.
+
         self.rand = np.random.default_rng()
+        self.rands = self.rand.random(50000000, dtype=np.float32)
+        self.rand_idx = int(0)
 
     def __repr__(self):
         out = list()
@@ -147,7 +166,7 @@ class AutoPlayer:
 
         self.tiles = np.array(tiles_nums, dtype=np.intc)
 
-        self.move_tree = MoveNode(None, self.tiles, self.rand, self.score, self.tree_depth, self.calc_option)
+        self.move_tree = MoveNode(None, self.tiles, self.score, self)
 
         move_score = list()
 
@@ -173,9 +192,12 @@ class AutoPlayer:
 
     def auto_move(self):
 
+        # DEBUG
+        # print(f"rand_idx = {self.rand_idx}")
+
         tiles = self.tiles.copy()
 
-        self.move_tree = MoveNode(None, tiles, self.rand, self.score, self.tree_depth, self.calc_option)
+        self.move_tree = MoveNode(None, tiles, self.score, self)
 
         move_score = list()
 
@@ -196,19 +218,25 @@ class AutoPlayer:
                 max_metrics = node_tree_max_DFS(self.move_tree.next[move_dir], max_metrics)
                 move_score.append(max_metrics.sum() / float(self.topx))
 
-        # print(f"Move Score: Up = {move_score[0]}, Right = {move_score[1]}, " +
-        #       f"Down = {move_score[2]}, Left = {move_score[3]}\n")
-
         best_move = move_score.index(max(move_score))
 
-        # print(f"Best Move: {best_move}\n")
-
-        valid_move, tiles2, score2 = move_tiles(best_move, self.tiles, self.score)
+        if USE_CYTHON:
+            valid_move, tiles2, score2 = Utils.move_tiles(best_move, 4, self.tiles, self.score)
+        else:
+            valid_move, tiles2, score2 = move_tiles(best_move, self.tiles, self.score)
 
         if valid_move:
-            self.tiles, num_empty = add_random_tile(tiles2, self.rand)
+            if USE_CYTHON:
+                self.tiles, self.num_empty, self.rand_idx = Utils.add_random_tile(tiles2, self.rands, self.rand_idx, 4)
+            else:
+                self.tiles, self.num_empty, self.rand_idx = add_random_tile(tiles2, self.rands, self.rand_idx)
+
             self.score = score2
-            self.move_tree = MoveNode(None, self.tiles, self.rand, self.score, self.tree_depth, self.calc_option)
+
+        self.num_moves += 1
+
+        if not valid_move and self.num_empty == 0:
+            self.game_over = True
 
         return valid_move, self.tiles, self.score, self.num_empty
 
@@ -235,6 +263,8 @@ def node_tree_max_DFS(node, max_metrics):
     return max_metrics
 
 
+# This is the Python version of the "move_tiles" function
+# Use of the MUCH faster Cython version is preferred
 def move_tiles(direction, tiles, score):
 
     valid_move = False
@@ -309,29 +339,33 @@ def move_tiles(direction, tiles, score):
     return valid_move, tiles2, score
 
 
-def add_random_tile(tiles, rand):
+# This is the Python version of the "move_tiles" function
+# Use of the MUCH faster Cython version is preferred
+def add_random_tile(tiles, rands, rand_idx):
 
-    # Find open positions
-    open_positions = []
-    for idx in range(16):
-        if tiles[idx // 4][idx % 4] == 0:
-            open_positions.append(idx)
+    # Search to find indeces [row][col] of "open" positions on board
+    open_positions = np.argwhere(tiles == 0)
+    num_empty = int(open_positions.size / 2)
 
-    num_empty = len(open_positions)
     if num_empty == 0:
         return tiles, num_empty
 
-    rand_idx = rand.integers(0, num_empty)
-    pos = open_positions.pop(rand_idx)
-    row = pos // SIZE
-    col = pos % SIZE
+    # Pick one of the "empty" positions on board at random
+    rand_idx2 = int(rands[rand_idx]*num_empty)
+    rand_idx += 1
 
-    value = 2 if (rand.random() < 0.9) else 4
+    row = open_positions[rand_idx2][0]
+    col = open_positions[rand_idx2][1]
+
+    # Decide if new tile will be "2" (90%) or "4" (10%)
+    value = 2 if (rands[rand_idx] < 0.9) else 4
+    rand_idx += 1
 
     tiles[row][col] = value
     num_empty -= 1
 
-    return tiles, num_empty
+    return tiles, num_empty, rand_idx
+
 
 def run_num_moves(start_tiles, num_moves, tree_depth, topx, calc_option):
 
@@ -341,6 +375,38 @@ def run_num_moves(start_tiles, num_moves, tree_depth, topx, calc_option):
         valid_move, tiles, score, num_empty = ap1.auto_move()
 
     return tiles, score
+
+
+def gen_timing(num):
+
+    rand = np.random.default_rng()
+    rands = rand.random(num, dtype=np.float32)
+
+    return rands
+
+
+def play_games(num):
+
+    stiles = [[0, 0, 0, 0], [0, 0, 2, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+
+    for i in range(num):
+
+        move_count = 0
+        print(f"Starting Game {i}...\n|          |\n|")
+
+        ap = AutoPlayer(stiles, 0, 1, 1, 3)
+
+        while not ap.game_over:
+
+            for j in range(10):
+
+                ap.auto_move()
+                move_count += 1
+
+            print("\n" + repr(ap))
+            ans = input("Continue? ")
+            if ans in ["N", "n"]:
+                return
 
 
 if __name__ == '__main__':
@@ -367,11 +433,14 @@ if __name__ == '__main__':
     topx = 6
     calc_option = 3
 
-    # tiles, score = run_num_moves(start_tiles, 500, tree_depth, topx, calc_option)
-    cProfile.run('tiles, score = run_num_moves(start_tiles, 500, tree_depth, topx, calc_option)')
+    # cProfile.run('nums = gen_timing(50000000)')
+    # tiles, score = run_num_moves(start_tiles, 100, tree_depth, topx, calc_option)
+    cProfile.run('tiles, score = run_num_moves(start_tiles, 100, tree_depth, topx, calc_option)')
+    #
+    # print(f"Score: {score}")
+    # print(repr(tiles))
 
-    print(f"Score: {score}")
-    print(repr(tiles))
+    # play_games(1)
 
     # keep_playing = True
     # limit = 100

@@ -1,4 +1,4 @@
-from numpy.random import default_rng
+import numpy as np
 from copy import deepcopy
 import gameUIpyqt
 import pprint
@@ -13,12 +13,12 @@ class Game(object):
         self.ui_main = ui_main
         self.current_game = True
         self.is_paused = False
-        self.tiles_nums = [[0] * SIZE for _ in range(SIZE)]
-        self.next_tiles_nums = [[0] * SIZE for _ in range(SIZE)]
+        self.tiles_nums = np.zeros((SIZE, SIZE), dtype=np.int32)
+        self.next_tiles_nums = np.zeros((SIZE, SIZE), dtype=np.int32)
         self.num_empty = SIZE * SIZE
         self.tile_widgets = [[None] * SIZE for _ in range(SIZE)]
         self.next_tile_widgets = [[None] * SIZE for _ in range(SIZE)]
-        self.rand = default_rng()
+        self.rand = np.random.default_rng()
         self.tiles_to_delete = []
         self.last_move_valid = True
         self.score = 0
@@ -161,20 +161,16 @@ class Game(object):
     def add_random_tile(self):
 
         # Find open positions
-        open_positions = []
-        for idx in range(16):
-            if self.tiles_nums[idx // 4][idx % 4] == 0:
-                open_positions.append(idx)
 
-        self.num_empty = len(open_positions)
+        open_positions = np.argwhere(self.tiles_nums == 0)
+        self.num_empty = int(open_positions.size / 2)
 
         if self.num_empty == 0:
             return
 
         rand_idx = self.rand.integers(0, self.num_empty)
-        pos = open_positions.pop(rand_idx)
-        row = pos // SIZE
-        col = pos % SIZE
+        row = open_positions[rand_idx][0]
+        col = open_positions[rand_idx][1]
 
         value = 2 if (self.rand.random() < 0.9) else 4
 
