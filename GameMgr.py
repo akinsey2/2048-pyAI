@@ -168,6 +168,7 @@ class Game(object):
         return valid_move, tiles2, score2
 
     # MUST be called after move_tiles()
+    # In the UI case, the animation is called first, then add_random_tile()
     def add_random_tile(self, tiles=None, rands=None, rand_idx=None):
 
         commit = False
@@ -203,16 +204,14 @@ class Game(object):
             tiles[row][col] = value
             num_empty -= 1
 
-            if self.ui:
+            if commit and (self.ui is not None):
                 self.ui.add_tile(row, col, value)
 
         if commit:
             self.num_empty = num_empty
 
-            if self.num_empty == 0 and not self.last_move_valid:
-                self.game_over = True
-
-            if self.ui:
-                self.ui.game_over()
+        if self.num_empty == 0 and not self.last_move_valid:
+            self.game_over = True
+            self.ui.game_over()
 
         return tiles, num_empty, rand_idx

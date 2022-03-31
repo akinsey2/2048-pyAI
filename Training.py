@@ -6,8 +6,6 @@ from math import exp
 
 if __name__ == '__main__':
 
-
-
     records = []
 
     # Parameters
@@ -15,9 +13,9 @@ if __name__ == '__main__':
     calc_max = 0
     tree_depth_min = 5
     tree_depth_max = 7
-    topx_min = 4 # 4
-    topx_max = 10 # 7
-    reps = 20 # 20
+    topx_min = 4
+    topx_max = 10
+    reps = 20
 
     # Estimate Time Required
     tot_games = (calc_max - calc_min + 1) * (tree_depth_max - tree_depth_min + 1) * (topx_max - topx_min + 1) * reps

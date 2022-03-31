@@ -19,7 +19,6 @@ class CentralWidget(QtWidgets.QWidget):
     def __init__(self, mainwindow, ui_mainwindow):
         super().__init__(mainwindow)     # Establish parent, Initialize parent QWidget class
         self.custom_init()
-        self.mainwindow = mainwindow
         self.ui_mainwindow = ui_mainwindow
 
     def custom_init(self):
@@ -55,6 +54,9 @@ class CentralWidget(QtWidgets.QWidget):
         if valid_move:
             self.ui_mainwindow.animate_tiles(tile_move_vect)
         else:
+            # Use add_random_tile() to detect possible game over
+            tiles = self.ui_mainwindow.game.tiles.copy()
+            self.ui_mainwindow.game.add_random_tile(tiles)
             self.grabKeyboard()
 
 
@@ -366,16 +368,6 @@ class UiMainWindow(object):
 
     def animate_tiles(self, vectors):
 
-        # # DEBUG
-        # print("Raw Tiles")
-        # pprint.pp(self.game.tiles)
-        # print("Tile Widgets")
-        # pprint.pp(self.tile_widgets)
-        # print("Vectors")
-        # pprint.pp(vectors)
-        # print("Next Tile Widgets")
-        # pprint.pp(self.next_tile_widgets)
-
         self.anim_group = QtCore.QParallelAnimationGroup()
         anims = []
 
@@ -483,8 +475,10 @@ class UiMainWindow(object):
                     if self.tile_widgets[row][col]:
                         self.tile_widgets[row][col].hide()
                         self.tile_widgets[row][col].destroy()
+                        self.tile_widgets[row][col] = None
 
-        self.game = GameMgr.Game(self, None, 0)
+        # Tiles
+        self.game = GameMgr.Game(self)
         self.current_game = True
         self.is_paused = False
         self.start_button.setText("Pause")
