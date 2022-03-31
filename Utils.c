@@ -2094,12 +2094,12 @@ static PyObject *__pyx_n_s_unpack;
 static PyObject *__pyx_n_s_update;
 static PyObject *__pyx_n_s_valid_move;
 static PyObject *__pyx_n_s_value;
-static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, short __pyx_v_direction, short __pyx_v_size, PyObject *__pyx_v_tiles, int __pyx_v_score); /* proto */
+static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, short __pyx_v_direction, PyObject *__pyx_v_tiles, int __pyx_v_score, short __pyx_v_size); /* proto */
 static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_tiles, __Pyx_memviewslice __pyx_v_rands, int __pyx_v_rand_idx1, short __pyx_v_size); /* proto */
-static PyObject *__pyx_pf_5Utils_4calc_metrics0(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles); /* proto */
+static PyObject *__pyx_pf_5Utils_4calc_metrics0(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_tiles); /* proto */
 static PyObject *__pyx_pf_5Utils_6calc_metrics1(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles); /* proto */
 static PyObject *__pyx_pf_5Utils_8calc_metrics2(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles); /* proto */
-static PyObject *__pyx_pf_5Utils_10calc_metrics3(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_tiles); /* proto */
+static PyObject *__pyx_pf_5Utils_10calc_metrics3(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(struct __pyx_array_obj *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_array___pyx_pf_15View_dot_MemoryView_5array_4__dealloc__(struct __pyx_array_obj *__pyx_v_self); /* proto */
@@ -2192,7 +2192,7 @@ static PyObject *__pyx_codeobj__37;
 /* "Utils.pyx":6
  * DTYPE = np.intc
  * 
- * def move_tiles(short direction, short size, tiles, int score):             # <<<<<<<<<<<<<<
+ * def move_tiles(short direction, tiles, int score, short size):             # <<<<<<<<<<<<<<
  * 
  *     cdef short idx1, place_idx, eval_idx, inc, row1, row2, col1, col2
  */
@@ -2202,9 +2202,9 @@ static PyObject *__pyx_pw_5Utils_1move_tiles(PyObject *__pyx_self, PyObject *__p
 static PyMethodDef __pyx_mdef_5Utils_1move_tiles = {"move_tiles", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_5Utils_1move_tiles, METH_VARARGS|METH_KEYWORDS, 0};
 static PyObject *__pyx_pw_5Utils_1move_tiles(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   short __pyx_v_direction;
-  short __pyx_v_size;
   PyObject *__pyx_v_tiles = 0;
   int __pyx_v_score;
+  short __pyx_v_size;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -2212,7 +2212,7 @@ static PyObject *__pyx_pw_5Utils_1move_tiles(PyObject *__pyx_self, PyObject *__p
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("move_tiles (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_direction,&__pyx_n_s_size,&__pyx_n_s_tiles,&__pyx_n_s_score,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_direction,&__pyx_n_s_tiles,&__pyx_n_s_score,&__pyx_n_s_size,0};
     PyObject* values[4] = {0,0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
@@ -2236,19 +2236,19 @@ static PyObject *__pyx_pw_5Utils_1move_tiles(PyObject *__pyx_self, PyObject *__p
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
-        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_size)) != 0)) kw_args--;
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_tiles)) != 0)) kw_args--;
         else {
           __Pyx_RaiseArgtupleInvalid("move_tiles", 1, 4, 4, 1); __PYX_ERR(0, 6, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
-        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_tiles)) != 0)) kw_args--;
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_score)) != 0)) kw_args--;
         else {
           __Pyx_RaiseArgtupleInvalid("move_tiles", 1, 4, 4, 2); __PYX_ERR(0, 6, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
-        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_score)) != 0)) kw_args--;
+        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_size)) != 0)) kw_args--;
         else {
           __Pyx_RaiseArgtupleInvalid("move_tiles", 1, 4, 4, 3); __PYX_ERR(0, 6, __pyx_L3_error)
         }
@@ -2265,9 +2265,9 @@ static PyObject *__pyx_pw_5Utils_1move_tiles(PyObject *__pyx_self, PyObject *__p
       values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
     }
     __pyx_v_direction = __Pyx_PyInt_As_short(values[0]); if (unlikely((__pyx_v_direction == (short)-1) && PyErr_Occurred())) __PYX_ERR(0, 6, __pyx_L3_error)
-    __pyx_v_size = __Pyx_PyInt_As_short(values[1]); if (unlikely((__pyx_v_size == (short)-1) && PyErr_Occurred())) __PYX_ERR(0, 6, __pyx_L3_error)
-    __pyx_v_tiles = values[2];
-    __pyx_v_score = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_score == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 6, __pyx_L3_error)
+    __pyx_v_tiles = values[1];
+    __pyx_v_score = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_score == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 6, __pyx_L3_error)
+    __pyx_v_size = __Pyx_PyInt_As_short(values[3]); if (unlikely((__pyx_v_size == (short)-1) && PyErr_Occurred())) __PYX_ERR(0, 6, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
@@ -2277,14 +2277,14 @@ static PyObject *__pyx_pw_5Utils_1move_tiles(PyObject *__pyx_self, PyObject *__p
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_5Utils_move_tiles(__pyx_self, __pyx_v_direction, __pyx_v_size, __pyx_v_tiles, __pyx_v_score);
+  __pyx_r = __pyx_pf_5Utils_move_tiles(__pyx_self, __pyx_v_direction, __pyx_v_tiles, __pyx_v_score, __pyx_v_size);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, short __pyx_v_direction, short __pyx_v_size, PyObject *__pyx_v_tiles, int __pyx_v_score) {
+static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, short __pyx_v_direction, PyObject *__pyx_v_tiles, int __pyx_v_score, short __pyx_v_size) {
   short __pyx_v_idx1;
   short __pyx_v_place_idx;
   short __pyx_v_eval_idx;
@@ -2362,14 +2362,14 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  *     tiles1 = np.copy(tiles)
  *     cdef int[:,:] tiles2 = tiles1             # <<<<<<<<<<<<<<
  * 
- *     # For each row (if left/right) or col (if up/down)
+ *     # --- Begin primary move_tiles loop
  */
   __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dsds_int(__pyx_v_tiles1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(0, 13, __pyx_L1_error)
   __pyx_v_tiles2 = __pyx_t_4;
   __pyx_t_4.memview = NULL;
   __pyx_t_4.data = NULL;
 
-  /* "Utils.pyx":16
+  /* "Utils.pyx":18
  * 
  *     # For each row (if left/right) or col (if up/down)
  *     for idx1 in range(size):             # <<<<<<<<<<<<<<
@@ -2381,7 +2381,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
   for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
     __pyx_v_idx1 = __pyx_t_7;
 
-    /* "Utils.pyx":18
+    /* "Utils.pyx":20
  *     for idx1 in range(size):
  * 
  *         if direction == 0:      # Move up             # <<<<<<<<<<<<<<
@@ -2391,7 +2391,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
     switch (__pyx_v_direction) {
       case 0:
 
-      /* "Utils.pyx":19
+      /* "Utils.pyx":21
  * 
  *         if direction == 0:      # Move up
  *             col1 = idx1             # <<<<<<<<<<<<<<
@@ -2400,7 +2400,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       __pyx_v_col1 = __pyx_v_idx1;
 
-      /* "Utils.pyx":20
+      /* "Utils.pyx":22
  *         if direction == 0:      # Move up
  *             col1 = idx1
  *             col2 = idx1             # <<<<<<<<<<<<<<
@@ -2409,7 +2409,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       __pyx_v_col2 = __pyx_v_idx1;
 
-      /* "Utils.pyx":21
+      /* "Utils.pyx":23
  *             col1 = idx1
  *             col2 = idx1
  *             place_idx = 0             # <<<<<<<<<<<<<<
@@ -2418,7 +2418,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       __pyx_v_place_idx = 0;
 
-      /* "Utils.pyx":22
+      /* "Utils.pyx":24
  *             col2 = idx1
  *             place_idx = 0
  *             eval_idx = 1             # <<<<<<<<<<<<<<
@@ -2427,7 +2427,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       __pyx_v_eval_idx = 1;
 
-      /* "Utils.pyx":23
+      /* "Utils.pyx":25
  *             place_idx = 0
  *             eval_idx = 1
  *             inc = 1             # <<<<<<<<<<<<<<
@@ -2436,7 +2436,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       __pyx_v_inc = 1;
 
-      /* "Utils.pyx":18
+      /* "Utils.pyx":20
  *     for idx1 in range(size):
  * 
  *         if direction == 0:      # Move up             # <<<<<<<<<<<<<<
@@ -2446,7 +2446,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
       break;
       case 1:
 
-      /* "Utils.pyx":25
+      /* "Utils.pyx":27
  *             inc = 1
  *         elif direction == 1:    # Move Right
  *             row1 = idx1             # <<<<<<<<<<<<<<
@@ -2455,7 +2455,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       __pyx_v_row1 = __pyx_v_idx1;
 
-      /* "Utils.pyx":26
+      /* "Utils.pyx":28
  *         elif direction == 1:    # Move Right
  *             row1 = idx1
  *             row2 = idx1             # <<<<<<<<<<<<<<
@@ -2464,7 +2464,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       __pyx_v_row2 = __pyx_v_idx1;
 
-      /* "Utils.pyx":27
+      /* "Utils.pyx":29
  *             row1 = idx1
  *             row2 = idx1
  *             place_idx = size - 1             # <<<<<<<<<<<<<<
@@ -2473,7 +2473,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       __pyx_v_place_idx = (__pyx_v_size - 1);
 
-      /* "Utils.pyx":28
+      /* "Utils.pyx":30
  *             row2 = idx1
  *             place_idx = size - 1
  *             eval_idx = size - 2             # <<<<<<<<<<<<<<
@@ -2482,7 +2482,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       __pyx_v_eval_idx = (__pyx_v_size - 2);
 
-      /* "Utils.pyx":29
+      /* "Utils.pyx":31
  *             place_idx = size - 1
  *             eval_idx = size - 2
  *             inc = -1             # <<<<<<<<<<<<<<
@@ -2491,7 +2491,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       __pyx_v_inc = -1;
 
-      /* "Utils.pyx":24
+      /* "Utils.pyx":26
  *             eval_idx = 1
  *             inc = 1
  *         elif direction == 1:    # Move Right             # <<<<<<<<<<<<<<
@@ -2501,7 +2501,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
       break;
       case 2:
 
-      /* "Utils.pyx":31
+      /* "Utils.pyx":33
  *             inc = -1
  *         elif direction == 2:    # Move Down
  *             col1 = idx1             # <<<<<<<<<<<<<<
@@ -2510,7 +2510,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       __pyx_v_col1 = __pyx_v_idx1;
 
-      /* "Utils.pyx":32
+      /* "Utils.pyx":34
  *         elif direction == 2:    # Move Down
  *             col1 = idx1
  *             col2 = idx1             # <<<<<<<<<<<<<<
@@ -2519,7 +2519,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       __pyx_v_col2 = __pyx_v_idx1;
 
-      /* "Utils.pyx":33
+      /* "Utils.pyx":35
  *             col1 = idx1
  *             col2 = idx1
  *             place_idx = size - 1             # <<<<<<<<<<<<<<
@@ -2528,7 +2528,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       __pyx_v_place_idx = (__pyx_v_size - 1);
 
-      /* "Utils.pyx":34
+      /* "Utils.pyx":36
  *             col2 = idx1
  *             place_idx = size - 1
  *             eval_idx = size - 2             # <<<<<<<<<<<<<<
@@ -2537,7 +2537,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       __pyx_v_eval_idx = (__pyx_v_size - 2);
 
-      /* "Utils.pyx":35
+      /* "Utils.pyx":37
  *             place_idx = size - 1
  *             eval_idx = size - 2
  *             inc = -1             # <<<<<<<<<<<<<<
@@ -2546,7 +2546,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       __pyx_v_inc = -1;
 
-      /* "Utils.pyx":30
+      /* "Utils.pyx":32
  *             eval_idx = size - 2
  *             inc = -1
  *         elif direction == 2:    # Move Down             # <<<<<<<<<<<<<<
@@ -2556,7 +2556,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
       break;
       case 3:
 
-      /* "Utils.pyx":37
+      /* "Utils.pyx":39
  *             inc = -1
  *         elif direction == 3:    # Move Left
  *             row1 = idx1             # <<<<<<<<<<<<<<
@@ -2565,7 +2565,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       __pyx_v_row1 = __pyx_v_idx1;
 
-      /* "Utils.pyx":38
+      /* "Utils.pyx":40
  *         elif direction == 3:    # Move Left
  *             row1 = idx1
  *             row2 = idx1             # <<<<<<<<<<<<<<
@@ -2574,7 +2574,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       __pyx_v_row2 = __pyx_v_idx1;
 
-      /* "Utils.pyx":39
+      /* "Utils.pyx":41
  *             row1 = idx1
  *             row2 = idx1
  *             place_idx = 0             # <<<<<<<<<<<<<<
@@ -2583,7 +2583,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       __pyx_v_place_idx = 0;
 
-      /* "Utils.pyx":40
+      /* "Utils.pyx":42
  *             row2 = idx1
  *             place_idx = 0
  *             eval_idx = 1             # <<<<<<<<<<<<<<
@@ -2592,7 +2592,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       __pyx_v_eval_idx = 1;
 
-      /* "Utils.pyx":41
+      /* "Utils.pyx":43
  *             place_idx = 0
  *             eval_idx = 1
  *             inc = 1             # <<<<<<<<<<<<<<
@@ -2601,7 +2601,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       __pyx_v_inc = 1;
 
-      /* "Utils.pyx":36
+      /* "Utils.pyx":38
  *             eval_idx = size - 2
  *             inc = -1
  *         elif direction == 3:    # Move Left             # <<<<<<<<<<<<<<
@@ -2612,7 +2612,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
       default: break;
     }
 
-    /* "Utils.pyx":44
+    /* "Utils.pyx":46
  * 
  *         # Traverse: (across cols in row if left/right) (across rows in col if up/down)
  *         while (eval_idx > -1) and (eval_idx < size):             # <<<<<<<<<<<<<<
@@ -2631,7 +2631,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
       __pyx_L7_bool_binop_done:;
       if (!__pyx_t_8) break;
 
-      /* "Utils.pyx":46
+      /* "Utils.pyx":48
  *         while (eval_idx > -1) and (eval_idx < size):
  * 
  *             if direction == 0 or direction == 2:  # If move is up/down, traverse rows in column             # <<<<<<<<<<<<<<
@@ -2642,7 +2642,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
         case 0:
         case 2:
 
-        /* "Utils.pyx":47
+        /* "Utils.pyx":49
  * 
  *             if direction == 0 or direction == 2:  # If move is up/down, traverse rows in column
  *                 row1 = place_idx             # <<<<<<<<<<<<<<
@@ -2651,7 +2651,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
         __pyx_v_row1 = __pyx_v_place_idx;
 
-        /* "Utils.pyx":48
+        /* "Utils.pyx":50
  *             if direction == 0 or direction == 2:  # If move is up/down, traverse rows in column
  *                 row1 = place_idx
  *                 row2 = eval_idx             # <<<<<<<<<<<<<<
@@ -2660,7 +2660,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
         __pyx_v_row2 = __pyx_v_eval_idx;
 
-        /* "Utils.pyx":46
+        /* "Utils.pyx":48
  *         while (eval_idx > -1) and (eval_idx < size):
  * 
  *             if direction == 0 or direction == 2:  # If move is up/down, traverse rows in column             # <<<<<<<<<<<<<<
@@ -2670,7 +2670,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
         break;
         default:
 
-        /* "Utils.pyx":50
+        /* "Utils.pyx":52
  *                 row2 = eval_idx
  *             else:                   # If move is left/right, traverse cols in row
  *                 col1 = place_idx             # <<<<<<<<<<<<<<
@@ -2679,7 +2679,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
         __pyx_v_col1 = __pyx_v_place_idx;
 
-        /* "Utils.pyx":51
+        /* "Utils.pyx":53
  *             else:                   # If move is left/right, traverse cols in row
  *                 col1 = place_idx
  *                 col2 = eval_idx             # <<<<<<<<<<<<<<
@@ -2690,7 +2690,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
         break;
       }
 
-      /* "Utils.pyx":53
+      /* "Utils.pyx":55
  *                 col2 = eval_idx
  * 
  *             if place_idx == eval_idx:             # <<<<<<<<<<<<<<
@@ -2700,7 +2700,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
       __pyx_t_8 = ((__pyx_v_place_idx == __pyx_v_eval_idx) != 0);
       if (__pyx_t_8) {
 
-        /* "Utils.pyx":54
+        /* "Utils.pyx":56
  * 
  *             if place_idx == eval_idx:
  *                 eval_idx += inc             # <<<<<<<<<<<<<<
@@ -2709,7 +2709,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
         __pyx_v_eval_idx = (__pyx_v_eval_idx + __pyx_v_inc);
 
-        /* "Utils.pyx":55
+        /* "Utils.pyx":57
  *             if place_idx == eval_idx:
  *                 eval_idx += inc
  *                 continue             # <<<<<<<<<<<<<<
@@ -2718,7 +2718,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
         goto __pyx_L5_continue;
 
-        /* "Utils.pyx":53
+        /* "Utils.pyx":55
  *                 col2 = eval_idx
  * 
  *             if place_idx == eval_idx:             # <<<<<<<<<<<<<<
@@ -2727,7 +2727,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       }
 
-      /* "Utils.pyx":58
+      /* "Utils.pyx":60
  * 
  *             # If the "place" cell is empty
  *             elif tiles2[row1, col1] == 0:             # <<<<<<<<<<<<<<
@@ -2747,12 +2747,12 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
       } else if (unlikely(__pyx_t_11 >= __pyx_v_tiles2.shape[1])) __pyx_t_12 = 1;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 58, __pyx_L1_error)
+        __PYX_ERR(0, 60, __pyx_L1_error)
       }
       __pyx_t_8 = (((*((int *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_tiles2.data + __pyx_t_10 * __pyx_v_tiles2.strides[0]) ) + __pyx_t_11 * __pyx_v_tiles2.strides[1]) ))) == 0) != 0);
       if (__pyx_t_8) {
 
-        /* "Utils.pyx":61
+        /* "Utils.pyx":63
  * 
  *                 # And the next tile is also empty
  *                 if tiles2[row2, col2] == 0:             # <<<<<<<<<<<<<<
@@ -2772,12 +2772,12 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
         } else if (unlikely(__pyx_t_10 >= __pyx_v_tiles2.shape[1])) __pyx_t_12 = 1;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 61, __pyx_L1_error)
+          __PYX_ERR(0, 63, __pyx_L1_error)
         }
         __pyx_t_8 = (((*((int *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_tiles2.data + __pyx_t_11 * __pyx_v_tiles2.strides[0]) ) + __pyx_t_10 * __pyx_v_tiles2.strides[1]) ))) == 0) != 0);
         if (__pyx_t_8) {
 
-          /* "Utils.pyx":62
+          /* "Utils.pyx":64
  *                 # And the next tile is also empty
  *                 if tiles2[row2, col2] == 0:
  *                     eval_idx += inc             # <<<<<<<<<<<<<<
@@ -2786,7 +2786,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
           __pyx_v_eval_idx = (__pyx_v_eval_idx + __pyx_v_inc);
 
-          /* "Utils.pyx":63
+          /* "Utils.pyx":65
  *                 if tiles2[row2, col2] == 0:
  *                     eval_idx += inc
  *                     continue             # <<<<<<<<<<<<<<
@@ -2795,7 +2795,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
           goto __pyx_L5_continue;
 
-          /* "Utils.pyx":61
+          /* "Utils.pyx":63
  * 
  *                 # And the next tile is also empty
  *                 if tiles2[row2, col2] == 0:             # <<<<<<<<<<<<<<
@@ -2804,7 +2804,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
         }
 
-        /* "Utils.pyx":67
+        /* "Utils.pyx":69
  *                 # Found a tile, move to empty
  *                 else:
  *                     tiles2[row1, col1] = tiles2[row2, col2]             # <<<<<<<<<<<<<<
@@ -2825,7 +2825,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
           } else if (unlikely(__pyx_t_11 >= __pyx_v_tiles2.shape[1])) __pyx_t_12 = 1;
           if (unlikely(__pyx_t_12 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_12);
-            __PYX_ERR(0, 67, __pyx_L1_error)
+            __PYX_ERR(0, 69, __pyx_L1_error)
           }
           __pyx_t_13 = __pyx_v_row1;
           __pyx_t_14 = __pyx_v_col1;
@@ -2840,11 +2840,11 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
           } else if (unlikely(__pyx_t_14 >= __pyx_v_tiles2.shape[1])) __pyx_t_12 = 1;
           if (unlikely(__pyx_t_12 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_12);
-            __PYX_ERR(0, 67, __pyx_L1_error)
+            __PYX_ERR(0, 69, __pyx_L1_error)
           }
           *((int *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_tiles2.data + __pyx_t_13 * __pyx_v_tiles2.strides[0]) ) + __pyx_t_14 * __pyx_v_tiles2.strides[1]) )) = (*((int *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_tiles2.data + __pyx_t_10 * __pyx_v_tiles2.strides[0]) ) + __pyx_t_11 * __pyx_v_tiles2.strides[1]) )));
 
-          /* "Utils.pyx":68
+          /* "Utils.pyx":70
  *                 else:
  *                     tiles2[row1, col1] = tiles2[row2, col2]
  *                     tiles2[row2, col2] = 0             # <<<<<<<<<<<<<<
@@ -2864,11 +2864,11 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
           } else if (unlikely(__pyx_t_10 >= __pyx_v_tiles2.shape[1])) __pyx_t_12 = 1;
           if (unlikely(__pyx_t_12 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_12);
-            __PYX_ERR(0, 68, __pyx_L1_error)
+            __PYX_ERR(0, 70, __pyx_L1_error)
           }
           *((int *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_tiles2.data + __pyx_t_11 * __pyx_v_tiles2.strides[0]) ) + __pyx_t_10 * __pyx_v_tiles2.strides[1]) )) = 0;
 
-          /* "Utils.pyx":69
+          /* "Utils.pyx":71
  *                     tiles2[row1, col1] = tiles2[row2, col2]
  *                     tiles2[row2, col2] = 0
  *                     valid_move = True             # <<<<<<<<<<<<<<
@@ -2877,7 +2877,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
           __pyx_v_valid_move = 1;
 
-          /* "Utils.pyx":70
+          /* "Utils.pyx":72
  *                     tiles2[row2, col2] = 0
  *                     valid_move = True
  *                     eval_idx += inc             # <<<<<<<<<<<<<<
@@ -2886,7 +2886,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
           __pyx_v_eval_idx = (__pyx_v_eval_idx + __pyx_v_inc);
 
-          /* "Utils.pyx":71
+          /* "Utils.pyx":73
  *                     valid_move = True
  *                     eval_idx += inc
  *                     continue             # <<<<<<<<<<<<<<
@@ -2896,7 +2896,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
           goto __pyx_L5_continue;
         }
 
-        /* "Utils.pyx":58
+        /* "Utils.pyx":60
  * 
  *             # If the "place" cell is empty
  *             elif tiles2[row1, col1] == 0:             # <<<<<<<<<<<<<<
@@ -2905,7 +2905,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       }
 
-      /* "Utils.pyx":77
+      /* "Utils.pyx":79
  * 
  *                 # And the "eval" tile is empty, move "eval" to next tile
  *                 if tiles2[row2, col2] == 0:             # <<<<<<<<<<<<<<
@@ -2926,12 +2926,12 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
         } else if (unlikely(__pyx_t_11 >= __pyx_v_tiles2.shape[1])) __pyx_t_12 = 1;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 77, __pyx_L1_error)
+          __PYX_ERR(0, 79, __pyx_L1_error)
         }
         __pyx_t_8 = (((*((int *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_tiles2.data + __pyx_t_10 * __pyx_v_tiles2.strides[0]) ) + __pyx_t_11 * __pyx_v_tiles2.strides[1]) ))) == 0) != 0);
         if (__pyx_t_8) {
 
-          /* "Utils.pyx":78
+          /* "Utils.pyx":80
  *                 # And the "eval" tile is empty, move "eval" to next tile
  *                 if tiles2[row2, col2] == 0:
  *                     eval_idx += inc             # <<<<<<<<<<<<<<
@@ -2940,7 +2940,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
           __pyx_v_eval_idx = (__pyx_v_eval_idx + __pyx_v_inc);
 
-          /* "Utils.pyx":79
+          /* "Utils.pyx":81
  *                 if tiles2[row2, col2] == 0:
  *                     eval_idx += inc
  *                     continue             # <<<<<<<<<<<<<<
@@ -2949,7 +2949,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
           goto __pyx_L5_continue;
 
-          /* "Utils.pyx":77
+          /* "Utils.pyx":79
  * 
  *                 # And the "eval" tile is empty, move "eval" to next tile
  *                 if tiles2[row2, col2] == 0:             # <<<<<<<<<<<<<<
@@ -2958,7 +2958,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
         }
 
-        /* "Utils.pyx":82
+        /* "Utils.pyx":84
  * 
  *                 # "Place" and "eval" tiles2 equal.  Merge.
  *                 elif tiles2[row1, col1] == tiles2[row2, col2]:             # <<<<<<<<<<<<<<
@@ -2978,7 +2978,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
         } else if (unlikely(__pyx_t_10 >= __pyx_v_tiles2.shape[1])) __pyx_t_12 = 1;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 82, __pyx_L1_error)
+          __PYX_ERR(0, 84, __pyx_L1_error)
         }
         __pyx_t_14 = __pyx_v_row2;
         __pyx_t_13 = __pyx_v_col2;
@@ -2993,12 +2993,12 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
         } else if (unlikely(__pyx_t_13 >= __pyx_v_tiles2.shape[1])) __pyx_t_12 = 1;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 82, __pyx_L1_error)
+          __PYX_ERR(0, 84, __pyx_L1_error)
         }
         __pyx_t_8 = (((*((int *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_tiles2.data + __pyx_t_11 * __pyx_v_tiles2.strides[0]) ) + __pyx_t_10 * __pyx_v_tiles2.strides[1]) ))) == (*((int *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_tiles2.data + __pyx_t_14 * __pyx_v_tiles2.strides[0]) ) + __pyx_t_13 * __pyx_v_tiles2.strides[1]) )))) != 0);
         if (__pyx_t_8) {
 
-          /* "Utils.pyx":83
+          /* "Utils.pyx":85
  *                 # "Place" and "eval" tiles2 equal.  Merge.
  *                 elif tiles2[row1, col1] == tiles2[row2, col2]:
  *                     tile_sum = tiles2[row1, col1] + tiles2[row2, col2]             # <<<<<<<<<<<<<<
@@ -3018,7 +3018,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
           } else if (unlikely(__pyx_t_14 >= __pyx_v_tiles2.shape[1])) __pyx_t_12 = 1;
           if (unlikely(__pyx_t_12 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_12);
-            __PYX_ERR(0, 83, __pyx_L1_error)
+            __PYX_ERR(0, 85, __pyx_L1_error)
           }
           __pyx_t_10 = __pyx_v_row2;
           __pyx_t_11 = __pyx_v_col2;
@@ -3033,11 +3033,11 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
           } else if (unlikely(__pyx_t_11 >= __pyx_v_tiles2.shape[1])) __pyx_t_12 = 1;
           if (unlikely(__pyx_t_12 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_12);
-            __PYX_ERR(0, 83, __pyx_L1_error)
+            __PYX_ERR(0, 85, __pyx_L1_error)
           }
           __pyx_v_tile_sum = ((*((int *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_tiles2.data + __pyx_t_13 * __pyx_v_tiles2.strides[0]) ) + __pyx_t_14 * __pyx_v_tiles2.strides[1]) ))) + (*((int *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_tiles2.data + __pyx_t_10 * __pyx_v_tiles2.strides[0]) ) + __pyx_t_11 * __pyx_v_tiles2.strides[1]) ))));
 
-          /* "Utils.pyx":84
+          /* "Utils.pyx":86
  *                 elif tiles2[row1, col1] == tiles2[row2, col2]:
  *                     tile_sum = tiles2[row1, col1] + tiles2[row2, col2]
  *                     tiles2[row1, col1] = tile_sum             # <<<<<<<<<<<<<<
@@ -3057,11 +3057,11 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
           } else if (unlikely(__pyx_t_10 >= __pyx_v_tiles2.shape[1])) __pyx_t_12 = 1;
           if (unlikely(__pyx_t_12 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_12);
-            __PYX_ERR(0, 84, __pyx_L1_error)
+            __PYX_ERR(0, 86, __pyx_L1_error)
           }
           *((int *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_tiles2.data + __pyx_t_11 * __pyx_v_tiles2.strides[0]) ) + __pyx_t_10 * __pyx_v_tiles2.strides[1]) )) = __pyx_v_tile_sum;
 
-          /* "Utils.pyx":85
+          /* "Utils.pyx":87
  *                     tile_sum = tiles2[row1, col1] + tiles2[row2, col2]
  *                     tiles2[row1, col1] = tile_sum
  *                     tiles2[row2, col2] = 0             # <<<<<<<<<<<<<<
@@ -3081,11 +3081,11 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
           } else if (unlikely(__pyx_t_11 >= __pyx_v_tiles2.shape[1])) __pyx_t_12 = 1;
           if (unlikely(__pyx_t_12 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_12);
-            __PYX_ERR(0, 85, __pyx_L1_error)
+            __PYX_ERR(0, 87, __pyx_L1_error)
           }
           *((int *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_tiles2.data + __pyx_t_10 * __pyx_v_tiles2.strides[0]) ) + __pyx_t_11 * __pyx_v_tiles2.strides[1]) )) = 0;
 
-          /* "Utils.pyx":86
+          /* "Utils.pyx":88
  *                     tiles2[row1, col1] = tile_sum
  *                     tiles2[row2, col2] = 0
  *                     valid_move = True             # <<<<<<<<<<<<<<
@@ -3094,7 +3094,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
           __pyx_v_valid_move = 1;
 
-          /* "Utils.pyx":87
+          /* "Utils.pyx":89
  *                     tiles2[row2, col2] = 0
  *                     valid_move = True
  *                     place_idx += inc             # <<<<<<<<<<<<<<
@@ -3103,7 +3103,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
           __pyx_v_place_idx = (__pyx_v_place_idx + __pyx_v_inc);
 
-          /* "Utils.pyx":88
+          /* "Utils.pyx":90
  *                     valid_move = True
  *                     place_idx += inc
  *                     eval_idx += inc             # <<<<<<<<<<<<<<
@@ -3112,7 +3112,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
           __pyx_v_eval_idx = (__pyx_v_eval_idx + __pyx_v_inc);
 
-          /* "Utils.pyx":89
+          /* "Utils.pyx":91
  *                     place_idx += inc
  *                     eval_idx += inc
  *                     score += tile_sum             # <<<<<<<<<<<<<<
@@ -3121,7 +3121,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
           __pyx_v_score = (__pyx_v_score + __pyx_v_tile_sum);
 
-          /* "Utils.pyx":90
+          /* "Utils.pyx":92
  *                     eval_idx += inc
  *                     score += tile_sum
  *                     continue             # <<<<<<<<<<<<<<
@@ -3130,7 +3130,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
           goto __pyx_L5_continue;
 
-          /* "Utils.pyx":82
+          /* "Utils.pyx":84
  * 
  *                 # "Place" and "eval" tiles2 equal.  Merge.
  *                 elif tiles2[row1, col1] == tiles2[row2, col2]:             # <<<<<<<<<<<<<<
@@ -3139,7 +3139,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  */
         }
 
-        /* "Utils.pyx":94
+        /* "Utils.pyx":96
  *                 # Tiles are different. Move "place" forward
  *                 else:
  *                     place_idx += inc             # <<<<<<<<<<<<<<
@@ -3149,7 +3149,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
         /*else*/ {
           __pyx_v_place_idx = (__pyx_v_place_idx + __pyx_v_inc);
 
-          /* "Utils.pyx":95
+          /* "Utils.pyx":97
  *                 else:
  *                     place_idx += inc
  *                     continue             # <<<<<<<<<<<<<<
@@ -3163,7 +3163,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
     }
   }
 
-  /* "Utils.pyx":97
+  /* "Utils.pyx":99
  *                     continue
  * 
  *     return valid_move, tiles1, score             # <<<<<<<<<<<<<<
@@ -3171,11 +3171,11 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_valid_move); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 97, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_valid_move); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_score); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 97, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_score); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 97, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
@@ -3193,7 +3193,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
   /* "Utils.pyx":6
  * DTYPE = np.intc
  * 
- * def move_tiles(short direction, short size, tiles, int score):             # <<<<<<<<<<<<<<
+ * def move_tiles(short direction, tiles, int score, short size):             # <<<<<<<<<<<<<<
  * 
  *     cdef short idx1, place_idx, eval_idx, inc, row1, row2, col1, col2
  */
@@ -3214,7 +3214,7 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
   return __pyx_r;
 }
 
-/* "Utils.pyx":100
+/* "Utils.pyx":102
  * 
  * 
  * def add_random_tile( tiles, float[:] rands, int rand_idx1, short size):             # <<<<<<<<<<<<<<
@@ -3263,23 +3263,23 @@ static PyObject *__pyx_pw_5Utils_3add_random_tile(PyObject *__pyx_self, PyObject
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_rands)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("add_random_tile", 1, 4, 4, 1); __PYX_ERR(0, 100, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_random_tile", 1, 4, 4, 1); __PYX_ERR(0, 102, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_rand_idx1)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("add_random_tile", 1, 4, 4, 2); __PYX_ERR(0, 100, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_random_tile", 1, 4, 4, 2); __PYX_ERR(0, 102, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_size)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("add_random_tile", 1, 4, 4, 3); __PYX_ERR(0, 100, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_random_tile", 1, 4, 4, 3); __PYX_ERR(0, 102, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "add_random_tile") < 0)) __PYX_ERR(0, 100, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "add_random_tile") < 0)) __PYX_ERR(0, 102, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -3290,13 +3290,13 @@ static PyObject *__pyx_pw_5Utils_3add_random_tile(PyObject *__pyx_self, PyObject
       values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
     }
     __pyx_v_tiles = values[0];
-    __pyx_v_rands = __Pyx_PyObject_to_MemoryviewSlice_ds_float(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_rands.memview)) __PYX_ERR(0, 100, __pyx_L3_error)
-    __pyx_v_rand_idx1 = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_rand_idx1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 100, __pyx_L3_error)
-    __pyx_v_size = __Pyx_PyInt_As_short(values[3]); if (unlikely((__pyx_v_size == (short)-1) && PyErr_Occurred())) __PYX_ERR(0, 100, __pyx_L3_error)
+    __pyx_v_rands = __Pyx_PyObject_to_MemoryviewSlice_ds_float(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_rands.memview)) __PYX_ERR(0, 102, __pyx_L3_error)
+    __pyx_v_rand_idx1 = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_rand_idx1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 102, __pyx_L3_error)
+    __pyx_v_size = __Pyx_PyInt_As_short(values[3]); if (unlikely((__pyx_v_size == (short)-1) && PyErr_Occurred())) __PYX_ERR(0, 102, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("add_random_tile", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 100, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("add_random_tile", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 102, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("Utils.add_random_tile", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3339,19 +3339,19 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("add_random_tile", 0);
 
-  /* "Utils.pyx":106
+  /* "Utils.pyx":108
  *     cdef int value, empty
  * 
  *     cdef int[:,:] tiles2 = tiles             # <<<<<<<<<<<<<<
  * 
  *     empty = 0
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dsds_int(__pyx_v_tiles, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 106, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dsds_int(__pyx_v_tiles, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 108, __pyx_L1_error)
   __pyx_v_tiles2 = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "Utils.pyx":108
+  /* "Utils.pyx":110
  *     cdef int[:,:] tiles2 = tiles
  * 
  *     empty = 0             # <<<<<<<<<<<<<<
@@ -3360,7 +3360,7 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
  */
   __pyx_v_empty = 0;
 
-  /* "Utils.pyx":109
+  /* "Utils.pyx":111
  * 
  *     empty = 0
  *     for row in range(size):             # <<<<<<<<<<<<<<
@@ -3372,7 +3372,7 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_row = __pyx_t_4;
 
-    /* "Utils.pyx":110
+    /* "Utils.pyx":112
  *     empty = 0
  *     for row in range(size):
  *         for col in range(size):             # <<<<<<<<<<<<<<
@@ -3384,7 +3384,7 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
     for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
       __pyx_v_col = __pyx_t_7;
 
-      /* "Utils.pyx":111
+      /* "Utils.pyx":113
  *     for row in range(size):
  *         for col in range(size):
  *             if tiles2[row, col] == 0:             # <<<<<<<<<<<<<<
@@ -3404,12 +3404,12 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
       } else if (unlikely(__pyx_t_9 >= __pyx_v_tiles2.shape[1])) __pyx_t_10 = 1;
       if (unlikely(__pyx_t_10 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_10);
-        __PYX_ERR(0, 111, __pyx_L1_error)
+        __PYX_ERR(0, 113, __pyx_L1_error)
       }
       __pyx_t_11 = (((*((int *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_tiles2.data + __pyx_t_8 * __pyx_v_tiles2.strides[0]) ) + __pyx_t_9 * __pyx_v_tiles2.strides[1]) ))) == 0) != 0);
       if (__pyx_t_11) {
 
-        /* "Utils.pyx":112
+        /* "Utils.pyx":114
  *         for col in range(size):
  *             if tiles2[row, col] == 0:
  *                 open_positions[empty][0] = row             # <<<<<<<<<<<<<<
@@ -3418,7 +3418,7 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
  */
         ((__pyx_v_open_positions[__pyx_v_empty])[0]) = __pyx_v_row;
 
-        /* "Utils.pyx":113
+        /* "Utils.pyx":115
  *             if tiles2[row, col] == 0:
  *                 open_positions[empty][0] = row
  *                 open_positions[empty][1] = col             # <<<<<<<<<<<<<<
@@ -3427,7 +3427,7 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
  */
         ((__pyx_v_open_positions[__pyx_v_empty])[1]) = __pyx_v_col;
 
-        /* "Utils.pyx":114
+        /* "Utils.pyx":116
  *                 open_positions[empty][0] = row
  *                 open_positions[empty][1] = col
  *                 empty += 1             # <<<<<<<<<<<<<<
@@ -3436,7 +3436,7 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
  */
         __pyx_v_empty = (__pyx_v_empty + 1);
 
-        /* "Utils.pyx":111
+        /* "Utils.pyx":113
  *     for row in range(size):
  *         for col in range(size):
  *             if tiles2[row, col] == 0:             # <<<<<<<<<<<<<<
@@ -3447,7 +3447,7 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
     }
   }
 
-  /* "Utils.pyx":116
+  /* "Utils.pyx":118
  *                 empty += 1
  * 
  *     if empty == 0:             # <<<<<<<<<<<<<<
@@ -3457,7 +3457,7 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
   __pyx_t_11 = ((__pyx_v_empty == 0) != 0);
   if (__pyx_t_11) {
 
-    /* "Utils.pyx":117
+    /* "Utils.pyx":119
  * 
  *     if empty == 0:
  *         return tiles, empty, rand_idx1             # <<<<<<<<<<<<<<
@@ -3465,11 +3465,11 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
  *     rand_idx2 = int(rands[rand_idx1] * empty)
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_12 = __Pyx_PyInt_From_int(__pyx_v_empty); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 117, __pyx_L1_error)
+    __pyx_t_12 = __Pyx_PyInt_From_int(__pyx_v_empty); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 119, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_12);
-    __pyx_t_13 = __Pyx_PyInt_From_int(__pyx_v_rand_idx1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 117, __pyx_L1_error)
+    __pyx_t_13 = __Pyx_PyInt_From_int(__pyx_v_rand_idx1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 119, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
-    __pyx_t_14 = PyTuple_New(3); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 117, __pyx_L1_error)
+    __pyx_t_14 = PyTuple_New(3); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 119, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
     __Pyx_INCREF(__pyx_v_tiles);
     __Pyx_GIVEREF(__pyx_v_tiles);
@@ -3484,7 +3484,7 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
     __pyx_t_14 = 0;
     goto __pyx_L0;
 
-    /* "Utils.pyx":116
+    /* "Utils.pyx":118
  *                 empty += 1
  * 
  *     if empty == 0:             # <<<<<<<<<<<<<<
@@ -3493,7 +3493,7 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
  */
   }
 
-  /* "Utils.pyx":119
+  /* "Utils.pyx":121
  *         return tiles, empty, rand_idx1
  * 
  *     rand_idx2 = int(rands[rand_idx1] * empty)             # <<<<<<<<<<<<<<
@@ -3508,11 +3508,11 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
   } else if (unlikely(__pyx_t_9 >= __pyx_v_rands.shape[0])) __pyx_t_10 = 0;
   if (unlikely(__pyx_t_10 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_10);
-    __PYX_ERR(0, 119, __pyx_L1_error)
+    __PYX_ERR(0, 121, __pyx_L1_error)
   }
   __pyx_v_rand_idx2 = ((short)((*((float *) ( /* dim=0 */ (__pyx_v_rands.data + __pyx_t_9 * __pyx_v_rands.strides[0]) ))) * __pyx_v_empty));
 
-  /* "Utils.pyx":120
+  /* "Utils.pyx":122
  * 
  *     rand_idx2 = int(rands[rand_idx1] * empty)
  *     rand_idx1 += 1             # <<<<<<<<<<<<<<
@@ -3521,7 +3521,7 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
  */
   __pyx_v_rand_idx1 = (__pyx_v_rand_idx1 + 1);
 
-  /* "Utils.pyx":122
+  /* "Utils.pyx":124
  *     rand_idx1 += 1
  * 
  *     row = open_positions[rand_idx2][0]             # <<<<<<<<<<<<<<
@@ -3530,7 +3530,7 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
  */
   __pyx_v_row = ((__pyx_v_open_positions[__pyx_v_rand_idx2])[0]);
 
-  /* "Utils.pyx":123
+  /* "Utils.pyx":125
  * 
  *     row = open_positions[rand_idx2][0]
  *     col = open_positions[rand_idx2][1]             # <<<<<<<<<<<<<<
@@ -3539,7 +3539,7 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
  */
   __pyx_v_col = ((__pyx_v_open_positions[__pyx_v_rand_idx2])[1]);
 
-  /* "Utils.pyx":125
+  /* "Utils.pyx":127
  *     col = open_positions[rand_idx2][1]
  * 
  *     value = 2 if (rands[rand_idx1] < 0.9) else 4             # <<<<<<<<<<<<<<
@@ -3554,7 +3554,7 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
   } else if (unlikely(__pyx_t_9 >= __pyx_v_rands.shape[0])) __pyx_t_15 = 0;
   if (unlikely(__pyx_t_15 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_15);
-    __PYX_ERR(0, 125, __pyx_L1_error)
+    __PYX_ERR(0, 127, __pyx_L1_error)
   }
   if ((((*((float *) ( /* dim=0 */ (__pyx_v_rands.data + __pyx_t_9 * __pyx_v_rands.strides[0]) ))) < 0.9) != 0)) {
     __pyx_t_10 = 2;
@@ -3563,7 +3563,7 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
   }
   __pyx_v_value = __pyx_t_10;
 
-  /* "Utils.pyx":126
+  /* "Utils.pyx":128
  * 
  *     value = 2 if (rands[rand_idx1] < 0.9) else 4
  *     rand_idx1 += 1             # <<<<<<<<<<<<<<
@@ -3572,7 +3572,7 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
  */
   __pyx_v_rand_idx1 = (__pyx_v_rand_idx1 + 1);
 
-  /* "Utils.pyx":128
+  /* "Utils.pyx":130
  *     rand_idx1 += 1
  * 
  *     tiles2[row, col] = value             # <<<<<<<<<<<<<<
@@ -3592,11 +3592,11 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
   } else if (unlikely(__pyx_t_8 >= __pyx_v_tiles2.shape[1])) __pyx_t_10 = 1;
   if (unlikely(__pyx_t_10 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_10);
-    __PYX_ERR(0, 128, __pyx_L1_error)
+    __PYX_ERR(0, 130, __pyx_L1_error)
   }
   *((int *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_tiles2.data + __pyx_t_9 * __pyx_v_tiles2.strides[0]) ) + __pyx_t_8 * __pyx_v_tiles2.strides[1]) )) = __pyx_v_value;
 
-  /* "Utils.pyx":129
+  /* "Utils.pyx":131
  * 
  *     tiles2[row, col] = value
  *     empty -= 1             # <<<<<<<<<<<<<<
@@ -3605,7 +3605,7 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
  */
   __pyx_v_empty = (__pyx_v_empty - 1);
 
-  /* "Utils.pyx":131
+  /* "Utils.pyx":133
  *     empty -= 1
  * 
  *     return tiles, empty, rand_idx1             # <<<<<<<<<<<<<<
@@ -3613,11 +3613,11 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
  * def calc_metrics0(int[:,:] tiles):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_14 = __Pyx_PyInt_From_int(__pyx_v_empty); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 131, __pyx_L1_error)
+  __pyx_t_14 = __Pyx_PyInt_From_int(__pyx_v_empty); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 133, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
-  __pyx_t_13 = __Pyx_PyInt_From_int(__pyx_v_rand_idx1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 131, __pyx_L1_error)
+  __pyx_t_13 = __Pyx_PyInt_From_int(__pyx_v_rand_idx1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 133, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
-  __pyx_t_12 = PyTuple_New(3); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 131, __pyx_L1_error)
+  __pyx_t_12 = PyTuple_New(3); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 133, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __Pyx_INCREF(__pyx_v_tiles);
   __Pyx_GIVEREF(__pyx_v_tiles);
@@ -3632,7 +3632,7 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
   __pyx_t_12 = 0;
   goto __pyx_L0;
 
-  /* "Utils.pyx":100
+  /* "Utils.pyx":102
  * 
  * 
  * def add_random_tile( tiles, float[:] rands, int rand_idx1, short size):             # <<<<<<<<<<<<<<
@@ -3656,19 +3656,19 @@ static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_
   return __pyx_r;
 }
 
-/* "Utils.pyx":133
+/* "Utils.pyx":135
  *     return tiles, empty, rand_idx1
  * 
  * def calc_metrics0(int[:,:] tiles):             # <<<<<<<<<<<<<<
- *     cdef int i = 0
- *     return 0
+ *     cdef int metric
+ * 
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5Utils_5calc_metrics0(PyObject *__pyx_self, PyObject *__pyx_arg_tiles); /*proto*/
 static PyMethodDef __pyx_mdef_5Utils_5calc_metrics0 = {"calc_metrics0", (PyCFunction)__pyx_pw_5Utils_5calc_metrics0, METH_O, 0};
 static PyObject *__pyx_pw_5Utils_5calc_metrics0(PyObject *__pyx_self, PyObject *__pyx_arg_tiles) {
-  CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_tiles = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -3676,7 +3676,7 @@ static PyObject *__pyx_pw_5Utils_5calc_metrics0(PyObject *__pyx_self, PyObject *
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("calc_metrics0 (wrapper)", 0);
   assert(__pyx_arg_tiles); {
-    __pyx_v_tiles = __Pyx_PyObject_to_MemoryviewSlice_dsds_int(__pyx_arg_tiles, PyBUF_WRITABLE); if (unlikely(!__pyx_v_tiles.memview)) __PYX_ERR(0, 133, __pyx_L3_error)
+    __pyx_v_tiles = __Pyx_PyObject_to_MemoryviewSlice_dsds_int(__pyx_arg_tiles, PyBUF_WRITABLE); if (unlikely(!__pyx_v_tiles.memview)) __PYX_ERR(0, 135, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -3691,241 +3691,7 @@ static PyObject *__pyx_pw_5Utils_5calc_metrics0(PyObject *__pyx_self, PyObject *
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5Utils_4calc_metrics0(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles) {
-  CYTHON_UNUSED int __pyx_v_i;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("calc_metrics0", 0);
-
-  /* "Utils.pyx":134
- * 
- * def calc_metrics0(int[:,:] tiles):
- *     cdef int i = 0             # <<<<<<<<<<<<<<
- *     return 0
- * 
- */
-  __pyx_v_i = 0;
-
-  /* "Utils.pyx":135
- * def calc_metrics0(int[:,:] tiles):
- *     cdef int i = 0
- *     return 0             # <<<<<<<<<<<<<<
- * 
- * def calc_metrics1(int[:,:] tiles):
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_int_0);
-  __pyx_r = __pyx_int_0;
-  goto __pyx_L0;
-
-  /* "Utils.pyx":133
- *     return tiles, empty, rand_idx1
- * 
- * def calc_metrics0(int[:,:] tiles):             # <<<<<<<<<<<<<<
- *     cdef int i = 0
- *     return 0
- */
-
-  /* function exit code */
-  __pyx_L0:;
-  __PYX_XDEC_MEMVIEW(&__pyx_v_tiles, 1);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "Utils.pyx":137
- *     return 0
- * 
- * def calc_metrics1(int[:,:] tiles):             # <<<<<<<<<<<<<<
- *     cdef int i = 0
- *     return 0
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_5Utils_7calc_metrics1(PyObject *__pyx_self, PyObject *__pyx_arg_tiles); /*proto*/
-static PyMethodDef __pyx_mdef_5Utils_7calc_metrics1 = {"calc_metrics1", (PyCFunction)__pyx_pw_5Utils_7calc_metrics1, METH_O, 0};
-static PyObject *__pyx_pw_5Utils_7calc_metrics1(PyObject *__pyx_self, PyObject *__pyx_arg_tiles) {
-  CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles = { 0, 0, { 0 }, { 0 }, { 0 } };
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("calc_metrics1 (wrapper)", 0);
-  assert(__pyx_arg_tiles); {
-    __pyx_v_tiles = __Pyx_PyObject_to_MemoryviewSlice_dsds_int(__pyx_arg_tiles, PyBUF_WRITABLE); if (unlikely(!__pyx_v_tiles.memview)) __PYX_ERR(0, 137, __pyx_L3_error)
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("Utils.calc_metrics1", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_5Utils_6calc_metrics1(__pyx_self, __pyx_v_tiles);
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_5Utils_6calc_metrics1(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles) {
-  CYTHON_UNUSED int __pyx_v_i;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("calc_metrics1", 0);
-
-  /* "Utils.pyx":138
- * 
- * def calc_metrics1(int[:,:] tiles):
- *     cdef int i = 0             # <<<<<<<<<<<<<<
- *     return 0
- * 
- */
-  __pyx_v_i = 0;
-
-  /* "Utils.pyx":139
- * def calc_metrics1(int[:,:] tiles):
- *     cdef int i = 0
- *     return 0             # <<<<<<<<<<<<<<
- * 
- * def calc_metrics2(int[:,:] tiles):
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_int_0);
-  __pyx_r = __pyx_int_0;
-  goto __pyx_L0;
-
-  /* "Utils.pyx":137
- *     return 0
- * 
- * def calc_metrics1(int[:,:] tiles):             # <<<<<<<<<<<<<<
- *     cdef int i = 0
- *     return 0
- */
-
-  /* function exit code */
-  __pyx_L0:;
-  __PYX_XDEC_MEMVIEW(&__pyx_v_tiles, 1);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "Utils.pyx":141
- *     return 0
- * 
- * def calc_metrics2(int[:,:] tiles):             # <<<<<<<<<<<<<<
- *     cdef int i = 0
- *     return 0
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_5Utils_9calc_metrics2(PyObject *__pyx_self, PyObject *__pyx_arg_tiles); /*proto*/
-static PyMethodDef __pyx_mdef_5Utils_9calc_metrics2 = {"calc_metrics2", (PyCFunction)__pyx_pw_5Utils_9calc_metrics2, METH_O, 0};
-static PyObject *__pyx_pw_5Utils_9calc_metrics2(PyObject *__pyx_self, PyObject *__pyx_arg_tiles) {
-  CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles = { 0, 0, { 0 }, { 0 }, { 0 } };
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("calc_metrics2 (wrapper)", 0);
-  assert(__pyx_arg_tiles); {
-    __pyx_v_tiles = __Pyx_PyObject_to_MemoryviewSlice_dsds_int(__pyx_arg_tiles, PyBUF_WRITABLE); if (unlikely(!__pyx_v_tiles.memview)) __PYX_ERR(0, 141, __pyx_L3_error)
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("Utils.calc_metrics2", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_5Utils_8calc_metrics2(__pyx_self, __pyx_v_tiles);
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_5Utils_8calc_metrics2(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles) {
-  CYTHON_UNUSED int __pyx_v_i;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("calc_metrics2", 0);
-
-  /* "Utils.pyx":142
- * 
- * def calc_metrics2(int[:,:] tiles):
- *     cdef int i = 0             # <<<<<<<<<<<<<<
- *     return 0
- * 
- */
-  __pyx_v_i = 0;
-
-  /* "Utils.pyx":143
- * def calc_metrics2(int[:,:] tiles):
- *     cdef int i = 0
- *     return 0             # <<<<<<<<<<<<<<
- * 
- * def calc_metrics3(int[:,:] tiles):
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_int_0);
-  __pyx_r = __pyx_int_0;
-  goto __pyx_L0;
-
-  /* "Utils.pyx":141
- *     return 0
- * 
- * def calc_metrics2(int[:,:] tiles):             # <<<<<<<<<<<<<<
- *     cdef int i = 0
- *     return 0
- */
-
-  /* function exit code */
-  __pyx_L0:;
-  __PYX_XDEC_MEMVIEW(&__pyx_v_tiles, 1);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "Utils.pyx":145
- *     return 0
- * 
- * def calc_metrics3(int[:,:] tiles):             # <<<<<<<<<<<<<<
- * 
- *     cdef int metric
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_5Utils_11calc_metrics3(PyObject *__pyx_self, PyObject *__pyx_arg_tiles); /*proto*/
-static PyMethodDef __pyx_mdef_5Utils_11calc_metrics3 = {"calc_metrics3", (PyCFunction)__pyx_pw_5Utils_11calc_metrics3, METH_O, 0};
-static PyObject *__pyx_pw_5Utils_11calc_metrics3(PyObject *__pyx_self, PyObject *__pyx_arg_tiles) {
-  __Pyx_memviewslice __pyx_v_tiles = { 0, 0, { 0 }, { 0 }, { 0 } };
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("calc_metrics3 (wrapper)", 0);
-  assert(__pyx_arg_tiles); {
-    __pyx_v_tiles = __Pyx_PyObject_to_MemoryviewSlice_dsds_int(__pyx_arg_tiles, PyBUF_WRITABLE); if (unlikely(!__pyx_v_tiles.memview)) __PYX_ERR(0, 145, __pyx_L3_error)
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("Utils.calc_metrics3", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_5Utils_10calc_metrics3(__pyx_self, __pyx_v_tiles);
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_5Utils_10calc_metrics3(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_tiles) {
+static PyObject *__pyx_pf_5Utils_4calc_metrics0(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_tiles) {
   int __pyx_v_metric;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -3950,9 +3716,9 @@ static PyObject *__pyx_pf_5Utils_10calc_metrics3(CYTHON_UNUSED PyObject *__pyx_s
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("calc_metrics3", 0);
+  __Pyx_RefNannySetupContext("calc_metrics0", 0);
 
-  /* "Utils.pyx":149
+  /* "Utils.pyx":138
  *     cdef int metric
  * 
  *     metric = int(tiles[0, 3] * 256 + tiles[1, 3] * 128 +             # <<<<<<<<<<<<<<
@@ -3972,7 +3738,7 @@ static PyObject *__pyx_pf_5Utils_10calc_metrics3(CYTHON_UNUSED PyObject *__pyx_s
   } else if (unlikely(__pyx_t_2 >= __pyx_v_tiles.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(0, 149, __pyx_L1_error)
+    __PYX_ERR(0, 138, __pyx_L1_error)
   }
   __pyx_t_4 = 1;
   __pyx_t_5 = 3;
@@ -3987,10 +3753,10 @@ static PyObject *__pyx_pf_5Utils_10calc_metrics3(CYTHON_UNUSED PyObject *__pyx_s
   } else if (unlikely(__pyx_t_5 >= __pyx_v_tiles.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(0, 149, __pyx_L1_error)
+    __PYX_ERR(0, 138, __pyx_L1_error)
   }
 
-  /* "Utils.pyx":150
+  /* "Utils.pyx":139
  * 
  *     metric = int(tiles[0, 3] * 256 + tiles[1, 3] * 128 +
  *                  tiles[2, 3] * 64 + tiles[3, 3] * 32 +             # <<<<<<<<<<<<<<
@@ -4010,10 +3776,10 @@ static PyObject *__pyx_pf_5Utils_10calc_metrics3(CYTHON_UNUSED PyObject *__pyx_s
   } else if (unlikely(__pyx_t_7 >= __pyx_v_tiles.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(0, 150, __pyx_L1_error)
+    __PYX_ERR(0, 139, __pyx_L1_error)
   }
 
-  /* "Utils.pyx":149
+  /* "Utils.pyx":138
  *     cdef int metric
  * 
  *     metric = int(tiles[0, 3] * 256 + tiles[1, 3] * 128 +             # <<<<<<<<<<<<<<
@@ -4033,10 +3799,10 @@ static PyObject *__pyx_pf_5Utils_10calc_metrics3(CYTHON_UNUSED PyObject *__pyx_s
   } else if (unlikely(__pyx_t_9 >= __pyx_v_tiles.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(0, 150, __pyx_L1_error)
+    __PYX_ERR(0, 139, __pyx_L1_error)
   }
 
-  /* "Utils.pyx":151
+  /* "Utils.pyx":140
  *     metric = int(tiles[0, 3] * 256 + tiles[1, 3] * 128 +
  *                  tiles[2, 3] * 64 + tiles[3, 3] * 32 +
  *                  tiles[3, 2] * 16 + tiles[2, 2] * 8 +             # <<<<<<<<<<<<<<
@@ -4056,10 +3822,10 @@ static PyObject *__pyx_pf_5Utils_10calc_metrics3(CYTHON_UNUSED PyObject *__pyx_s
   } else if (unlikely(__pyx_t_11 >= __pyx_v_tiles.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(0, 151, __pyx_L1_error)
+    __PYX_ERR(0, 140, __pyx_L1_error)
   }
 
-  /* "Utils.pyx":150
+  /* "Utils.pyx":139
  * 
  *     metric = int(tiles[0, 3] * 256 + tiles[1, 3] * 128 +
  *                  tiles[2, 3] * 64 + tiles[3, 3] * 32 +             # <<<<<<<<<<<<<<
@@ -4079,10 +3845,10 @@ static PyObject *__pyx_pf_5Utils_10calc_metrics3(CYTHON_UNUSED PyObject *__pyx_s
   } else if (unlikely(__pyx_t_13 >= __pyx_v_tiles.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(0, 151, __pyx_L1_error)
+    __PYX_ERR(0, 140, __pyx_L1_error)
   }
 
-  /* "Utils.pyx":152
+  /* "Utils.pyx":141
  *                  tiles[2, 3] * 64 + tiles[3, 3] * 32 +
  *                  tiles[3, 2] * 16 + tiles[2, 2] * 8 +
  *                  tiles[1, 2] * 4 + tiles[0, 2] * 2)             # <<<<<<<<<<<<<<
@@ -4102,10 +3868,10 @@ static PyObject *__pyx_pf_5Utils_10calc_metrics3(CYTHON_UNUSED PyObject *__pyx_s
   } else if (unlikely(__pyx_t_15 >= __pyx_v_tiles.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(0, 152, __pyx_L1_error)
+    __PYX_ERR(0, 141, __pyx_L1_error)
   }
 
-  /* "Utils.pyx":151
+  /* "Utils.pyx":140
  *     metric = int(tiles[0, 3] * 256 + tiles[1, 3] * 128 +
  *                  tiles[2, 3] * 64 + tiles[3, 3] * 32 +
  *                  tiles[3, 2] * 16 + tiles[2, 2] * 8 +             # <<<<<<<<<<<<<<
@@ -4125,10 +3891,10 @@ static PyObject *__pyx_pf_5Utils_10calc_metrics3(CYTHON_UNUSED PyObject *__pyx_s
   } else if (unlikely(__pyx_t_17 >= __pyx_v_tiles.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(0, 152, __pyx_L1_error)
+    __PYX_ERR(0, 141, __pyx_L1_error)
   }
 
-  /* "Utils.pyx":149
+  /* "Utils.pyx":138
  *     cdef int metric
  * 
  *     metric = int(tiles[0, 3] * 256 + tiles[1, 3] * 128 +             # <<<<<<<<<<<<<<
@@ -4137,33 +3903,267 @@ static PyObject *__pyx_pf_5Utils_10calc_metrics3(CYTHON_UNUSED PyObject *__pyx_s
  */
   __pyx_v_metric = ((int)(((((((((*((int *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_tiles.data + __pyx_t_1 * __pyx_v_tiles.strides[0]) ) + __pyx_t_2 * __pyx_v_tiles.strides[1]) ))) * 0x100) + ((*((int *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_tiles.data + __pyx_t_4 * __pyx_v_tiles.strides[0]) ) + __pyx_t_5 * __pyx_v_tiles.strides[1]) ))) * 0x80)) + ((*((int *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_tiles.data + __pyx_t_6 * __pyx_v_tiles.strides[0]) ) + __pyx_t_7 * __pyx_v_tiles.strides[1]) ))) * 64)) + ((*((int *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_tiles.data + __pyx_t_8 * __pyx_v_tiles.strides[0]) ) + __pyx_t_9 * __pyx_v_tiles.strides[1]) ))) * 32)) + ((*((int *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_tiles.data + __pyx_t_10 * __pyx_v_tiles.strides[0]) ) + __pyx_t_11 * __pyx_v_tiles.strides[1]) ))) * 16)) + ((*((int *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_tiles.data + __pyx_t_12 * __pyx_v_tiles.strides[0]) ) + __pyx_t_13 * __pyx_v_tiles.strides[1]) ))) * 8)) + ((*((int *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_tiles.data + __pyx_t_14 * __pyx_v_tiles.strides[0]) ) + __pyx_t_15 * __pyx_v_tiles.strides[1]) ))) * 4)) + ((*((int *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_tiles.data + __pyx_t_16 * __pyx_v_tiles.strides[0]) ) + __pyx_t_17 * __pyx_v_tiles.strides[1]) ))) * 2)));
 
-  /* "Utils.pyx":154
+  /* "Utils.pyx":143
  *                  tiles[1, 2] * 4 + tiles[0, 2] * 2)
  * 
  *     return metric             # <<<<<<<<<<<<<<
  * 
- * 
+ * def calc_metrics1(int[:,:] tiles):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_18 = __Pyx_PyInt_From_int(__pyx_v_metric); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 154, __pyx_L1_error)
+  __pyx_t_18 = __Pyx_PyInt_From_int(__pyx_v_metric); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 143, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_18);
   __pyx_r = __pyx_t_18;
   __pyx_t_18 = 0;
   goto __pyx_L0;
 
-  /* "Utils.pyx":145
- *     return 0
+  /* "Utils.pyx":135
+ *     return tiles, empty, rand_idx1
  * 
- * def calc_metrics3(int[:,:] tiles):             # <<<<<<<<<<<<<<
- * 
+ * def calc_metrics0(int[:,:] tiles):             # <<<<<<<<<<<<<<
  *     cdef int metric
+ * 
  */
 
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_18);
-  __Pyx_AddTraceback("Utils.calc_metrics3", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("Utils.calc_metrics0", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
+  __pyx_L0:;
+  __PYX_XDEC_MEMVIEW(&__pyx_v_tiles, 1);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "Utils.pyx":145
+ *     return metric
+ * 
+ * def calc_metrics1(int[:,:] tiles):             # <<<<<<<<<<<<<<
+ *     cdef int i = 0
+ *     return 0
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5Utils_7calc_metrics1(PyObject *__pyx_self, PyObject *__pyx_arg_tiles); /*proto*/
+static PyMethodDef __pyx_mdef_5Utils_7calc_metrics1 = {"calc_metrics1", (PyCFunction)__pyx_pw_5Utils_7calc_metrics1, METH_O, 0};
+static PyObject *__pyx_pw_5Utils_7calc_metrics1(PyObject *__pyx_self, PyObject *__pyx_arg_tiles) {
+  CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("calc_metrics1 (wrapper)", 0);
+  assert(__pyx_arg_tiles); {
+    __pyx_v_tiles = __Pyx_PyObject_to_MemoryviewSlice_dsds_int(__pyx_arg_tiles, PyBUF_WRITABLE); if (unlikely(!__pyx_v_tiles.memview)) __PYX_ERR(0, 145, __pyx_L3_error)
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("Utils.calc_metrics1", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_5Utils_6calc_metrics1(__pyx_self, __pyx_v_tiles);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5Utils_6calc_metrics1(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles) {
+  CYTHON_UNUSED int __pyx_v_i;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("calc_metrics1", 0);
+
+  /* "Utils.pyx":146
+ * 
+ * def calc_metrics1(int[:,:] tiles):
+ *     cdef int i = 0             # <<<<<<<<<<<<<<
+ *     return 0
+ * 
+ */
+  __pyx_v_i = 0;
+
+  /* "Utils.pyx":147
+ * def calc_metrics1(int[:,:] tiles):
+ *     cdef int i = 0
+ *     return 0             # <<<<<<<<<<<<<<
+ * 
+ * def calc_metrics2(int[:,:] tiles):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_int_0);
+  __pyx_r = __pyx_int_0;
+  goto __pyx_L0;
+
+  /* "Utils.pyx":145
+ *     return metric
+ * 
+ * def calc_metrics1(int[:,:] tiles):             # <<<<<<<<<<<<<<
+ *     cdef int i = 0
+ *     return 0
+ */
+
+  /* function exit code */
+  __pyx_L0:;
+  __PYX_XDEC_MEMVIEW(&__pyx_v_tiles, 1);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "Utils.pyx":149
+ *     return 0
+ * 
+ * def calc_metrics2(int[:,:] tiles):             # <<<<<<<<<<<<<<
+ *     cdef int i = 0
+ *     return 0
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5Utils_9calc_metrics2(PyObject *__pyx_self, PyObject *__pyx_arg_tiles); /*proto*/
+static PyMethodDef __pyx_mdef_5Utils_9calc_metrics2 = {"calc_metrics2", (PyCFunction)__pyx_pw_5Utils_9calc_metrics2, METH_O, 0};
+static PyObject *__pyx_pw_5Utils_9calc_metrics2(PyObject *__pyx_self, PyObject *__pyx_arg_tiles) {
+  CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("calc_metrics2 (wrapper)", 0);
+  assert(__pyx_arg_tiles); {
+    __pyx_v_tiles = __Pyx_PyObject_to_MemoryviewSlice_dsds_int(__pyx_arg_tiles, PyBUF_WRITABLE); if (unlikely(!__pyx_v_tiles.memview)) __PYX_ERR(0, 149, __pyx_L3_error)
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("Utils.calc_metrics2", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_5Utils_8calc_metrics2(__pyx_self, __pyx_v_tiles);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5Utils_8calc_metrics2(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles) {
+  CYTHON_UNUSED int __pyx_v_i;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("calc_metrics2", 0);
+
+  /* "Utils.pyx":150
+ * 
+ * def calc_metrics2(int[:,:] tiles):
+ *     cdef int i = 0             # <<<<<<<<<<<<<<
+ *     return 0
+ * 
+ */
+  __pyx_v_i = 0;
+
+  /* "Utils.pyx":151
+ * def calc_metrics2(int[:,:] tiles):
+ *     cdef int i = 0
+ *     return 0             # <<<<<<<<<<<<<<
+ * 
+ * def calc_metrics3(int[:,:] tiles):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_int_0);
+  __pyx_r = __pyx_int_0;
+  goto __pyx_L0;
+
+  /* "Utils.pyx":149
+ *     return 0
+ * 
+ * def calc_metrics2(int[:,:] tiles):             # <<<<<<<<<<<<<<
+ *     cdef int i = 0
+ *     return 0
+ */
+
+  /* function exit code */
+  __pyx_L0:;
+  __PYX_XDEC_MEMVIEW(&__pyx_v_tiles, 1);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "Utils.pyx":153
+ *     return 0
+ * 
+ * def calc_metrics3(int[:,:] tiles):             # <<<<<<<<<<<<<<
+ *     cdef int i = 0
+ *     return 0
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5Utils_11calc_metrics3(PyObject *__pyx_self, PyObject *__pyx_arg_tiles); /*proto*/
+static PyMethodDef __pyx_mdef_5Utils_11calc_metrics3 = {"calc_metrics3", (PyCFunction)__pyx_pw_5Utils_11calc_metrics3, METH_O, 0};
+static PyObject *__pyx_pw_5Utils_11calc_metrics3(PyObject *__pyx_self, PyObject *__pyx_arg_tiles) {
+  CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("calc_metrics3 (wrapper)", 0);
+  assert(__pyx_arg_tiles); {
+    __pyx_v_tiles = __Pyx_PyObject_to_MemoryviewSlice_dsds_int(__pyx_arg_tiles, PyBUF_WRITABLE); if (unlikely(!__pyx_v_tiles.memview)) __PYX_ERR(0, 153, __pyx_L3_error)
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("Utils.calc_metrics3", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_5Utils_10calc_metrics3(__pyx_self, __pyx_v_tiles);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5Utils_10calc_metrics3(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles) {
+  CYTHON_UNUSED int __pyx_v_i;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("calc_metrics3", 0);
+
+  /* "Utils.pyx":154
+ * 
+ * def calc_metrics3(int[:,:] tiles):
+ *     cdef int i = 0             # <<<<<<<<<<<<<<
+ *     return 0
+ * 
+ */
+  __pyx_v_i = 0;
+
+  /* "Utils.pyx":155
+ * def calc_metrics3(int[:,:] tiles):
+ *     cdef int i = 0
+ *     return 0             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_int_0);
+  __pyx_r = __pyx_int_0;
+  goto __pyx_L0;
+
+  /* "Utils.pyx":153
+ *     return 0
+ * 
+ * def calc_metrics3(int[:,:] tiles):             # <<<<<<<<<<<<<<
+ *     cdef int i = 0
+ *     return 0
+ */
+
+  /* function exit code */
   __pyx_L0:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_tiles, 1);
   __Pyx_XGIVEREF(__pyx_r);
@@ -18090,7 +18090,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 18, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 133, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(1, 148, __pyx_L1_error)
   __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(1, 151, __pyx_L1_error)
@@ -18302,74 +18302,74 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "Utils.pyx":6
  * DTYPE = np.intc
  * 
- * def move_tiles(short direction, short size, tiles, int score):             # <<<<<<<<<<<<<<
+ * def move_tiles(short direction, tiles, int score, short size):             # <<<<<<<<<<<<<<
  * 
  *     cdef short idx1, place_idx, eval_idx, inc, row1, row2, col1, col2
  */
-  __pyx_tuple__19 = PyTuple_Pack(16, __pyx_n_s_direction, __pyx_n_s_size, __pyx_n_s_tiles, __pyx_n_s_score, __pyx_n_s_idx1, __pyx_n_s_place_idx, __pyx_n_s_eval_idx, __pyx_n_s_inc, __pyx_n_s_row1, __pyx_n_s_row2, __pyx_n_s_col1, __pyx_n_s_col2, __pyx_n_s_tile_sum, __pyx_n_s_valid_move, __pyx_n_s_tiles1, __pyx_n_s_tiles2); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_tuple__19 = PyTuple_Pack(16, __pyx_n_s_direction, __pyx_n_s_tiles, __pyx_n_s_score, __pyx_n_s_size, __pyx_n_s_idx1, __pyx_n_s_place_idx, __pyx_n_s_eval_idx, __pyx_n_s_inc, __pyx_n_s_row1, __pyx_n_s_row2, __pyx_n_s_col1, __pyx_n_s_col2, __pyx_n_s_tile_sum, __pyx_n_s_valid_move, __pyx_n_s_tiles1, __pyx_n_s_tiles2); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__19);
   __Pyx_GIVEREF(__pyx_tuple__19);
   __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(4, 0, 16, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Utils_pyx, __pyx_n_s_move_tiles, 6, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 6, __pyx_L1_error)
 
-  /* "Utils.pyx":100
+  /* "Utils.pyx":102
  * 
  * 
  * def add_random_tile( tiles, float[:] rands, int rand_idx1, short size):             # <<<<<<<<<<<<<<
  * 
  *     cdef short row, col, rand_idx2
  */
-  __pyx_tuple__21 = PyTuple_Pack(11, __pyx_n_s_tiles, __pyx_n_s_rands, __pyx_n_s_rand_idx1, __pyx_n_s_size, __pyx_n_s_row, __pyx_n_s_col, __pyx_n_s_rand_idx2, __pyx_n_s_open_positions, __pyx_n_s_value, __pyx_n_s_empty, __pyx_n_s_tiles2); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __pyx_tuple__21 = PyTuple_Pack(11, __pyx_n_s_tiles, __pyx_n_s_rands, __pyx_n_s_rand_idx1, __pyx_n_s_size, __pyx_n_s_row, __pyx_n_s_col, __pyx_n_s_rand_idx2, __pyx_n_s_open_positions, __pyx_n_s_value, __pyx_n_s_empty, __pyx_n_s_tiles2); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__21);
   __Pyx_GIVEREF(__pyx_tuple__21);
-  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(4, 0, 11, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Utils_pyx, __pyx_n_s_add_random_tile, 100, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(4, 0, 11, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Utils_pyx, __pyx_n_s_add_random_tile, 102, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 102, __pyx_L1_error)
 
-  /* "Utils.pyx":133
+  /* "Utils.pyx":135
  *     return tiles, empty, rand_idx1
  * 
  * def calc_metrics0(int[:,:] tiles):             # <<<<<<<<<<<<<<
- *     cdef int i = 0
- *     return 0
+ *     cdef int metric
+ * 
  */
-  __pyx_tuple__23 = PyTuple_Pack(3, __pyx_n_s_tiles, __pyx_n_s_tiles, __pyx_n_s_i); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __pyx_tuple__23 = PyTuple_Pack(3, __pyx_n_s_tiles, __pyx_n_s_tiles, __pyx_n_s_metric); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__23);
   __Pyx_GIVEREF(__pyx_tuple__23);
-  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Utils_pyx, __pyx_n_s_calc_metrics0, 133, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Utils_pyx, __pyx_n_s_calc_metrics0, 135, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 135, __pyx_L1_error)
 
-  /* "Utils.pyx":137
- *     return 0
+  /* "Utils.pyx":145
+ *     return metric
  * 
  * def calc_metrics1(int[:,:] tiles):             # <<<<<<<<<<<<<<
  *     cdef int i = 0
  *     return 0
  */
-  __pyx_tuple__25 = PyTuple_Pack(3, __pyx_n_s_tiles, __pyx_n_s_tiles, __pyx_n_s_i); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 137, __pyx_L1_error)
+  __pyx_tuple__25 = PyTuple_Pack(3, __pyx_n_s_tiles, __pyx_n_s_tiles, __pyx_n_s_i); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 145, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__25);
   __Pyx_GIVEREF(__pyx_tuple__25);
-  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Utils_pyx, __pyx_n_s_calc_metrics1, 137, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 137, __pyx_L1_error)
+  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Utils_pyx, __pyx_n_s_calc_metrics1, 145, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 145, __pyx_L1_error)
 
-  /* "Utils.pyx":141
+  /* "Utils.pyx":149
  *     return 0
  * 
  * def calc_metrics2(int[:,:] tiles):             # <<<<<<<<<<<<<<
  *     cdef int i = 0
  *     return 0
  */
-  __pyx_tuple__27 = PyTuple_Pack(3, __pyx_n_s_tiles, __pyx_n_s_tiles, __pyx_n_s_i); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 141, __pyx_L1_error)
+  __pyx_tuple__27 = PyTuple_Pack(3, __pyx_n_s_tiles, __pyx_n_s_tiles, __pyx_n_s_i); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 149, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__27);
   __Pyx_GIVEREF(__pyx_tuple__27);
-  __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Utils_pyx, __pyx_n_s_calc_metrics2, 141, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) __PYX_ERR(0, 141, __pyx_L1_error)
+  __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Utils_pyx, __pyx_n_s_calc_metrics2, 149, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) __PYX_ERR(0, 149, __pyx_L1_error)
 
-  /* "Utils.pyx":145
+  /* "Utils.pyx":153
  *     return 0
  * 
  * def calc_metrics3(int[:,:] tiles):             # <<<<<<<<<<<<<<
- * 
- *     cdef int metric
+ *     cdef int i = 0
+ *     return 0
  */
-  __pyx_tuple__29 = PyTuple_Pack(3, __pyx_n_s_tiles, __pyx_n_s_tiles, __pyx_n_s_metric); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 145, __pyx_L1_error)
+  __pyx_tuple__29 = PyTuple_Pack(3, __pyx_n_s_tiles, __pyx_n_s_tiles, __pyx_n_s_i); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 153, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__29);
   __Pyx_GIVEREF(__pyx_tuple__29);
-  __pyx_codeobj__30 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Utils_pyx, __pyx_n_s_calc_metrics3, 145, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__30)) __PYX_ERR(0, 145, __pyx_L1_error)
+  __pyx_codeobj__30 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Utils_pyx, __pyx_n_s_calc_metrics3, 153, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__30)) __PYX_ERR(0, 153, __pyx_L1_error)
 
   /* "View.MemoryView":286
  *         return self.name
@@ -18816,7 +18816,7 @@ if (!__Pyx_RefNanny) {
  * 
  * DTYPE = np.intc             # <<<<<<<<<<<<<<
  * 
- * def move_tiles(short direction, short size, tiles, int score):
+ * def move_tiles(short direction, tiles, int score, short size):
  */
   __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -18829,7 +18829,7 @@ if (!__Pyx_RefNanny) {
   /* "Utils.pyx":6
  * DTYPE = np.intc
  * 
- * def move_tiles(short direction, short size, tiles, int score):             # <<<<<<<<<<<<<<
+ * def move_tiles(short direction, tiles, int score, short size):             # <<<<<<<<<<<<<<
  * 
  *     cdef short idx1, place_idx, eval_idx, inc, row1, row2, col1, col2
  */
@@ -18838,64 +18838,64 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_move_tiles, __pyx_t_1) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "Utils.pyx":100
+  /* "Utils.pyx":102
  * 
  * 
  * def add_random_tile( tiles, float[:] rands, int rand_idx1, short size):             # <<<<<<<<<<<<<<
  * 
  *     cdef short row, col, rand_idx2
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5Utils_3add_random_tile, NULL, __pyx_n_s_Utils); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5Utils_3add_random_tile, NULL, __pyx_n_s_Utils); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_add_random_tile, __pyx_t_1) < 0) __PYX_ERR(0, 100, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_add_random_tile, __pyx_t_1) < 0) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "Utils.pyx":133
+  /* "Utils.pyx":135
  *     return tiles, empty, rand_idx1
  * 
  * def calc_metrics0(int[:,:] tiles):             # <<<<<<<<<<<<<<
- *     cdef int i = 0
- *     return 0
+ *     cdef int metric
+ * 
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5Utils_5calc_metrics0, NULL, __pyx_n_s_Utils); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5Utils_5calc_metrics0, NULL, __pyx_n_s_Utils); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_calc_metrics0, __pyx_t_1) < 0) __PYX_ERR(0, 133, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_calc_metrics0, __pyx_t_1) < 0) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "Utils.pyx":137
- *     return 0
+  /* "Utils.pyx":145
+ *     return metric
  * 
  * def calc_metrics1(int[:,:] tiles):             # <<<<<<<<<<<<<<
  *     cdef int i = 0
  *     return 0
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5Utils_7calc_metrics1, NULL, __pyx_n_s_Utils); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 137, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5Utils_7calc_metrics1, NULL, __pyx_n_s_Utils); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 145, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_calc_metrics1, __pyx_t_1) < 0) __PYX_ERR(0, 137, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_calc_metrics1, __pyx_t_1) < 0) __PYX_ERR(0, 145, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "Utils.pyx":141
+  /* "Utils.pyx":149
  *     return 0
  * 
  * def calc_metrics2(int[:,:] tiles):             # <<<<<<<<<<<<<<
  *     cdef int i = 0
  *     return 0
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5Utils_9calc_metrics2, NULL, __pyx_n_s_Utils); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 141, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5Utils_9calc_metrics2, NULL, __pyx_n_s_Utils); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 149, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_calc_metrics2, __pyx_t_1) < 0) __PYX_ERR(0, 141, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_calc_metrics2, __pyx_t_1) < 0) __PYX_ERR(0, 149, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "Utils.pyx":145
+  /* "Utils.pyx":153
  *     return 0
  * 
  * def calc_metrics3(int[:,:] tiles):             # <<<<<<<<<<<<<<
- * 
- *     cdef int metric
+ *     cdef int i = 0
+ *     return 0
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5Utils_11calc_metrics3, NULL, __pyx_n_s_Utils); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 145, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5Utils_11calc_metrics3, NULL, __pyx_n_s_Utils); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_calc_metrics3, __pyx_t_1) < 0) __PYX_ERR(0, 145, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_calc_metrics3, __pyx_t_1) < 0) __PYX_ERR(0, 153, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "Utils.pyx":1

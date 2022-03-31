@@ -3,7 +3,7 @@ from random import random
 
 DTYPE = np.intc
 
-def move_tiles(short direction, short size, tiles, int score):
+def move_tiles(short direction, tiles, int score, short size):
 
     cdef short idx1, place_idx, eval_idx, inc, row1, row2, col1, col2
     cdef int tile_sum
@@ -11,6 +11,8 @@ def move_tiles(short direction, short size, tiles, int score):
 
     tiles1 = np.copy(tiles)
     cdef int[:,:] tiles2 = tiles1
+
+    # --- Begin primary move_tiles loop
 
     # For each row (if left/right) or col (if up/down)
     for idx1 in range(size):
@@ -131,8 +133,14 @@ def add_random_tile( tiles, float[:] rands, int rand_idx1, short size):
     return tiles, empty, rand_idx1
 
 def calc_metrics0(int[:,:] tiles):
-    cdef int i = 0
-    return 0
+    cdef int metric
+
+    metric = int(tiles[0, 3] * 256 + tiles[1, 3] * 128 +
+                 tiles[2, 3] * 64 + tiles[3, 3] * 32 +
+                 tiles[3, 2] * 16 + tiles[2, 2] * 8 +
+                 tiles[1, 2] * 4 + tiles[0, 2] * 2)
+
+    return metric
 
 def calc_metrics1(int[:,:] tiles):
     cdef int i = 0
@@ -143,14 +151,8 @@ def calc_metrics2(int[:,:] tiles):
     return 0
 
 def calc_metrics3(int[:,:] tiles):
+    cdef int i = 0
+    return 0
 
-    cdef int metric
-
-    metric = int(tiles[0, 3] * 256 + tiles[1, 3] * 128 +
-                 tiles[2, 3] * 64 + tiles[3, 3] * 32 +
-                 tiles[3, 2] * 16 + tiles[2, 2] * 8 +
-                 tiles[1, 2] * 4 + tiles[0, 2] * 2)
-
-    return metric
 
 

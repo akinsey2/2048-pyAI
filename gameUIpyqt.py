@@ -28,28 +28,26 @@ class CentralWidget(QtWidgets.QWidget):
     # Custom Handler for keyboard key press events
     def keyPressEvent(self, event):
 
+        self.releaseKeyboard()
+
         if not isinstance(event, QtGui.QKeyEvent):
             raise TypeError("CentralWidget keyPressEvent() event is NOT QKeyEvent() ")
 
         if event.key() == QtCore.Qt.Key.Key_Up.value:
             # print("MOVE UP")
-            self.releaseKeyboard()
-            valid_move, tile_move_vect = self.ui_mainwindow.game.move_tiles(0)  # '0' means 'Up'
+            valid_move, tile_move_vect = self.ui_mainwindow.game.move_tiles(0, True)  # '0' means 'Up'
 
         elif event.key() == QtCore.Qt.Key.Key_Right.value:
             # print("MOVE RIGHT")
-            self.releaseKeyboard()
-            valid_move, tile_move_vect = self.ui_mainwindow.game.move_tiles(1)  # '1' means 'Right'
+            valid_move, tile_move_vect = self.ui_mainwindow.game.move_tiles(1, True)  # '1' means 'Right'
 
         elif event.key() == QtCore.Qt.Key.Key_Down.value:
             # print("MOVE DOWN")
-            self.releaseKeyboard()
-            valid_move, tile_move_vect = self.ui_mainwindow.game.move_tiles(2)  # '2' means 'Down'
+            valid_move, tile_move_vect = self.ui_mainwindow.game.move_tiles(2, True)  # '2' means 'Down'
 
         elif event.key() == QtCore.Qt.Key.Key_Left.value:
             # print("MOVE LEFT")
-            self.releaseKeyboard()
-            valid_move, tile_move_vect = self.ui_mainwindow.game.move_tiles(3)  # '3' means 'Left'
+            valid_move, tile_move_vect = self.ui_mainwindow.game.move_tiles(3, True)  # '3' means 'Left'
 
         else:
             valid_move = False
@@ -266,6 +264,11 @@ class UiMainWindow(object):
         self.game = None
         self.current_game = False
         self.is_paused = True
+
+        self.tile_widgets = [[None] * SIZE for _ in range(SIZE)]
+        self.next_tile_widgets = [[None] * SIZE for _ in range(SIZE)]
+        self.tiles_to_delete = []
+
         self.anim_group = None
         self.anim_duration = 100
 
@@ -328,7 +331,7 @@ class UiMainWindow(object):
 
     def autoplay_start(self):
         self.centralwidget.releaseKeyboard()
-        self.autoplayer = AutoPlay.AutoPlayer(self.game.tiles_nums, self.game.score, 7, 12, 3)
+        self.autoplayer = AutoPlay.AutoPlayer(self.game)
         self.autoplaying = True
         self.ap_start_button.setText("Pause AutoPlay")
         self.autoplay_timer.start()
@@ -341,11 +344,10 @@ class UiMainWindow(object):
 
     def autoplay_move(self):
 
-        move_dir = self.autoplayer.get_move(self.game.tiles_nums)
-        valid_move, tile_move_vect = self.game.move_tiles(move_dir)
+        move_dir = self.autoplayer.get_move()
+        valid_move, tile_move_vect = self.game.move_tiles(move_dir, True)
 
-        if valid_move:
-            self.animate_tiles(tile_move_vect)
+        self.animate_tiles(tile_move_vect)
 
     def update_ap_speed(self):
 
@@ -366,15 +368,13 @@ class UiMainWindow(object):
 
         # # DEBUG
         # print("Raw Tiles")
-        # pprint.pp(self.game.tiles_nums)
+        # pprint.pp(self.game.tiles)
         # print("Tile Widgets")
-        # pprint.pp(self.game.tile_widgets)
+        # pprint.pp(self.tile_widgets)
         # print("Vectors")
         # pprint.pp(vectors)
-        # print("Next Raw Tiles")
-        # pprint.pp(self.game.next_tiles_nums)
         # print("Next Tile Widgets")
-        # pprint.pp(self.game.next_tile_widgets)
+        # pprint.pp(self.next_tile_widgets)
 
         self.anim_group = QtCore.QParallelAnimationGroup()
         anims = []
@@ -384,25 +384,55 @@ class UiMainWindow(object):
             for col in range(SIZE):
                 if vectors[row][col][0] or vectors[row][col][1]:
 
-                    end_x = self.game.tile_widgets[row][col].x() + 100 * vectors[row][col][0]
-                    end_y = self.game.tile_widgets[row][col].y() + 100 * vectors[row][col][1]
-                    anims.append(QtCore.QPropertyAnimation(self.game.tile_widgets[row][col], b"pos"))
-                    anims[-1].setStartValue(self.game.tile_widgets[row][col].pos())
+                    end_x = self.tile_widgets[row][col].x() + 100 * vectors[row][col][0]
+                    end_y = self.tile_widgets[row][col].y() + 100 * vectors[row][col][1]
+                    anims.append(QtCore.QPropertyAnimation(self.tile_widgets[row][col], b"pos"))
+                    anims[-1].setStartValue(self.tile_widgets[row][col].pos())
                     anims[-1].setEndValue(QtCore.QPoint(end_x, end_y))
                     anims[-1].setDuration(self.anim_duration)
                     anims[-1].setEasingCurve(QtCore.QEasingCurve.Type.Linear)
                     self.anim_group.addAnimation(anims[-1])
 
-        self.anim_group.finished.connect(self.anim_complete)
+        self.anim_group.finished.connect(self.delete_and_new)
         self.autoplay_timer.stop()
         self.anim_group.start()
-        # self.centralwidget.releaseKeyboard()
 
-    def anim_complete(self):
+    def delete_and_new(self):
+
         if self.autoplaying:
             self.autoplay_timer.start()
 
-        self.game.delete_and_new()
+        for tile in self.tiles_to_delete:
+            tile.hide()
+            tile.destroy()
+
+        self.curr_score.setText(str(self.game.score))
+        self.tile_widgets = self.next_tile_widgets
+
+        empty = 0
+        for row in range(SIZE):
+            for col in range(SIZE):
+
+                if self.tile_widgets[row][col]:
+                    self.tile_widgets[row][col].update_num(self.game.tiles[row][col])
+                    self.tile_widgets[row][col].show()
+
+                    if (not self.game.already_won) and self.game.tiles[row][col] == 2048:
+                        keep_playing = self.won_game()
+                        if keep_playing:
+                            self.game.already_won = True
+                            continue
+                        else:
+                            self.stop_game()
+
+        self.tiles_to_delete.clear()
+        self.game.add_random_tile()
+        self.centralwidget.grabKeyboard()
+
+    def add_tile(self, row, col, value):
+
+        self.tile_widgets[row][col] = TileWidget(self.game_board, value, row, col)
+        self.tile_widgets[row][col].show()
 
     def game_over(self):
 
@@ -450,19 +480,19 @@ class UiMainWindow(object):
         if self.game:
             for row in range(SIZE):
                 for col in range(SIZE):
-                    if self.game.tile_widgets[row][col]:
-                        self.game.tile_widgets[row][col].hide()
-                        self.game.tile_widgets[row][col].destroy()
+                    if self.tile_widgets[row][col]:
+                        self.tile_widgets[row][col].hide()
+                        self.tile_widgets[row][col].destroy()
 
-        self.game = GameMgr.Game(self)
+        self.game = GameMgr.Game(self, None, 0)
         self.current_game = True
         self.is_paused = False
         self.start_button.setText("Pause")
         self.ap_start_button.setEnabled(True)
         self.horizontalSlider.setEnabled(True)
 
-        self.centralwidget.grabKeyboard()  # Enable keyboard events to be processed
         self.game.add_random_tile()
+        self.centralwidget.grabKeyboard()  # Enable keyboard events to be processed
 
     def stop_game(self):
 

@@ -1,45 +1,76 @@
 import numpy as np
 from copy import deepcopy
-import gameUIpyqt
-import pprint
+# import pprint
 
 SIZE = 4
 
 
 class Game(object):
 
-    def __init__(self, ui_main):
+    def __init__(self, ui, tiles=None, score=0, num_moves=0):
 
-        self.ui_main = ui_main
-        self.current_game = True
-        self.is_paused = False
-        self.tiles_nums = np.zeros((SIZE, SIZE), dtype=np.int32)
-        self.next_tiles_nums = np.zeros((SIZE, SIZE), dtype=np.int32)
-        self.num_empty = SIZE * SIZE
-        self.tile_widgets = [[None] * SIZE for _ in range(SIZE)]
-        self.next_tile_widgets = [[None] * SIZE for _ in range(SIZE)]
-        self.rand = np.random.default_rng()
-        self.tiles_to_delete = []
-        self.last_move_valid = True
-        self.score = 0
+        self.ui = ui
+
+        if not tiles:
+            self.tiles = np.zeros((SIZE, SIZE), dtype=np.int32)
+        else:
+            self.tiles = np.array(tiles, dtype=np.int32)
+
+        self.score = int(score)
+        self.num_moves = num_moves
+        self.num_empty = None
         self.already_won = False
+        self.game_over = False
+        self.num_moves = num_moves
 
+        self.rand = np.random.default_rng()
+        self.last_move_valid = True
 
-    def move_tiles(self, direction):
+    def __repr__(self):
+        out = []
+        out.append("-"*30 + "\n" +
+                   f"Game Score: {self.score} | Num Moves: {self.num_moves} | " +
+                   f"Num Empty: {self.num_empty} | Won: {self.already_won} | " +
+                   f"Game Over: {self.game_over}\n")
+        out.append(repr(self.tiles) + "\n")
+
+        return "".join(out)
+
+    # move_tiles() supports multiple calling scenarios (effectively "overloaded")
+    # 1: called by UI (game.ui != None), and must calculate and return UI-related features
+    # 2: called by AutoPlay as confirmed game move (commit = True) that will change Game state
+    # 3: called by AutoPlay for speculative game move (commit = False).  Unchanged game state.
+    def move_tiles(self, direction, commit, tiles=None, score=None):
 
         if not isinstance(direction, int):
-            raise TypeError("Ui_MainWindow.move_vert() direction is not int.")
+            raise TypeError("Game.move_tiles() direction is not int.")
 
-        tile_move_vect = [[[0, 0] for _ in range(SIZE)] for __ in range(SIZE)]
+        if self.ui:
 
-        # Create copies of tiles_nums and tile widget array to hold tiles after move
-        self.next_tiles_nums = deepcopy(self.tiles_nums)
-        self.next_tile_widgets = [[None] * SIZE for _ in range(SIZE)]
-        for row in range(SIZE):
-            for col in range(SIZE):
-                self.next_tile_widgets[row][col] = self.tile_widgets[row][col]
+            # Create vectors and tile widgets copy for animate_tiles()
+            tile_move_vect = [[[0, 0] for _ in range(SIZE)] for __ in range(SIZE)]
+
+            # Create copy of tile widget array.  Original is needed in animate_tiles()
+            self.ui.next_tile_widgets = [[None] * SIZE for _ in range(SIZE)]
+            for row in range(SIZE):
+                for col in range(SIZE):
+                    self.ui.next_tile_widgets[row][col] = self.ui.tile_widgets[row][col]
+
+        # If this is a speculative future move, Autoplay will provide tiles
+        if tiles is None:
+            tiles2 = self.tiles.copy()
+        else:
+            tiles2 = tiles.copy()
+
+        # If this is a speculative future move, Autoplay will provide score
+        if score is None:
+            score2 = deepcopy(self.score)
+        else:
+            score2 = deepcopy(score)
 
         valid_move = False
+
+        # --- Begin primary move_tiles loop
 
         # For each row (if left/right) or col (if up/down)
         for idx1 in range(SIZE):
@@ -68,20 +99,24 @@ class Game(object):
                     continue
 
                 # If the "place" cell is empty
-                elif self.next_tiles_nums[row1][col1] == 0:
+                elif tiles2[row1][col1] == 0:
 
                     # And the next tile is also empty
-                    if self.next_tiles_nums[row2][col2] == 0:
+                    if tiles2[row2][col2] == 0:
                         eval_idx += inc
                         continue
 
                     # Found a tile, move to empty
                     else:
-                        self.next_tiles_nums[row1][col1] = self.next_tiles_nums[row2][col2]
-                        self.next_tile_widgets[row1][col1] = self.next_tile_widgets[row2][col2]
-                        self.next_tiles_nums[row2][col2] = 0
-                        self.next_tile_widgets[row2][col2] = None
-                        tile_move_vect[row2][col2] = [col1 - col2, row1 - row2]
+                        tiles2[row1][col1] = tiles2[row2][col2]
+                        tiles2[row2][col2] = 0
+
+                        # If being played with UI
+                        if self.ui:
+                            self.ui.next_tile_widgets[row1][col1] = self.ui.next_tile_widgets[row2][col2]
+                            self.ui.next_tile_widgets[row2][col2] = None
+                            tile_move_vect[row2][col2] = [col1 - col2, row1 - row2]
+
                         valid_move = True
                         eval_idx += inc
                         continue
@@ -90,22 +125,26 @@ class Game(object):
                 else:
 
                     # And the next tile is empty
-                    if self.next_tiles_nums[row2][col2] == 0:
+                    if tiles2[row2][col2] == 0:
                         eval_idx += inc
                         continue
 
                     # "Place" and "eval" tiles equal.  Merge.
-                    elif self.next_tiles_nums[row1][col1] == self.next_tiles_nums[row2][col2]:
-                        tile_sum = self.next_tiles_nums[row1][col1] + self.next_tiles_nums[row2][col2]
-                        self.next_tiles_nums[row1][col1] = tile_sum
-                        self.tiles_to_delete.append(self.tile_widgets[row2][col2])
-                        self.next_tiles_nums[row2][col2] = 0
-                        self.next_tile_widgets[row2][col2] = None
-                        tile_move_vect[row2][col2] = [col1 - col2, row1 - row2]
+                    elif tiles2[row1][col1] == tiles2[row2][col2]:
+                        tile_sum = tiles2[row1][col1] + tiles2[row2][col2]
+                        tiles2[row1][col1] = tile_sum
+                        tiles2[row2][col2] = 0
+
+                        # If being played with UI
+                        if self.ui:
+                            self.ui.tiles_to_delete.append(self.ui.tile_widgets[row2][col2])
+                            self.ui.next_tile_widgets[row2][col2] = None
+                            tile_move_vect[row2][col2] = [col1 - col2, row1 - row2]
+
                         valid_move = True
                         place_idx += inc
                         eval_idx += inc
-                        self.score += tile_sum
+                        score2 += tile_sum
                         continue
 
                     # Tiles are different. Move "place" forward
@@ -113,84 +152,67 @@ class Game(object):
                         place_idx += inc
                         continue
 
-        self.last_move_valid = valid_move
+        # --- End Primary Loop.
 
-        return valid_move, tile_move_vect
+        if commit:
+            self.last_move_valid = valid_move
 
-    def delete_and_new(self):
+            if valid_move:
+                self.tiles = tiles2
+                self.score = score2
+                self.num_moves += 1
 
-        for tile in self.tiles_to_delete:
-            tile.hide()
-            tile.destroy()
+        if self.ui:
+            return valid_move, tile_move_vect
 
-        self.ui_main.curr_score.setText(str(self.score))
-        self.tile_widgets = self.next_tile_widgets
-        self.tiles_nums = self.next_tiles_nums
+        return valid_move, tiles2, score2
 
-        empty = 0
-        for row in range(SIZE):
-            for col in range(SIZE):
+    # MUST be called after move_tiles()
+    def add_random_tile(self, tiles=None, rands=None, rand_idx=None):
 
-                if self.tiles_nums[row][col] == 0:
-                    empty += 1
+        commit = False
 
-                elif self.tile_widgets[row][col]:
-                    self.tile_widgets[row][col].update_num(self.tiles_nums[row][col])
-                    self.tile_widgets[row][col].show()
-
-                    if (not self.already_won) and self.tiles_nums[row][col] == 2048:
-                        keep_playing = self.ui_main.won_game()
-                        if keep_playing:
-                            self.already_won = True
-                            continue
-                        else:
-                            self.ui_main.stop_game()
-
-        self.num_empty = empty
-
-        self.tiles_to_delete.clear()
-        self.add_random_tile()
-        self.ui_main.centralwidget.grabKeyboard()
-
-        # # DEBUG
-        # print("Raw Tiles")
-        # pprint.pp(self.tiles_nums)
-        # print("Tile Widgets")
-        # pprint.pp(self.tile_widgets)
-
-    def add_random_tile(self):
+        if tiles is None:
+            commit = True
+            tiles = self.tiles
 
         # Find open positions
+        open_positions = np.argwhere(tiles == 0)
+        num_empty = int(open_positions.size / 2)
 
-        open_positions = np.argwhere(self.tiles_nums == 0)
-        self.num_empty = int(open_positions.size / 2)
+        if num_empty > 0:
 
-        if self.num_empty == 0:
-            return
+            # If pre-calculated rands[] array is provided, use them
+            if rands is not None:
+                rand_idx2 = int(rands[rand_idx1] * num_empty)
+                rand_idx += 1
+                row = open_positions[rand_idx2][0]
+                col = open_positions[rand_idx2][1]
 
-        rand_idx = self.rand.integers(0, self.num_empty)
-        row = open_positions[rand_idx][0]
-        col = open_positions[rand_idx][1]
+                value = 2 if (rands[rand_idx] < 0.9) else 4
+                rand_idx += 1
 
-        value = 2 if (self.rand.random() < 0.9) else 4
+            # Else, generate random numbers
+            else:
+                rand_idx2 = self.rand.integers(0, num_empty)
+                row = open_positions[rand_idx2][0]
+                col = open_positions[rand_idx2][1]
 
-        self.tiles_nums[row][col] = value
-        self.num_empty -= 1
+                value = 2 if (self.rand.random() < 0.9) else 4
 
-        self.tile_widgets[row][col] = gameUIpyqt.TileWidget(self.ui_main.game_board, value, row, col)
-        self.tile_widgets[row][col].show()
+            tiles[row][col] = value
+            num_empty -= 1
 
-        if self.num_empty == 0:
-            self.check_game_over()
+            if self.ui:
+                self.ui.add_tile(row, col, value)
 
-    def check_game_over(self):
+        if commit:
+            self.num_empty = num_empty
 
-        up_valid, _ = self.move_tiles(0)
-        right_valid, _ = self.move_tiles(1)
-        down_valid, _ = self.move_tiles(2)
-        left_valid, _ = self.move_tiles(3)
+            if self.num_empty == 0 and not self.last_move_valid:
+                self.game_over = True
 
-        if not (up_valid or down_valid or left_valid or right_valid):
-            self.ui_main.game_over()
+            if self.ui:
+                self.ui.game_over()
 
-
+        return tiles, num_empty, rand_idx
