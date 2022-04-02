@@ -45,10 +45,10 @@ class Game(object):
         if not isinstance(direction, int):
             raise TypeError("Game.move_tiles() direction is not int.")
 
-        if self.ui:
+        # Create vectors for animate_tiles()
+        tile_move_vect = [[[0, 0] for _ in range(SIZE)] for __ in range(SIZE)]
 
-            # Create vectors and tile widgets copy for animate_tiles()
-            tile_move_vect = [[[0, 0] for _ in range(SIZE)] for __ in range(SIZE)]
+        if commit and self.ui:
 
             # Create copy of tile widget array.  Original is needed in animate_tiles()
             self.ui.next_tile_widgets = [[None] * SIZE for _ in range(SIZE)]
@@ -56,13 +56,13 @@ class Game(object):
                 for col in range(SIZE):
                     self.ui.next_tile_widgets[row][col] = self.ui.tile_widgets[row][col]
 
-        # If this is a speculative future move, Autoplay will provide tiles
+        # If this is a speculative move, tiles is provided
         if tiles is None:
             tiles2 = self.tiles.copy()
         else:
             tiles2 = tiles.copy()
 
-        # If this is a speculative future move, Autoplay will provide score
+        # If this is a speculative move, score may be provided
         if score is None:
             score2 = deepcopy(self.score)
         else:
@@ -70,7 +70,7 @@ class Game(object):
 
         valid_move = False
 
-        # --- Begin primary move_tiles loop
+        # --- Begin primary move_tiles() loop
 
         # For each row (if left/right) or col (if up/down)
         for idx1 in range(SIZE):
@@ -112,7 +112,7 @@ class Game(object):
                         tiles2[row2][col2] = 0
 
                         # If being played with UI
-                        if self.ui:
+                        if commit and self.ui:
                             self.ui.next_tile_widgets[row1][col1] = self.ui.next_tile_widgets[row2][col2]
                             self.ui.next_tile_widgets[row2][col2] = None
                             tile_move_vect[row2][col2] = [col1 - col2, row1 - row2]
@@ -136,7 +136,7 @@ class Game(object):
                         tiles2[row2][col2] = 0
 
                         # If being played with UI
-                        if self.ui:
+                        if commit and self.ui:
                             self.ui.tiles_to_delete.append(self.ui.tile_widgets[row2][col2])
                             self.ui.next_tile_widgets[row2][col2] = None
                             tile_move_vect[row2][col2] = [col1 - col2, row1 - row2]
@@ -162,25 +162,22 @@ class Game(object):
                 self.score = score2
                 self.num_moves += 1
 
-        if self.ui:
-            return valid_move, tile_move_vect
-
-        return valid_move, tiles2, score2
+        return valid_move, tile_move_vect, tiles2, score2
 
     # MUST be called after move_tiles()
     # In the UI case, the animation is called first, then add_random_tile()
-    def add_random_tile(self, tiles=None, rands=None, rand_idx=None):
-
-        commit = False
+    def add_random_tile(self, commit, tiles=None, rands=None, rand_idx=None):
 
         if tiles is None:
-            commit = True
-            tiles = self.tiles
+            tiles = self.tiles.copy()
+
+        game_over = False
 
         # Find open positions
         open_positions = np.argwhere(tiles == 0)
         num_empty = int(open_positions.size / 2)
 
+        # --- Calculations to add tile
         if num_empty > 0:
 
             # If pre-calculated rands[] array is provided, use them
@@ -204,14 +201,29 @@ class Game(object):
             tiles[row][col] = value
             num_empty -= 1
 
-            if commit and (self.ui is not None):
-                self.ui.add_tile(row, col, value)
+        # --- Tile now added
+
+        if num_empty == 0:
+            game_over = self.check_game_over(tiles)
 
         if commit:
             self.num_empty = num_empty
+            self.tiles = tiles
+            self.game_over = game_over
 
-        if self.num_empty == 0 and not self.last_move_valid:
-            self.game_over = True
-            self.ui.game_over()
+            if self.ui is not None:
+                self.ui.add_tile(row, col, value)
 
-        return tiles, num_empty, rand_idx
+        return tiles, num_empty, game_over, rand_idx
+
+    def check_game_over(self, tiles):
+
+        up_valid, _, _, _ = self.move_tiles(0, False, tiles)
+        right_valid, _, _, _ = self.move_tiles(1, False, tiles)
+        down_valid, _, _, _ = self.move_tiles(2, False, tiles)
+        left_valid, _, _, _ = self.move_tiles(3, False, tiles)
+
+        if any([up_valid, right_valid, down_valid, left_valid]):
+            return False
+
+        return True

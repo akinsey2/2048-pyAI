@@ -34,30 +34,35 @@ class CentralWidget(QtWidgets.QWidget):
 
         if event.key() == QtCore.Qt.Key.Key_Up.value:
             # print("MOVE UP")
-            valid_move, tile_move_vect = self.ui_mainwindow.game.move_tiles(0, True)  # '0' means 'Up'
+            valid_move, tile_move_vect, _, _ = self.ui_mainwindow.game.move_tiles(0, True)  # '0' means 'Up'
 
         elif event.key() == QtCore.Qt.Key.Key_Right.value:
             # print("MOVE RIGHT")
-            valid_move, tile_move_vect = self.ui_mainwindow.game.move_tiles(1, True)  # '1' means 'Right'
+            valid_move, tile_move_vect, _, _ = self.ui_mainwindow.game.move_tiles(1, True)  # '1' means 'Right'
 
         elif event.key() == QtCore.Qt.Key.Key_Down.value:
             # print("MOVE DOWN")
-            valid_move, tile_move_vect = self.ui_mainwindow.game.move_tiles(2, True)  # '2' means 'Down'
+            valid_move, tile_move_vect, _, _ = self.ui_mainwindow.game.move_tiles(2, True)  # '2' means 'Down'
 
         elif event.key() == QtCore.Qt.Key.Key_Left.value:
             # print("MOVE LEFT")
-            valid_move, tile_move_vect = self.ui_mainwindow.game.move_tiles(3, True)  # '3' means 'Left'
+            valid_move, tile_move_vect, _, _ = self.ui_mainwindow.game.move_tiles(3, True)  # '3' means 'Left'
 
         else:
             valid_move = False
 
         if valid_move:
             self.ui_mainwindow.animate_tiles(tile_move_vect)
-        else:
+
+        else:   # Invalid move
+
             # Use add_random_tile() to detect possible game over
-            tiles = self.ui_mainwindow.game.tiles.copy()
-            self.ui_mainwindow.game.add_random_tile(tiles)
-            self.grabKeyboard()
+            _, _, game_over, _ = self.ui_mainwindow.game.add_random_tile(commit=False)
+
+            if game_over:
+                self.ui_mainwindow.game_over()
+            else:   # Game not over, continue
+                self.grabKeyboard()
 
 
 # Custom class for the Tiles displayed on board, subclass of "QLabel"
@@ -347,7 +352,7 @@ class UiMainWindow(object):
     def autoplay_move(self):
 
         move_dir = self.autoplayer.get_move()
-        valid_move, tile_move_vect = self.game.move_tiles(move_dir, True)
+        valid_move, tile_move_vect, _, _ = self.game.move_tiles(move_dir, True)
 
         self.animate_tiles(tile_move_vect)
 
@@ -418,8 +423,12 @@ class UiMainWindow(object):
                             self.stop_game()
 
         self.tiles_to_delete.clear()
-        self.game.add_random_tile()
-        self.centralwidget.grabKeyboard()
+        _, _, game_over, _ = self.game.add_random_tile(commit=True)
+
+        if game_over:
+            self.game_over()
+        else:
+            self.centralwidget.grabKeyboard()
 
     def add_tile(self, row, col, value):
 
@@ -485,7 +494,7 @@ class UiMainWindow(object):
         self.ap_start_button.setEnabled(True)
         self.horizontalSlider.setEnabled(True)
 
-        self.game.add_random_tile()
+        self.game.add_random_tile(commit=True)
         self.centralwidget.grabKeyboard()  # Enable keyboard events to be processed
 
     def stop_game(self):

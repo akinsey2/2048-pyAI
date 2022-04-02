@@ -3,15 +3,16 @@ from copy import deepcopy
 import Utils
 import cProfile
 import GameMgr
+from pprint import pp
 
-SIZE = 4
-USE_CYTHON = True
+SIZE = int(4)
+USE_CYTHON = False
 
 
 # ****************************************
 class AutoPlayer:
 
-    def __init__(self, game, tree_depth=7, topx=8, calc_option=0, rand=None):
+    def __init__(self, game, tree_depth=4, topx=4, calc_option=1, rand=None):
 
         # GameMgr.Game object stores current game state: tiles, score, etc
         self.game = game
@@ -102,14 +103,14 @@ class AutoPlayer:
             valid_move, tiles2, self.game.score = \
                 Utils.move_tiles(best_move, self.game.tiles, self.game.score, 4)
         else:
-            valid_move, _, _ = self.game.move_tiles(best_move, True)
+            valid_move, _, _, _ = self.game.move_tiles(best_move, True)
 
         if valid_move:
             if USE_CYTHON:
                 self.game.tiles, self.game.num_empty, self.rand_idx = \
                     Utils.add_random_tile(tiles2, self.rands, self.rand_idx, 4)
             else:
-                self.game.add_random_tile()
+                self.game.add_random_tile(commit=True)
 
         if not valid_move and self.game.num_empty == 0:
             self.game.game_over = True
@@ -140,9 +141,9 @@ class MoveNode:
 
         else:   # Use slower Python functions
             if ap.calc_option == 0:
-                self.metrics, self.metric = calc_metrics0(tiles)
+                self.metric = calc_metrics0(tiles)
             elif ap.calc_option == 1:
-                self.metrics, self.metric = calc_metrics1(tiles)
+                self.metric = calc_metrics1(tiles)
 
         # Base Case: If already traversed to proper tree depth, stop
         if self.level > ap.tree_depth - 1:
@@ -160,7 +161,7 @@ class MoveNode:
                     valid_move, new_tiles, new_score = \
                         Utils.move_tiles(direction, tiles, score, SIZE)
                 else:
-                    valid_move, new_tiles, new_score = \
+                    valid_move, _, new_tiles, new_score = \
                         ap.game.move_tiles(direction, False, tiles, score)
 
                 # If valid move, add random tile
@@ -171,8 +172,8 @@ class MoveNode:
                             Utils.add_random_tile(new_tiles, ap.rands,
                                                   ap.rand_idx, 4)
                     else:
-                        new_tiles, _, ap.rand_idx = \
-                            ap.game.add_random_tile(tiles=new_tiles)
+                        new_tiles, _, _, ap.rand_idx = \
+                            ap.game.add_random_tile(commit=False, tiles=new_tiles)
 
                     self.next.append(MoveNode(self, new_tiles, new_score, ap))
 
@@ -194,7 +195,7 @@ class MoveNode:
 
 def node_tree_max_DFS(node, max_metrics):
 
-    # Save metric of current node, if
+    # Save metric of current node, if in (2**topx) largest in tree
     if node.metric > max_metrics[0]:
         max_metrics[0] = node.metric
         max_metrics.sort()
@@ -214,20 +215,165 @@ def node_tree_max_DFS(node, max_metrics):
     return max_metrics
 
 
+# Simplest metric...Rewards Upper-Right aligned chain.
 def calc_metrics0(tiles):
-
-    col_sums = []
 
     metric = int(tiles[0][3]*256 + tiles[1][3]*128 +
                  tiles[2][3]*64 + tiles[3][3]*32 +
                  tiles[3][2]*16 + tiles[2][2]*8 +
                  tiles[1][2]*4 + tiles[0][2]*2)
 
-    return col_sums, metric
+    return metric
 
 
+# More advanced metric. Rewards largest tile in corner, and best overall "chain",
+# without regard to location on board
 def calc_metrics1(tiles):
-    return 0, 0
+
+    # tiles_byval = {0: [], 2: [], 4: [], 8: [], 16: [], 32: [], 64: [], 128: [],
+    #                256: [], 512: [], 1024: [], 2048: [], 4096: [], 8192: [], 16384: []}
+
+    # # Populate tiles_byval with indeces of tiles
+    # for row in range(SIZE):
+    #     for col in range(SIZE):
+    #         val = tiles[row][col]
+    #         tiles_byval[int(val)].append([row, col])
+
+    graph = {(0, 0): ((1, 0), (0, 1)),
+             (0, 1): ((0, 0), (1, 1), (0, 2)),
+             (0, 2): ((0, 1), (1, 2), (0, 3)),
+             (0, 3): ((0, 2), (1, 3)),
+             (1, 0): ((0, 0), (1, 1), (2, 0)),
+             (1, 1): ((0, 1), (1, 2), (2, 1), (1, 0)),
+             (1, 2): ((0, 2), (1, 3), (2, 2), (1, 1)),
+             (1, 3): ((0, 3), (2, 3), (1, 2)),
+             (2, 0): ((1, 0), (2, 1), (3, 0)),
+             (2, 1): ((1, 1), (2, 2), (3, 1), (2, 0)),
+             (2, 2): ((1, 2), (2, 3), (3, 2), (2, 1)),
+             (2, 3): ((1, 3), (3, 3), (2, 2)),
+             (3, 0): ((2, 0), (3, 1)),
+             (3, 1): ((2, 1), (3, 2), (3, 0)),
+             (3, 2): ((2, 2), (3, 3), (3, 1)),
+             (3, 3): ((2, 3), (3, 2))}
+
+    # Find greatest tile(s) on board, the starting point of the "chain" calculation(s)
+    max_val = 0
+    maxs = []
+    for row in range(SIZE):
+        for col in range(SIZE):
+
+            val = tiles[row][col]
+
+            if val < max_val:
+                continue
+            elif val > max_val:
+                max_val = val
+                maxs.clear()
+                maxs.append([val, row, col])
+            else:   # Equal
+                maxs.append([val, row, col])
+
+    # --- Master Loop: Traverses chain(s) and calculates chain quality metric/score
+    metrics = []
+    for (val, row, col) in maxs:
+
+        end_of_chain = False    # Have reached the end of the chain?
+        metric = 0              # "Score" metric for the overall chain
+
+        # Start with "max" tile
+        chain_vals = [val]
+        chain_idxs = [(row, col)]
+
+        # --- Process next 3 (or SIZE-1) "largest" tiles
+        for _ in range(SIZE-1):
+
+            max_adj_val = 0
+            max_adj_idx = (None, None)
+
+            # Explore adjacent tiles for largest
+            for (a_row, a_col) in graph[(row, col)]:
+
+                # Don't explore empty tiles or tiles already in chain
+                if tiles[a_row][a_col] == 0 or (a_row, a_col) in chain_idxs:
+                    continue
+
+                if tiles[a_row][a_col] > max_adj_val:
+                    max_adj_val = tiles[a_row][a_col]
+                    max_adj_idx = (a_row, a_col)
+
+            # Reached the end of the chain, stop looking for more tiles
+            if max_adj_val == 0:
+                end_of_chain = True
+                break
+
+            chain_vals.append(max_adj_val)
+            chain_idxs.append(max_adj_idx)
+            (row, col) = max_adj_idx
+
+        # --- Done processing first portion of chain
+
+        # Add bonus if largest tile in corner
+        in_corner = (chain_idxs[0][0] in [0, SIZE-1]) and (chain_idxs[0][1] in [0, SIZE-1])
+        multiplier1 = 2 if in_corner else 1
+
+        # If these first tiles in the chain are all in the same row or col
+        same_row = all([chain_idxs[0][0] == chain_idxs[i][0] for i in range(1, len(chain_idxs))])
+        same_col = all([chain_idxs[0][1] == chain_idxs[i][1] for i in range(1, len(chain_idxs))])
+
+        # Give "bonus" for these tiles being in same row or col
+        multiplier2 = 2 if (same_row or same_col) else 1
+
+        # Update metric for this chain
+        mult = 256
+        for tile_val in chain_vals:
+            metric += (mult * tile_val)
+            mult = mult/2
+
+        # --- If you have reached the end of the chain, stop
+        if end_of_chain:
+            metrics.append(metric)
+            break
+
+        # --- Otherwise, process next ~4 (or SIZE) "largest" tiles
+        row = chain_idxs[-1][0]
+        col = chain_idxs[-1][1]
+
+        for _ in range(SIZE):
+
+            max_adj_val = 0
+            max_adj_idx = (None, None)
+
+            # Explore adjacent tiles for largest
+            for (a_row, a_col) in graph[(row, col)]:
+
+                # Don't explore empty tiles or tiles already in chain
+                if tiles[a_row][a_col] == 0 or (a_row, a_col) in chain_idxs:
+                    continue
+
+                if tiles[row][col] > max_adj_val:
+                    max_adj_val = tiles[a_row][a_col]
+                    max_adj_idx = (a_row, a_col)
+
+            # Reached the end of the chain, stop looking for more tiles
+            if max_adj_val == 0:
+                end_of_chain = True
+                break
+
+            chain_vals.append(max_adj_val)
+            chain_idxs.append(max_adj_idx)
+            (row, col) = max_adj_idx
+
+        # --- Done processing second portion of chain
+
+        for tile_val in chain_vals[4:]:
+            metric += (mult * tile_val)
+            mult = mult/2
+
+        metric = metric * multiplier1 * multiplier2
+
+        metrics.append(metric)
+
+    return max(metrics)
 
 
 # # This is the Python version. Use of the MUCH faster Cython version is preferred
@@ -284,8 +430,8 @@ def print_tree_bfs(tree):
 def run_num_moves(start_tiles, num_moves, tree_depth, topx, calc_option):
 
     game1 = GameMgr.Game(None)
-    game1.add_random_tile()
-    ap1 = AutoPlayer(game1, )
+    game1.add_random_tile(commit=True)
+    ap1 = AutoPlayer(game1)
 
     for _ in range(num_moves):
         valid_move, tiles, score, num_empty = ap1.auto_move()
@@ -298,7 +444,7 @@ def play_games(num, tree_depth, topx, calc_option):
     for i in range(num):
 
         game1 = GameMgr.Game(None)
-        game1.add_random_tile()
+        game1.add_random_tile(commit=True)
 
         ap1 = AutoPlayer(game1, tree_depth, topx, calc_option)
 
@@ -309,22 +455,25 @@ def play_games(num, tree_depth, topx, calc_option):
 
 
 if __name__ == '__main__':
-    pass
+
+    tiles = [ [0, 2, 2, 4],
+              [0, 4, 4, 8],
+              [0, 8, 8, 16],
+              [16, 32, 32, 2048]]
+
+    calc_metrics1(np.array(tiles))
 
     # import GameMgr
 
+
     # game1 = GameMgr.Game(None, None, 0)
-    # game1.add_random_tile()
+    # game1.add_random_tile(commit=True)
     # ap = AutoPlayer(game1, tree_depth=5)
     # ap.auto_move()
-
-
 
     # while not game1.game_over:
     #     print(ap.game)
     #     ap.auto_move()
-
-
 
     # tree_depth = 4
     # topx = 4
@@ -340,8 +489,6 @@ if __name__ == '__main__':
     #
     # print(f"Score: {score}")
     # print(repr(tiles))
-
-
 
     # keep_playing = True
     # limit = 100
@@ -359,12 +506,3 @@ if __name__ == '__main__':
     #     print(f"Average: {(end_time-start_time) / limit} sec / move")
     #     i = input("Keep playing? ")
     #     keep_playing = False if (i in ["n", "N"]) else True
-
-    # while keep_playing:
-    #
-    #     valid_move, tiles, score, num_empty = ap1.auto_move()
-    #
-    #     if ap1.tiles[0][3] > limit:
-    #         i = input("Keep playing? ")
-    #         keep_playing = False if (i in ["n", "N"]) else True
-    #         limit = limit * 2
