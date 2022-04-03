@@ -319,6 +319,8 @@ class UiMainWindow(object):
                 self.horizontalSlider.setEnabled(True)
 
             else:               # User clicked "Pause"
+                if self.autoplaying:
+                    self.autoplay_stop()
                 self.is_paused = True
                 self.centralwidget.releaseKeyboard()
                 self.start_button.setText("Play")

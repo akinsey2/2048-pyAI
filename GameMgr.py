@@ -1,5 +1,6 @@
 import numpy as np
 from copy import deepcopy
+import Utils
 # import pprint
 
 SIZE = 4
@@ -201,6 +202,9 @@ class Game(object):
             tiles[row][col] = value
             num_empty -= 1
 
+            if commit and self.ui is not None:
+                self.ui.add_tile(row, col, value)
+
         # --- Tile now added
 
         if num_empty == 0:
@@ -211,8 +215,9 @@ class Game(object):
             self.tiles = tiles
             self.game_over = game_over
 
-            if self.ui is not None:
-                self.ui.add_tile(row, col, value)
+        # TESTING
+        max_tile, num_maxes = Utils.calc_metrics1(self.tiles, 4)
+        print(f"Max Tile: {max_tile}, Num_maxes = {num_maxes}")
 
         return tiles, num_empty, game_over, rand_idx
 

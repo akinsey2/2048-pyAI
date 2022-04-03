@@ -6,13 +6,13 @@ import GameMgr
 from pprint import pp
 
 SIZE = int(4)
-USE_CYTHON = False
+USE_CYTHON = True
 
 
 # ****************************************
 class AutoPlayer:
-
-    def __init__(self, game, tree_depth=4, topx=4, calc_option=1, rand=None):
+    #6, 7
+    def __init__(self, game, tree_depth=5, topx=6, calc_option=2, rand=None):
 
         # GameMgr.Game object stores current game state: tiles, score, etc
         self.game = game
@@ -78,6 +78,10 @@ class AutoPlayer:
                 max_metrics = node_tree_max_DFS(move_tree.next[move_dir], max_metrics)
                 move_metrics.append(max_metrics.sum() / float(topx_num))
 
+        # # TESTING
+        # print(f"move_metrics: Up: {move_metrics[0]}, Right: {move_metrics[1]}, " +
+        #       f"Down: {move_metrics[2]}, Left: {move_metrics[3]}")
+
         best_move = move_metrics.index(max(move_metrics))
 
         return best_move
@@ -136,14 +140,21 @@ class MoveNode:
         if USE_CYTHON:  # Use fast Cython functions
             if ap.calc_option == 0:
                 self.metric = Utils.calc_metrics0(tiles)
+
+            # ---!!!--- SWITCH to Cython when available!
             elif ap.calc_option == 1:
-                self.metric = Utils.calc_metrics1(tiles)
+                self.metric = calc_metrics1(tiles)
+
+            elif ap.calc_option == 2:
+                self.metric = calc_metrics2(tiles)
 
         else:   # Use slower Python functions
             if ap.calc_option == 0:
                 self.metric = calc_metrics0(tiles)
             elif ap.calc_option == 1:
                 self.metric = calc_metrics1(tiles)
+            elif ap.calc_option == 2:
+                self.metric = calc_metrics2(tiles)
 
         # Base Case: If already traversed to proper tree depth, stop
         if self.level > ap.tree_depth - 1:
@@ -257,14 +268,19 @@ def calc_metrics1(tiles):
              (3, 3): ((2, 3), (3, 2))}
 
     # Find greatest tile(s) on board, the starting point of the "chain" calculation(s)
+    # Also count empty tiles
     max_val = 0
     maxs = []
+    num_empty = 0
     for row in range(SIZE):
         for col in range(SIZE):
 
             val = tiles[row][col]
 
-            if val < max_val:
+            if val == 0:
+                num_empty += 1
+                continue
+            elif val < max_val:
                 continue
             elif val > max_val:
                 max_val = val
@@ -274,6 +290,7 @@ def calc_metrics1(tiles):
                 maxs.append([val, row, col])
 
     # --- Master Loop: Traverses chain(s) and calculates chain quality metric/score
+    # Tiles must be adjacent, and weakly decreasing to comprise a chain.
     metrics = []
     for (val, row, col) in maxs:
 
@@ -302,7 +319,7 @@ def calc_metrics1(tiles):
                     max_adj_idx = (a_row, a_col)
 
             # Reached the end of the chain, stop looking for more tiles
-            if max_adj_val == 0:
+            if max_adj_val > chain_vals[-1] or max_adj_val == 0:
                 end_of_chain = True
                 break
 
@@ -331,6 +348,8 @@ def calc_metrics1(tiles):
 
         # --- If you have reached the end of the chain, stop
         if end_of_chain:
+            # multiplier3 = 2 ** num_empty
+            metric = metric * multiplier1 * multiplier2 * num_empty
             metrics.append(metric)
             break
 
@@ -355,7 +374,7 @@ def calc_metrics1(tiles):
                     max_adj_idx = (a_row, a_col)
 
             # Reached the end of the chain, stop looking for more tiles
-            if max_adj_val == 0:
+            if max_adj_val > chain_vals[-1] or max_adj_val == 0:
                 end_of_chain = True
                 break
 
@@ -369,11 +388,22 @@ def calc_metrics1(tiles):
             metric += (mult * tile_val)
             mult = mult/2
 
-        metric = metric * multiplier1 * multiplier2
+        # multiplier3 = 2 ** num_empty
+        metric = metric * multiplier1 * multiplier2 * num_empty
 
         metrics.append(metric)
 
     return max(metrics)
+
+def calc_metrics2(tiles):
+
+    num_empty = 0
+    for row in range(SIZE):
+        for col in range(SIZE):
+            if tiles[row][col] == 0:
+                num_empty += 100
+
+    return num_empty
 
 
 # # This is the Python version. Use of the MUCH faster Cython version is preferred
