@@ -228,7 +228,7 @@ class UiMainWindow(object):
         self.verticalLayout_3.addWidget(self.ap_spd_label)
         self.horizontalSlider = QtWidgets.QSlider(self.ap_area_widget)
         self.horizontalSlider.setEnabled(False)
-        self.horizontalSlider.setMinimum(30)
+        self.horizontalSlider.setMinimum(100)
         self.horizontalSlider.setMaximum(3000)
         self.horizontalSlider.setPageStep(5)
         self.horizontalSlider.setSingleStep(50)
@@ -246,9 +246,10 @@ class UiMainWindow(object):
 
         # Autoplay Strategy ComboBox
         self.comboBox = QtWidgets.QComboBox(self.ap_area_widget)
-        self.comboBox.addItems(["Most Blank Tiles", "Maximize Upper Right Chain", "Any Corner Chain + Blanks"])
-        self.comboBox.setEnabled(False)
-
+        self.comboBox.addItems(["Most Blank Tiles", "Maximize Upper Right Chain",
+                                "Any Corner Chain + Blanks", "Corner Chains + Blanks"])
+        self.comboBox.currentIndexChanged.connect(self.ap_type_changed)
+        self.comboBox.setEnabled(True)
         self.comboBox.setObjectName("comboBox")
         self.verticalLayout_3.addWidget(self.comboBox)
 
@@ -288,6 +289,7 @@ class UiMainWindow(object):
         self.anim_duration = 100
 
         # Setup for Auto-Play function
+        self.ap_type = 0
         self.autoplayer = None
         self.autoplaying = False
         self.autoplay_speed = 1.0
@@ -335,6 +337,9 @@ class UiMainWindow(object):
                 self.ap_start_button.setEnabled(False)
                 self.horizontalSlider.setEnabled(False)
 
+    def ap_type_changed(self, i):
+        self.ap_type = i
+
     def autoplay_clicked(self):
 
         # If autoplay is currently paused, start AutoPlay
@@ -348,7 +353,8 @@ class UiMainWindow(object):
 
     def autoplay_start(self):
         self.centralwidget.releaseKeyboard()
-        self.autoplayer = AutoPlay.AutoPlayer(self.game)
+        self.comboBox.setEnabled(False)
+        self.autoplayer = AutoPlay.AutoPlayer(self.game, calc_option=self.ap_type)
         self.autoplaying = True
         self.ap_start_button.setText("Pause AutoPlay")
         self.autoplay_timer.start()
@@ -356,6 +362,7 @@ class UiMainWindow(object):
     def autoplay_stop(self):
         self.autoplay_timer.stop()
         self.autoplaying = False
+        self.comboBox.setEnabled(True)
         self.ap_start_button.setText("Start AutoPlay")
         self.centralwidget.grabKeyboard()
 

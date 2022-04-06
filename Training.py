@@ -31,6 +31,15 @@ if __name__ == '__main__':
     if ans in ["n", "N"]:
         quit()
 
+    # Initialize CSV File
+    date1 = time.ctime().replace(" ", "_").replace(":", "_")
+    filename = f"td{tree_depth_min}to{tree_depth_max}_topx{topx_min}to{topx_max}_{date1}.csv"
+
+    with open(filename, mode='x', newline='') as file1:
+        csv_writer = csv.writer(file1, dialect="excel", delimiter=",")
+        csv_writer.writerow(["Calc_Option", "Tree_Depth", "TopX", "Game_Number",
+                             "Score", "Duration"])  # Must write header row manually
+
     # Start Main Loop to Permute parameters
     overall_start_time = time.perf_counter()
 
@@ -58,20 +67,17 @@ if __name__ == '__main__':
 
                     print(f"{game_num} ({ap.game.score}), ", end="", flush=True)
 
-                    records.append([calc_option, tree_depth, topx, game_num, ap.game.score, end_time-start_time])
+                    # Save Records to CSV File
+                    data = [calc_option, tree_depth, topx, game_num,
+                            ap.game.score, end_time-start_time]
+
+                    with open(filename, mode="a", newline="") as file1:
+                        csv_writer = csv.writer(file1, dialect="excel", delimiter=",")
+                        csv_writer.writerow(data)
+
+                    # records.append(data)
 
     overall_end_time = time.perf_counter()
     records.append([overall_start_time, overall_end_time, overall_end_time-overall_start_time])
-
-    # Save Records to CSV File
-    date1 = time.ctime().replace(" ", "_").replace(":", "_")
-
-    filename = f"td{tree_depth_min}to{tree_depth_max}_topx{topx_min}to{topx_max}_{date1}.csv"
-
-    with open(filename, mode='w') as file1:
-        csv_writer = csv.writer(file1, dialect="excel", delimiter=",")
-        csv_writer.writerow(["Calc_Option", "Tree_Depth", "TopX", "Game_Number", "Score", "Duration"])  # Must write header row manually
-        for row_list in records:
-            csv_writer.writerow(row_list)  # pass write data as list which will be str() formatted
 
 

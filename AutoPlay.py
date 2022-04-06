@@ -14,6 +14,12 @@ class AutoPlayer:
     #6, 7
     def __init__(self, game, tree_depth=6, topx=7, calc_option=1, rand=None):
 
+
+        # Test
+        print(f"AutoPlay: td={tree_depth}, topx={topx}|{2**topx}, calc={calc_option}")
+        print(game)
+
+
         # GameMgr.Game object stores current game state: tiles, score, etc
         self.game = game
 
@@ -144,6 +150,9 @@ class MoveNode:
                 self.metric = Utils.calc_metrics1(tiles)
             elif ap.calc_option == 2:
                 self.metric = Utils.calc_metrics2(tiles)
+            # Change to Cython when available
+            elif ap.calc_option == 3:
+                self.metric = calc_metrics3(tiles)
 
         else:   # Use slower Python functions
             if ap.calc_option == 0:
@@ -152,6 +161,8 @@ class MoveNode:
                 self.metric = calc_metrics1(tiles)
             elif ap.calc_option == 2:
                 self.metric = calc_metrics2(tiles)
+            elif ap.calc_option == 3:
+                self.metric = calc_metrics3(tiles)
 
         # Base Case: If already traversed to proper tree depth, stop
         if self.level > ap.tree_depth - 1:
@@ -356,7 +367,7 @@ def calc_metrics2(tiles):
         # Update metric for this chain
         mult = 8
         for tile_val in chain_vals:
-            metric += tile_val* mult
+            metric += tile_val * mult
             mult -= 1
 
         # multiplier3 = 2 ** num_empty
@@ -366,6 +377,66 @@ def calc_metrics2(tiles):
 
     return max(metrics)
 
+
+def calc_metrics3(tiles):
+
+    graph = {0: ((0, 0), (0, 1), (0, 2), (0, 3), (1, 3), (1, 2), (1, 1), (1, 0), (2, 0)),
+             1: ((0, 0), (1, 0), (2, 0), (3, 0), (3, 1), (2, 1), (1, 1), (0, 1), (0, 2)),
+             2: ((0, 3), (1, 3), (2, 3), (3, 3), (3, 2), (2, 2), (1, 2), (0, 2), (0, 1)),
+             3: ((0, 3), (0, 2), (0, 1), (0, 0), (1, 0), (1, 1), (1, 2), (1, 3), (2, 3)),
+             4: ((3, 3), (3, 2), (3, 1), (3, 0), (2, 0), (2, 1), (2, 2), (2, 3), (1, 3)),
+             5: ((3, 3), (2, 3), (1, 3), (0, 3), (0, 2), (1, 2), (2, 2), (3, 2), (3, 1)),
+             6: ((3, 0), (2, 0), (1, 0), (0, 0), (0, 1), (1, 1), (2, 1), (3, 1), (3, 2)),
+             7: ((3, 0), (3, 1), (3, 2), (3, 3), (2, 3), (2, 2), (2, 1), (2, 0), (1, 0))}
+
+    graph2 = {(0, 0): (graph[0], graph[1]),
+              (0, 3): (graph[2], graph[3]),
+              (3, 3): (graph[4], graph[5]),
+              (3, 0): (graph[6], graph[7])}
+
+    max_val = 0
+    maxs = []
+    num_empty = 0
+    for row in range(SIZE):
+        for col in range(SIZE):
+
+            val = tiles[row][col]
+
+            if val == 0:
+                num_empty += 1
+                continue
+            elif val < max_val:
+                continue
+            elif val > max_val:
+                max_val = val
+                maxs.clear()
+                maxs.append([val, row, col])
+            else:  # Equal
+                maxs.append([val, row, col])
+
+    in_corner = False
+    corners = []
+    for max1 in maxs:
+        if (max1[1] in [0,3]) and (max1[2] in [0,3]):
+            in_corner = True
+            corners.append((max1[1], max1[2]))
+
+    if not in_corner:
+        return 0
+
+    metrics = []
+
+    for cnr_idx in corners:
+        for tile_idxs in graph2[cnr_idx]:
+            metric = int(0)
+            mult = int(2**8)
+            for idx in tile_idxs:
+                metric += tiles[idx[0]][idx[1]] * mult
+                mult = mult // 2
+            # metric = metric * num_empty
+            metrics.append(metric)
+
+    return max(metrics)
 
 
 

@@ -191,7 +191,7 @@ def calc_metrics1(tiles1):
 # More advanced metric. Rewards any "chain" anchored in a corner,
 # with additional "reward" for empty tiles
 
-def calc_metrics1(tiles1):
+def calc_metrics2(tiles1):
 
     # graph = {(0, 0): ((1, 0), (0, 1)),
     #          (0, 1): ((0, 0), (1, 1), (0, 2)),
@@ -428,11 +428,11 @@ cdef bint check_in_chain(int chain[8][3], int chain_len, int row, int col):
     return in_chain
 
 
-def calc_metrics2(int[:,:] tiles):
+def calc_metrics3(int[:,:] tiles):
     cdef int i = 0
     return 0
 
-def calc_metrics3(int[:,:] tiles):
+def calc_metrics4(int[:,:] tiles):
     cdef int i = 0
     return 0
 

@@ -57,6 +57,7 @@ class Game(object):
                 for col in range(SIZE):
                     self.ui.next_tile_widgets[row][col] = self.ui.tile_widgets[row][col]
 
+        # Create Copy of Tiles
         # If this is a speculative move, tiles is provided
         if tiles is None:
             tiles2 = self.tiles.copy()
@@ -168,6 +169,8 @@ class Game(object):
     # MUST be called after move_tiles()
     # In the UI case, the animation is called first, then add_random_tile()
     def add_random_tile(self, commit, tiles=None, rands=None, rand_idx=None):
+
+        # If tiles is passed in, then it has already been copied in move_tiles()
 
         if tiles is None:
             tiles = self.tiles.copy()

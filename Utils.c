@@ -1981,6 +1981,7 @@ static const char __pyx_k_calc_metrics0[] = "calc_metrics0";
 static const char __pyx_k_calc_metrics1[] = "calc_metrics1";
 static const char __pyx_k_calc_metrics2[] = "calc_metrics2";
 static const char __pyx_k_calc_metrics3[] = "calc_metrics3";
+static const char __pyx_k_calc_metrics4[] = "calc_metrics4";
 static const char __pyx_k_pyx_getbuffer[] = "__pyx_getbuffer";
 static const char __pyx_k_reduce_cython[] = "__reduce_cython__";
 static const char __pyx_k_open_positions[] = "open_positions";
@@ -2052,6 +2053,7 @@ static PyObject *__pyx_n_s_calc_metrics0;
 static PyObject *__pyx_n_s_calc_metrics1;
 static PyObject *__pyx_n_s_calc_metrics2;
 static PyObject *__pyx_n_s_calc_metrics3;
+static PyObject *__pyx_n_s_calc_metrics4;
 static PyObject *__pyx_n_s_chain;
 static PyObject *__pyx_n_s_chain_len;
 static PyObject *__pyx_n_s_class;
@@ -2170,9 +2172,9 @@ static PyObject *__pyx_pf_5Utils_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, 
 static PyObject *__pyx_pf_5Utils_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_tiles, __Pyx_memviewslice __pyx_v_rands, int __pyx_v_rand_idx1, short __pyx_v_size); /* proto */
 static PyObject *__pyx_pf_5Utils_4calc_metrics0(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_tiles1); /* proto */
 static PyObject *__pyx_pf_5Utils_6calc_metrics1(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_tiles1); /* proto */
-static PyObject *__pyx_pf_5Utils_8calc_metrics1(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_tiles1); /* proto */
-static PyObject *__pyx_pf_5Utils_10calc_metrics2(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles); /* proto */
-static PyObject *__pyx_pf_5Utils_12calc_metrics3(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles); /* proto */
+static PyObject *__pyx_pf_5Utils_8calc_metrics2(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_tiles1); /* proto */
+static PyObject *__pyx_pf_5Utils_10calc_metrics3(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles); /* proto */
+static PyObject *__pyx_pf_5Utils_12calc_metrics4(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(struct __pyx_array_obj *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_array___pyx_pf_15View_dot_MemoryView_5array_4__dealloc__(struct __pyx_array_obj *__pyx_v_self); /* proto */
@@ -4289,26 +4291,26 @@ static PyObject *__pyx_pf_5Utils_6calc_metrics1(CYTHON_UNUSED PyObject *__pyx_se
 /* "Utils.pyx":194
  * # with additional "reward" for empty tiles
  * 
- * def calc_metrics1(tiles1):             # <<<<<<<<<<<<<<
+ * def calc_metrics2(tiles1):             # <<<<<<<<<<<<<<
  * 
  *     # graph = {(0, 0): ((1, 0), (0, 1)),
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5Utils_9calc_metrics1(PyObject *__pyx_self, PyObject *__pyx_v_tiles1); /*proto*/
-static PyMethodDef __pyx_mdef_5Utils_9calc_metrics1 = {"calc_metrics1", (PyCFunction)__pyx_pw_5Utils_9calc_metrics1, METH_O, 0};
-static PyObject *__pyx_pw_5Utils_9calc_metrics1(PyObject *__pyx_self, PyObject *__pyx_v_tiles1) {
+static PyObject *__pyx_pw_5Utils_9calc_metrics2(PyObject *__pyx_self, PyObject *__pyx_v_tiles1); /*proto*/
+static PyMethodDef __pyx_mdef_5Utils_9calc_metrics2 = {"calc_metrics2", (PyCFunction)__pyx_pw_5Utils_9calc_metrics2, METH_O, 0};
+static PyObject *__pyx_pw_5Utils_9calc_metrics2(PyObject *__pyx_self, PyObject *__pyx_v_tiles1) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("calc_metrics1 (wrapper)", 0);
-  __pyx_r = __pyx_pf_5Utils_8calc_metrics1(__pyx_self, ((PyObject *)__pyx_v_tiles1));
+  __Pyx_RefNannySetupContext("calc_metrics2 (wrapper)", 0);
+  __pyx_r = __pyx_pf_5Utils_8calc_metrics2(__pyx_self, ((PyObject *)__pyx_v_tiles1));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5Utils_8calc_metrics1(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_tiles1) {
+static PyObject *__pyx_pf_5Utils_8calc_metrics2(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_tiles1) {
   Py_ssize_t __pyx_v_size;
   __Pyx_memviewslice __pyx_v_tiles = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_v_max_val;
@@ -4361,7 +4363,7 @@ static PyObject *__pyx_pf_5Utils_8calc_metrics1(CYTHON_UNUSED PyObject *__pyx_se
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("calc_metrics1", 0);
+  __Pyx_RefNannySetupContext("calc_metrics2", 0);
 
   /* "Utils.pyx":213
  *     #          (3, 3): ((2, 3), (3, 2))}
@@ -5201,7 +5203,7 @@ static PyObject *__pyx_pf_5Utils_8calc_metrics1(CYTHON_UNUSED PyObject *__pyx_se
   /* "Utils.pyx":194
  * # with additional "reward" for empty tiles
  * 
- * def calc_metrics1(tiles1):             # <<<<<<<<<<<<<<
+ * def calc_metrics2(tiles1):             # <<<<<<<<<<<<<<
  * 
  *     # graph = {(0, 0): ((1, 0), (0, 1)),
  */
@@ -5212,7 +5214,7 @@ static PyObject *__pyx_pf_5Utils_8calc_metrics1(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_4);
   __PYX_XDEC_MEMVIEW(&__pyx_t_6, 1);
-  __Pyx_AddTraceback("Utils.calc_metrics1", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("Utils.calc_metrics2", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_tiles, 1);
@@ -5949,47 +5951,47 @@ static int __pyx_f_5Utils_check_in_chain(int (*__pyx_v_chain)[3], int __pyx_v_ch
 /* "Utils.pyx":431
  * 
  * 
- * def calc_metrics2(int[:,:] tiles):             # <<<<<<<<<<<<<<
+ * def calc_metrics3(int[:,:] tiles):             # <<<<<<<<<<<<<<
  *     cdef int i = 0
  *     return 0
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5Utils_11calc_metrics2(PyObject *__pyx_self, PyObject *__pyx_arg_tiles); /*proto*/
-static PyMethodDef __pyx_mdef_5Utils_11calc_metrics2 = {"calc_metrics2", (PyCFunction)__pyx_pw_5Utils_11calc_metrics2, METH_O, 0};
-static PyObject *__pyx_pw_5Utils_11calc_metrics2(PyObject *__pyx_self, PyObject *__pyx_arg_tiles) {
+static PyObject *__pyx_pw_5Utils_11calc_metrics3(PyObject *__pyx_self, PyObject *__pyx_arg_tiles); /*proto*/
+static PyMethodDef __pyx_mdef_5Utils_11calc_metrics3 = {"calc_metrics3", (PyCFunction)__pyx_pw_5Utils_11calc_metrics3, METH_O, 0};
+static PyObject *__pyx_pw_5Utils_11calc_metrics3(PyObject *__pyx_self, PyObject *__pyx_arg_tiles) {
   CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("calc_metrics2 (wrapper)", 0);
+  __Pyx_RefNannySetupContext("calc_metrics3 (wrapper)", 0);
   assert(__pyx_arg_tiles); {
     __pyx_v_tiles = __Pyx_PyObject_to_MemoryviewSlice_dsds_int(__pyx_arg_tiles, PyBUF_WRITABLE); if (unlikely(!__pyx_v_tiles.memview)) __PYX_ERR(0, 431, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
-  __Pyx_AddTraceback("Utils.calc_metrics2", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("Utils.calc_metrics3", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_5Utils_10calc_metrics2(__pyx_self, __pyx_v_tiles);
+  __pyx_r = __pyx_pf_5Utils_10calc_metrics3(__pyx_self, __pyx_v_tiles);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5Utils_10calc_metrics2(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles) {
+static PyObject *__pyx_pf_5Utils_10calc_metrics3(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles) {
   CYTHON_UNUSED int __pyx_v_i;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("calc_metrics2", 0);
+  __Pyx_RefNannySetupContext("calc_metrics3", 0);
 
   /* "Utils.pyx":432
  * 
- * def calc_metrics2(int[:,:] tiles):
+ * def calc_metrics3(int[:,:] tiles):
  *     cdef int i = 0             # <<<<<<<<<<<<<<
  *     return 0
  * 
@@ -5997,11 +5999,11 @@ static PyObject *__pyx_pf_5Utils_10calc_metrics2(CYTHON_UNUSED PyObject *__pyx_s
   __pyx_v_i = 0;
 
   /* "Utils.pyx":433
- * def calc_metrics2(int[:,:] tiles):
+ * def calc_metrics3(int[:,:] tiles):
  *     cdef int i = 0
  *     return 0             # <<<<<<<<<<<<<<
  * 
- * def calc_metrics3(int[:,:] tiles):
+ * def calc_metrics4(int[:,:] tiles):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_int_0);
@@ -6011,7 +6013,7 @@ static PyObject *__pyx_pf_5Utils_10calc_metrics2(CYTHON_UNUSED PyObject *__pyx_s
   /* "Utils.pyx":431
  * 
  * 
- * def calc_metrics2(int[:,:] tiles):             # <<<<<<<<<<<<<<
+ * def calc_metrics3(int[:,:] tiles):             # <<<<<<<<<<<<<<
  *     cdef int i = 0
  *     return 0
  */
@@ -6027,47 +6029,47 @@ static PyObject *__pyx_pf_5Utils_10calc_metrics2(CYTHON_UNUSED PyObject *__pyx_s
 /* "Utils.pyx":435
  *     return 0
  * 
- * def calc_metrics3(int[:,:] tiles):             # <<<<<<<<<<<<<<
+ * def calc_metrics4(int[:,:] tiles):             # <<<<<<<<<<<<<<
  *     cdef int i = 0
  *     return 0
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5Utils_13calc_metrics3(PyObject *__pyx_self, PyObject *__pyx_arg_tiles); /*proto*/
-static PyMethodDef __pyx_mdef_5Utils_13calc_metrics3 = {"calc_metrics3", (PyCFunction)__pyx_pw_5Utils_13calc_metrics3, METH_O, 0};
-static PyObject *__pyx_pw_5Utils_13calc_metrics3(PyObject *__pyx_self, PyObject *__pyx_arg_tiles) {
+static PyObject *__pyx_pw_5Utils_13calc_metrics4(PyObject *__pyx_self, PyObject *__pyx_arg_tiles); /*proto*/
+static PyMethodDef __pyx_mdef_5Utils_13calc_metrics4 = {"calc_metrics4", (PyCFunction)__pyx_pw_5Utils_13calc_metrics4, METH_O, 0};
+static PyObject *__pyx_pw_5Utils_13calc_metrics4(PyObject *__pyx_self, PyObject *__pyx_arg_tiles) {
   CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("calc_metrics3 (wrapper)", 0);
+  __Pyx_RefNannySetupContext("calc_metrics4 (wrapper)", 0);
   assert(__pyx_arg_tiles); {
     __pyx_v_tiles = __Pyx_PyObject_to_MemoryviewSlice_dsds_int(__pyx_arg_tiles, PyBUF_WRITABLE); if (unlikely(!__pyx_v_tiles.memview)) __PYX_ERR(0, 435, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
-  __Pyx_AddTraceback("Utils.calc_metrics3", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("Utils.calc_metrics4", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_5Utils_12calc_metrics3(__pyx_self, __pyx_v_tiles);
+  __pyx_r = __pyx_pf_5Utils_12calc_metrics4(__pyx_self, __pyx_v_tiles);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5Utils_12calc_metrics3(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles) {
+static PyObject *__pyx_pf_5Utils_12calc_metrics4(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles) {
   CYTHON_UNUSED int __pyx_v_i;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("calc_metrics3", 0);
+  __Pyx_RefNannySetupContext("calc_metrics4", 0);
 
   /* "Utils.pyx":436
  * 
- * def calc_metrics3(int[:,:] tiles):
+ * def calc_metrics4(int[:,:] tiles):
  *     cdef int i = 0             # <<<<<<<<<<<<<<
  *     return 0
  * 
@@ -6075,7 +6077,7 @@ static PyObject *__pyx_pf_5Utils_12calc_metrics3(CYTHON_UNUSED PyObject *__pyx_s
   __pyx_v_i = 0;
 
   /* "Utils.pyx":437
- * def calc_metrics3(int[:,:] tiles):
+ * def calc_metrics4(int[:,:] tiles):
  *     cdef int i = 0
  *     return 0             # <<<<<<<<<<<<<<
  * 
@@ -6089,7 +6091,7 @@ static PyObject *__pyx_pf_5Utils_12calc_metrics3(CYTHON_UNUSED PyObject *__pyx_s
   /* "Utils.pyx":435
  *     return 0
  * 
- * def calc_metrics3(int[:,:] tiles):             # <<<<<<<<<<<<<<
+ * def calc_metrics4(int[:,:] tiles):             # <<<<<<<<<<<<<<
  *     cdef int i = 0
  *     return 0
  */
@@ -19929,6 +19931,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_calc_metrics1, __pyx_k_calc_metrics1, sizeof(__pyx_k_calc_metrics1), 0, 0, 1, 1},
   {&__pyx_n_s_calc_metrics2, __pyx_k_calc_metrics2, sizeof(__pyx_k_calc_metrics2), 0, 0, 1, 1},
   {&__pyx_n_s_calc_metrics3, __pyx_k_calc_metrics3, sizeof(__pyx_k_calc_metrics3), 0, 0, 1, 1},
+  {&__pyx_n_s_calc_metrics4, __pyx_k_calc_metrics4, sizeof(__pyx_k_calc_metrics4), 0, 0, 1, 1},
   {&__pyx_n_s_chain, __pyx_k_chain, sizeof(__pyx_k_chain), 0, 0, 1, 1},
   {&__pyx_n_s_chain_len, __pyx_k_chain_len, sizeof(__pyx_k_chain_len), 0, 0, 1, 1},
   {&__pyx_n_s_class, __pyx_k_class, sizeof(__pyx_k_class), 0, 0, 1, 1},
@@ -20306,38 +20309,38 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "Utils.pyx":194
  * # with additional "reward" for empty tiles
  * 
- * def calc_metrics1(tiles1):             # <<<<<<<<<<<<<<
+ * def calc_metrics2(tiles1):             # <<<<<<<<<<<<<<
  * 
  *     # graph = {(0, 0): ((1, 0), (0, 1)),
  */
   __pyx_tuple__28 = PyTuple_Pack(30, __pyx_n_s_tiles1, __pyx_n_s_size, __pyx_n_s_tiles, __pyx_n_s_max_val, __pyx_n_s_val, __pyx_n_s_maxs, __pyx_n_s_maxs_len, __pyx_n_s_num_empty, __pyx_n_s_row, __pyx_n_s_col, __pyx_n_s_metrics, __pyx_n_s_chain, __pyx_n_s_max_adj, __pyx_n_s_metrics_len, __pyx_n_s_chain_len, __pyx_n_s_curr_row, __pyx_n_s_curr_col, __pyx_n_s_metric, __pyx_n_s_i, __pyx_n_s_end_of_chain, __pyx_n_s_mult, __pyx_n_s_multiplier1, __pyx_n_s_multiplier2, __pyx_n_s_in_corner1, __pyx_n_s_in_corner2, __pyx_n_s_in_corner, __pyx_n_s_same_row, __pyx_n_s_same_col, __pyx_n_s__27, __pyx_n_s_maximum); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 194, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__28);
   __Pyx_GIVEREF(__pyx_tuple__28);
-  __pyx_codeobj__29 = (PyObject*)__Pyx_PyCode_New(1, 0, 30, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__28, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Utils_pyx, __pyx_n_s_calc_metrics1, 194, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__29)) __PYX_ERR(0, 194, __pyx_L1_error)
+  __pyx_codeobj__29 = (PyObject*)__Pyx_PyCode_New(1, 0, 30, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__28, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Utils_pyx, __pyx_n_s_calc_metrics2, 194, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__29)) __PYX_ERR(0, 194, __pyx_L1_error)
 
   /* "Utils.pyx":431
  * 
  * 
- * def calc_metrics2(int[:,:] tiles):             # <<<<<<<<<<<<<<
+ * def calc_metrics3(int[:,:] tiles):             # <<<<<<<<<<<<<<
  *     cdef int i = 0
  *     return 0
  */
   __pyx_tuple__30 = PyTuple_Pack(3, __pyx_n_s_tiles, __pyx_n_s_tiles, __pyx_n_s_i); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 431, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__30);
   __Pyx_GIVEREF(__pyx_tuple__30);
-  __pyx_codeobj__31 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__30, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Utils_pyx, __pyx_n_s_calc_metrics2, 431, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__31)) __PYX_ERR(0, 431, __pyx_L1_error)
+  __pyx_codeobj__31 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__30, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Utils_pyx, __pyx_n_s_calc_metrics3, 431, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__31)) __PYX_ERR(0, 431, __pyx_L1_error)
 
   /* "Utils.pyx":435
  *     return 0
  * 
- * def calc_metrics3(int[:,:] tiles):             # <<<<<<<<<<<<<<
+ * def calc_metrics4(int[:,:] tiles):             # <<<<<<<<<<<<<<
  *     cdef int i = 0
  *     return 0
  */
   __pyx_tuple__32 = PyTuple_Pack(3, __pyx_n_s_tiles, __pyx_n_s_tiles, __pyx_n_s_i); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(0, 435, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__32);
   __Pyx_GIVEREF(__pyx_tuple__32);
-  __pyx_codeobj__33 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__32, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Utils_pyx, __pyx_n_s_calc_metrics3, 435, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__33)) __PYX_ERR(0, 435, __pyx_L1_error)
+  __pyx_codeobj__33 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__32, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Utils_pyx, __pyx_n_s_calc_metrics4, 435, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__33)) __PYX_ERR(0, 435, __pyx_L1_error)
 
   /* "View.MemoryView":286
  *         return self.name
@@ -20827,37 +20830,37 @@ if (!__Pyx_RefNanny) {
   /* "Utils.pyx":194
  * # with additional "reward" for empty tiles
  * 
- * def calc_metrics1(tiles1):             # <<<<<<<<<<<<<<
+ * def calc_metrics2(tiles1):             # <<<<<<<<<<<<<<
  * 
  *     # graph = {(0, 0): ((1, 0), (0, 1)),
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5Utils_9calc_metrics1, NULL, __pyx_n_s_Utils); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 194, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5Utils_9calc_metrics2, NULL, __pyx_n_s_Utils); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 194, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_calc_metrics1, __pyx_t_2) < 0) __PYX_ERR(0, 194, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_calc_metrics2, __pyx_t_2) < 0) __PYX_ERR(0, 194, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "Utils.pyx":431
  * 
  * 
- * def calc_metrics2(int[:,:] tiles):             # <<<<<<<<<<<<<<
+ * def calc_metrics3(int[:,:] tiles):             # <<<<<<<<<<<<<<
  *     cdef int i = 0
  *     return 0
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5Utils_11calc_metrics2, NULL, __pyx_n_s_Utils); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 431, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5Utils_11calc_metrics3, NULL, __pyx_n_s_Utils); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 431, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_calc_metrics2, __pyx_t_2) < 0) __PYX_ERR(0, 431, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_calc_metrics3, __pyx_t_2) < 0) __PYX_ERR(0, 431, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "Utils.pyx":435
  *     return 0
  * 
- * def calc_metrics3(int[:,:] tiles):             # <<<<<<<<<<<<<<
+ * def calc_metrics4(int[:,:] tiles):             # <<<<<<<<<<<<<<
  *     cdef int i = 0
  *     return 0
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5Utils_13calc_metrics3, NULL, __pyx_n_s_Utils); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 435, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5Utils_13calc_metrics4, NULL, __pyx_n_s_Utils); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 435, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_calc_metrics3, __pyx_t_2) < 0) __PYX_ERR(0, 435, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_calc_metrics4, __pyx_t_2) < 0) __PYX_ERR(0, 435, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "Utils.pyx":1
