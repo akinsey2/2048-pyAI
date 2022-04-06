@@ -210,21 +210,23 @@ class UiMainWindow(object):
         self.line.setObjectName("line")
 
         # Auto-Play Area
-        self.widget = QtWidgets.QWidget(self.centralwidget)
-        self.widget.setGeometry(QtCore.QRect(260, 600, 211, 131))
-        self.widget.setObjectName("widget")
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.widget)
+        self.ap_area_widget = QtWidgets.QWidget(self.centralwidget)
+        self.ap_area_widget.setGeometry(QtCore.QRect(260, 600, 211, 131))
+        self.ap_area_widget.setObjectName("widget")
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.ap_area_widget)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.ap_spd_label = QtWidgets.QLabel(self.widget)
+        self.ap_spd_label = QtWidgets.QLabel(self.ap_area_widget)
         self.ap_spd_label.setEnabled(False)
         font = QtGui.QFont()
         font.setPointSize(10)
+
+        # Autoplay Speed Slider
         self.ap_spd_label.setFont(font)
         self.ap_spd_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.ap_spd_label.setObjectName("ap_spd_label")
         self.verticalLayout_3.addWidget(self.ap_spd_label)
-        self.horizontalSlider = QtWidgets.QSlider(self.widget)
+        self.horizontalSlider = QtWidgets.QSlider(self.ap_area_widget)
         self.horizontalSlider.setEnabled(False)
         self.horizontalSlider.setMinimum(30)
         self.horizontalSlider.setMaximum(3000)
@@ -241,11 +243,17 @@ class UiMainWindow(object):
         self.horizontalSlider.setTickInterval(5)
         self.horizontalSlider.setObjectName("horizontalSlider")
         self.verticalLayout_3.addWidget(self.horizontalSlider)
-        self.comboBox = QtWidgets.QComboBox(self.widget)
+
+        # Autoplay Strategy ComboBox
+        self.comboBox = QtWidgets.QComboBox(self.ap_area_widget)
+        self.comboBox.addItems(["Most Blank Tiles", "Maximize Upper Right Chain", "Any Corner Chain + Blanks"])
         self.comboBox.setEnabled(False)
+
         self.comboBox.setObjectName("comboBox")
         self.verticalLayout_3.addWidget(self.comboBox)
-        self.ap_start_button = QtWidgets.QPushButton(self.widget)
+
+
+        self.ap_start_button = QtWidgets.QPushButton(self.ap_area_widget)
         self.ap_start_button.setEnabled(False)
         font = QtGui.QFont()
         font.setFamily("Tahoma")

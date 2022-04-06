@@ -1,4 +1,4 @@
-import AutoPlay
+import AutoPlayTests
 import csv
 import time
 from math import exp
@@ -9,13 +9,13 @@ if __name__ == '__main__':
     records = []
 
     # Parameters
-    calc_min = 0
-    calc_max = 0
+    calc_min = 1
+    calc_max = 1
     tree_depth_min = 5
     tree_depth_max = 7
-    topx_min = 4
-    topx_max = 10
-    reps = 3
+    topx_min = 6
+    topx_max = 8
+    reps = 12
 
     # Estimate Time Required
     tot_games = (calc_max - calc_min + 1) * (tree_depth_max - tree_depth_min + 1) * (topx_max - topx_min + 1) * reps
@@ -35,16 +35,15 @@ if __name__ == '__main__':
     overall_start_time = time.perf_counter()
 
     for calc_option in range(calc_min, calc_max+1):
-        print(f"\nCalc: {calc_option}  ", end="")
+        print(f"\nCalc: {calc_option}  ", end="", flush=True)
 
         for tree_depth in range(tree_depth_min, tree_depth_max+1):
-            print(f"TreeDp: {tree_depth}  ", end="")
+            print(f"TreeDp: {tree_depth}  ", end="", flush=True)
 
             for topx in range(topx_min, topx_max+1):
-                print(f"\nTopX: {topx}: ", end="")
+                print(f"\nTopX: {topx}: ", end="", flush=True)
 
                 for game_num in range(reps):
-                    print(f"{game_num} ", end="")
 
                     total_fwd_tiles = 0
                     for i in range(tree_depth+1):
@@ -54,8 +53,11 @@ if __name__ == '__main__':
                         continue
 
                     start_time = time.perf_counter()
-                    ap = AutoPlay.play_games(1, tree_depth, topx, calc_option)
+                    ap = AutoPlayTests.play_games(1, tree_depth, topx, calc_option)
                     end_time = time.perf_counter()
+
+                    print(f"{game_num} ({ap.game.score}), ", end="", flush=True)
+
                     records.append([calc_option, tree_depth, topx, game_num, ap.game.score, end_time-start_time])
 
     overall_end_time = time.perf_counter()

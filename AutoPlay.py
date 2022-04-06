@@ -34,7 +34,7 @@ class AutoPlayer:
                 self.rand = rand
 
             # Calculate how many random numbers are needed based on move tree size
-            rand_nums = sum([4**i for i in range(tree_depth+1)])*2*4000
+            rand_nums = sum([4**i for i in range(tree_depth+1)])*2*5000
             self.rands = self.rand.random(rand_nums, dtype=np.float32)
             self.rand_idx = int(0)
 
@@ -140,13 +140,10 @@ class MoveNode:
         if USE_CYTHON:  # Use fast Cython functions
             if ap.calc_option == 0:
                 self.metric = Utils.calc_metrics0(tiles)
-
             elif ap.calc_option == 1:
-                self.metric = Utils.calc_metrics1(tiles, 4)
-
-            # ---!!!--- SWITCH to Cython when available!
+                self.metric = Utils.calc_metrics1(tiles)
             elif ap.calc_option == 2:
-                self.metric = calc_metrics2(tiles, 4)
+                self.metric = Utils.calc_metrics2(tiles)
 
         else:   # Use slower Python functions
             if ap.calc_option == 0:
@@ -226,8 +223,22 @@ def node_tree_max_DFS(node, max_metrics):
     return max_metrics
 
 
-# Simplest metric...Rewards Upper-Right aligned chain.
+# Strategy 0:
+# Simplest...Rewards Empty Tiles.
 def calc_metrics0(tiles):
+
+    num_empty = 0
+    for row in range(SIZE):
+        for col in range(SIZE):
+            if tiles[row][col] == 0:
+                num_empty += 100
+
+    return num_empty
+
+
+# Strategy 1:
+# Simple metric...Rewards Upper-Right aligned chain.
+def calc_metrics1(tiles):
 
     metric = int(tiles[0][3]*256 + tiles[1][3]*128 +
                  tiles[2][3]*64 + tiles[3][3]*32 +
@@ -237,9 +248,10 @@ def calc_metrics0(tiles):
     return metric
 
 
-# More advanced metric. Rewards largest tile in corner, and best overall "chain",
-# without regard to location on board
-def calc_metrics1(tiles):
+# Strategy 2:
+# More advanced metric. Rewards any "chain" anchored in a corner,
+# with additional "reward" for empty tiles
+def calc_metrics2(tiles):
 
     # tiles_byval = {0: [], 2: [], 4: [], 8: [], 16: [], 32: [], 64: [], 128: [],
     #                256: [], 512: [], 1024: [], 2048: [], 4096: [], 8192: [], 16384: []}
@@ -354,15 +366,7 @@ def calc_metrics1(tiles):
 
     return max(metrics)
 
-def calc_metrics2(tiles):
 
-    num_empty = 0
-    for row in range(SIZE):
-        for col in range(SIZE):
-            if tiles[row][col] == 0:
-                num_empty += 100
-
-    return num_empty
 
 
 if __name__ == '__main__':

@@ -2,13 +2,18 @@
 
 import numpy as np
 
-DTYPE = np.intc
+DTYPE = np.intc # Data type of NumPy arrays (tiles[][])
+cdef enum:
+    SIZE = 4        # Length of single board dimension (4 for 4x4, 5 for 5x5, etc)
+    SIZE_X2 = 8     # 2*SIZE
 
 def move_tiles(short direction, tiles, int score, short size):
 
     cdef short idx1, place_idx, eval_idx, inc, row1, row2, col1, col2
     cdef int tile_sum
     cdef bint valid_move = False
+
+    assert tiles.dtype == DTYPE
 
     tiles1 = np.copy(tiles)
     cdef int[:,:] tiles2 = tiles1
@@ -133,28 +138,60 @@ def add_random_tile( tiles, float[:] rands, int rand_idx1, short size):
 
     return tiles, empty, rand_idx1
 
-def calc_metrics0(int[:,:] tiles):
-    cdef int metric
 
-    metric = int(tiles[0, 3] * 256 + tiles[1, 3] * 128 +
-                 tiles[2, 3] * 64 + tiles[3, 3] * 32 +
-                 tiles[3, 2] * 16 + tiles[2, 2] * 8 +
-                 tiles[1, 2] * 4 + tiles[0, 2] * 2)
+# Strategy 0:
+# Simplest...Rewards Empty Tiles.
+
+def calc_metrics0(tiles1):
+
+    cdef Py_ssize_t size = tiles1.shape[0]
+
+    assert tiles1.shape[0] == tiles1.shape[1]
+    assert tiles1.dtype == DTYPE
+
+    cdef int[:,:] tiles = tiles1
+    cdef int num_empty = 0, row, col
+
+    for row in range(size):
+        for col in range(size):
+            if tiles[row, col] == 0:
+                num_empty += 100
+
+    return num_empty
+
+
+# Strategy 1:
+# Simple metric...Rewards Upper-Right aligned chain.
+
+def calc_metrics1(tiles1):
+
+    cdef Py_ssize_t size = tiles1.shape[0]
+
+    assert tiles1.shape[0] == tiles1.shape[1]
+    assert tiles1.dtype == np.intc
+
+    cdef int[:,:] tiles = tiles1
+    cdef int metric = 0, mult = 2**(size*2),
+    cdef int rgt_col = size - 1, nxt_col = size - 2
+
+    # Right Col, top to bottom
+    for i in range(size):
+        metric += mult*tiles[i, rgt_col]
+        mult = mult // 2
+
+    # Second-to-right col, bottom to top
+    for i in range(size-1, -1, -1):
+        metric += mult*tiles[i, nxt_col]
+        mult = mult // 2
 
     return metric
 
-def calc_metrics1(int[:,:] tiles, short size):
 
-    cdef int max_val, num_empty, val, metric, mult, multiplier1, multiplier2, maximum
-    cdef short row, col, a_row, a_col, chain_idx, curr_row, curr_col
-    cdef int maxs[8][3]
-    cdef short maxs_len
-    cdef int chain[8][3]
-    cdef short chain_len
-    cdef int max_adj[3]
-    cdef int metrics[8]
-    cdef short metrics_len, i
-    cdef bint end_of_chain, in_corner1, in_corner2, in_corner, same_row, same_col
+# Strategy 2:
+# More advanced metric. Rewards any "chain" anchored in a corner,
+# with additional "reward" for empty tiles
+
+def calc_metrics1(tiles1):
 
     # graph = {(0, 0): ((1, 0), (0, 1)),
     #          (0, 1): ((0, 0), (1, 1), (0, 2)),
@@ -173,10 +210,18 @@ def calc_metrics1(int[:,:] tiles, short size):
     #          (3, 2): ((2, 2), (3, 3), (3, 1)),
     #          (3, 3): ((2, 3), (3, 2))}
 
+    cdef Py_ssize_t size = tiles1.shape[0]
+
+    assert tiles1.shape[0] == tiles1.shape[1]
+    assert tiles1.dtype == DTYPE
+
+    cdef int[:,:] tiles = tiles1
+
     # Find greatest tile(s) value and indeces, the starting point(s) of the "chain" calculation(s)
-    max_val = 0
-    maxs_len = 0
-    num_empty = 0
+    cdef int max_val = 0, val
+    cdef int maxs[SIZE_X2][3]
+    cdef short maxs_len = 0, num_empty = 0, row, col
+
     for row in range(size):
         for col in range(size):
 
@@ -205,7 +250,14 @@ def calc_metrics1(int[:,:] tiles, short size):
     #     print(f"{maxs[i][0]}, ", end = "")
 
     # --- Master Loop: Traverses chain(s) and calculates chain quality metric/score
-    metrics_len = 0
+    cdef int metrics[SIZE_X2]
+    cdef int chain[SIZE_X2][3]
+    cdef int max_adj[3]
+    cdef short metrics_len = 0, chain_len = 0, curr_row, curr_col
+    cdef int metric, i
+    cdef bint end_of_chain
+    cdef int mult, multiplier1, multiplier2
+    cdef bint in_corner1, in_corner2, in_corner, same_row, same_col
 
     for i in range(maxs_len):
 
@@ -219,7 +271,7 @@ def calc_metrics1(int[:,:] tiles, short size):
         chain_len = 1
 
         # --- Process next 7 (or SIZE-1) "largest" tiles of "chain"
-        for _ in range(7):
+        for _ in range(2*size-1):
 
             max_adj[0] = 0
             max_adj[1] = -1
@@ -251,7 +303,7 @@ def calc_metrics1(int[:,:] tiles, short size):
         in_corner1 = (chain[0][1] == 0) or (chain[0][1] == size-1)
         in_corner2 = (chain[0][2] == 0) or (chain[0][2] == size-1)
         in_corner = in_corner1 and in_corner2
-        multiplier1 = 1 if in_corner else 0
+        multiplier1 = 2 if in_corner else 1
 
         # If the first <=4 tiles in the chain are all in the same row or col
         same_row = True
@@ -283,7 +335,7 @@ def calc_metrics1(int[:,:] tiles, short size):
     # --- Done calculating the metrics for all chains
 
     # --- Find the maximum value of metrics
-    maximum = 0
+    cdef int maximum = 0
     for i in range(metrics_len):
         if metrics[i] > maximum:
             maximum = metrics[i]
