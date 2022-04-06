@@ -15,7 +15,7 @@ if __name__ == '__main__':
     tree_depth_max = 7
     topx_min = 4
     topx_max = 10
-    reps = 20
+    reps = 3
 
     # Estimate Time Required
     tot_games = (calc_max - calc_min + 1) * (tree_depth_max - tree_depth_min + 1) * (topx_max - topx_min + 1) * reps

@@ -12,7 +12,7 @@ USE_CYTHON = True
 # ****************************************
 class AutoPlayer:
     #6, 7
-    def __init__(self, game, tree_depth=5, topx=6, calc_option=2, rand=None):
+    def __init__(self, game, tree_depth=6, topx=7, calc_option=1, rand=None):
 
         # GameMgr.Game object stores current game state: tiles, score, etc
         self.game = game
@@ -141,12 +141,12 @@ class MoveNode:
             if ap.calc_option == 0:
                 self.metric = Utils.calc_metrics0(tiles)
 
-            # ---!!!--- SWITCH to Cython when available!
             elif ap.calc_option == 1:
-                self.metric = calc_metrics1(tiles)
+                self.metric = Utils.calc_metrics1(tiles, 4)
 
+            # ---!!!--- SWITCH to Cython when available!
             elif ap.calc_option == 2:
-                self.metric = calc_metrics2(tiles)
+                self.metric = calc_metrics2(tiles, 4)
 
         else:   # Use slower Python functions
             if ap.calc_option == 0:
@@ -302,7 +302,7 @@ def calc_metrics1(tiles):
         chain_idxs = [(row, col)]
 
         # --- Process next 3 (or SIZE-1) "largest" tiles
-        for _ in range(SIZE-1):
+        for _ in range(7):
 
             max_adj_val = 0
             max_adj_idx = (None, None)
@@ -311,10 +311,11 @@ def calc_metrics1(tiles):
             for (a_row, a_col) in graph[(row, col)]:
 
                 # Don't explore empty tiles or tiles already in chain
-                if tiles[a_row][a_col] == 0 or (a_row, a_col) in chain_idxs:
+                val = tiles[a_row][a_col]
+                if val == 0 or (a_row, a_col) in chain_idxs or val > tiles[row][col]:
                     continue
 
-                if tiles[a_row][a_col] > max_adj_val:
+                if val > max_adj_val:
                     max_adj_val = tiles[a_row][a_col]
                     max_adj_idx = (a_row, a_col)
 
@@ -327,66 +328,24 @@ def calc_metrics1(tiles):
             chain_idxs.append(max_adj_idx)
             (row, col) = max_adj_idx
 
-        # --- Done processing first portion of chain
+        # --- Done Identifying this chain
 
         # Add bonus if largest tile in corner
         in_corner = (chain_idxs[0][0] in [0, SIZE-1]) and (chain_idxs[0][1] in [0, SIZE-1])
         multiplier1 = 2 if in_corner else 1
 
         # If these first tiles in the chain are all in the same row or col
-        same_row = all([chain_idxs[0][0] == chain_idxs[i][0] for i in range(1, len(chain_idxs))])
-        same_col = all([chain_idxs[0][1] == chain_idxs[i][1] for i in range(1, len(chain_idxs))])
+        same_row = all([chain_idxs[0][0] == chain_idxs[i][0] for i in range(1, min(4, len(chain_idxs)))])
+        same_col = all([chain_idxs[0][1] == chain_idxs[i][1] for i in range(1, min(4, len(chain_idxs)))])
 
         # Give "bonus" for these tiles being in same row or col
-        multiplier2 = 2 if (same_row or same_col) else 1
+        multiplier2 = 2 if in_corner and (same_row or same_col) else 1
 
         # Update metric for this chain
-        mult = 256
+        mult = 8
         for tile_val in chain_vals:
-            metric += (mult * tile_val)
-            mult = mult/2
-
-        # --- If you have reached the end of the chain, stop
-        if end_of_chain:
-            # multiplier3 = 2 ** num_empty
-            metric = metric * multiplier1 * multiplier2 * num_empty
-            metrics.append(metric)
-            break
-
-        # --- Otherwise, process next ~4 (or SIZE) "largest" tiles
-        row = chain_idxs[-1][0]
-        col = chain_idxs[-1][1]
-
-        for _ in range(SIZE):
-
-            max_adj_val = 0
-            max_adj_idx = (None, None)
-
-            # Explore adjacent tiles for largest
-            for (a_row, a_col) in graph[(row, col)]:
-
-                # Don't explore empty tiles or tiles already in chain
-                if tiles[a_row][a_col] == 0 or (a_row, a_col) in chain_idxs:
-                    continue
-
-                if tiles[row][col] > max_adj_val:
-                    max_adj_val = tiles[a_row][a_col]
-                    max_adj_idx = (a_row, a_col)
-
-            # Reached the end of the chain, stop looking for more tiles
-            if max_adj_val > chain_vals[-1] or max_adj_val == 0:
-                end_of_chain = True
-                break
-
-            chain_vals.append(max_adj_val)
-            chain_idxs.append(max_adj_idx)
-            (row, col) = max_adj_idx
-
-        # --- Done processing second portion of chain
-
-        for tile_val in chain_vals[4:]:
-            metric += (mult * tile_val)
-            mult = mult/2
+            metric += tile_val* mult
+            mult -= 1
 
         # multiplier3 = 2 ** num_empty
         metric = metric * multiplier1 * multiplier2 * num_empty
@@ -404,84 +363,6 @@ def calc_metrics2(tiles):
                 num_empty += 100
 
     return num_empty
-
-
-# # This is the Python version. Use of the MUCH faster Cython version is preferred
-# def add_random_tile(tiles, rands, rand_idx):
-#
-#     # Search to find indeces [row][col] of "open" positions on board
-#     open_positions = np.argwhere(tiles == 0)
-#     num_empty = int(open_positions.size / 2)
-#
-#     if num_empty == 0:
-#         return tiles, num_empty
-#
-#     # Pick one of the "empty" positions on board at random
-#     rand_idx2 = int(rands[rand_idx]*num_empty)
-#     rand_idx += 1
-#
-#     row = open_positions[rand_idx2][0]
-#     col = open_positions[rand_idx2][1]
-#
-#     # Decide if new tile will be "2" (90%) or "4" (10%)
-#     value = 2 if (rands[rand_idx] < 0.9) else 4
-#     rand_idx += 1
-#
-#     tiles[row][col] = value
-#     num_empty -= 1
-#
-#     return tiles, num_empty, rand_idx
-
-
-# ------------------------------
-# Testing Functions
-
-def print_tree_bfs(tree):
-
-    print("Tree:", end="")
-    q1 = [tree]
-    q2 = []
-    level = 0
-    while q1:
-        level += 1
-        for node in q1:
-            print("|", end="") if node else print("-", end="")
-
-            if node and node.next:
-                for next1 in node.next:
-                    q2.append(next1)
-        print(f"\nLevel {level}: {len([q2 for i in q2 if i is not None])}/{len(q2)} : ", end="")
-        q1 = q2
-        q2 = []
-
-    print("\n")
-
-
-def run_num_moves(start_tiles, num_moves, tree_depth, topx, calc_option):
-
-    game1 = GameMgr.Game(None)
-    game1.add_random_tile(commit=True)
-    ap1 = AutoPlayer(game1)
-
-    for _ in range(num_moves):
-        valid_move, tiles, score, num_empty = ap1.auto_move()
-
-    return tiles, score
-
-
-def play_games(num, tree_depth, topx, calc_option):
-
-    for i in range(num):
-
-        game1 = GameMgr.Game(None)
-        game1.add_random_tile(commit=True)
-
-        ap1 = AutoPlayer(game1, tree_depth, topx, calc_option)
-
-        while not ap1.game.game_over:
-            ap1.auto_move()
-
-    return ap1
 
 
 if __name__ == '__main__':

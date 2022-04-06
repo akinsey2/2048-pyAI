@@ -1,5 +1,6 @@
+# cython: language_level=3
+
 import numpy as np
-from random import random
 
 DTYPE = np.intc
 
@@ -142,16 +143,18 @@ def calc_metrics0(int[:,:] tiles):
 
     return metric
 
-def calc_metrics1(int[:,:] tiles, int size):
+def calc_metrics1(int[:,:] tiles, short size):
 
-    cdef int max_val, maxs_len, chain_len, val, row, col
-    cdef int a_row, a_col, chain_idx, curr_row, curr_col
-    cdef int abv_row, rgt_col, blw_row, lft_col
-    cdef int maxs[16][3], chain[16][3], max_adj[3], metrics[16]
-    cdef int metrics_len, metric, mult, i, maximum
-    cdef int multiplier1, multiplier2, multiplier3
-    cdef bint end_of_chain, in_chain, in_corner1, in_corner2, in_corner
-    cdef bint same_row, same_col
+    cdef int max_val, num_empty, val, metric, mult, multiplier1, multiplier2, maximum
+    cdef short row, col, a_row, a_col, chain_idx, curr_row, curr_col
+    cdef int maxs[8][3]
+    cdef short maxs_len
+    cdef int chain[8][3]
+    cdef short chain_len
+    cdef int max_adj[3]
+    cdef int metrics[8]
+    cdef short metrics_len, i
+    cdef bint end_of_chain, in_corner1, in_corner2, in_corner, same_row, same_col
 
     # graph = {(0, 0): ((1, 0), (0, 1)),
     #          (0, 1): ((0, 0), (1, 1), (0, 2)),
@@ -170,16 +173,20 @@ def calc_metrics1(int[:,:] tiles, int size):
     #          (3, 2): ((2, 2), (3, 3), (3, 1)),
     #          (3, 3): ((2, 3), (3, 2))}
 
-    # Find greatest tile(s) on board, the starting point of the "chain" calculation(s)
+    # Find greatest tile(s) value and indeces, the starting point(s) of the "chain" calculation(s)
     max_val = 0
     maxs_len = 0
+    num_empty = 0
     for row in range(size):
         for col in range(size):
 
-            val = tiles[row][col]
+            val = tiles[row, col]
 
-            if val < max_val:
+            if val == 0:
+                num_empty += 1
+            elif val < max_val:
                 continue
+            # Value is greater
             elif val > max_val:
                 max_val = val
                 maxs_len = 1
@@ -192,8 +199,12 @@ def calc_metrics1(int[:,:] tiles, int size):
                 maxs[maxs_len][2] = col
                 maxs_len += 1
 
-    # --- Master Loop: Traverses chain(s) and calculates chain quality metric/score
+    # # DEBUG:
+    # print("Maxes: ", end="")
+    # for i in range(maxs_len):
+    #     print(f"{maxs[i][0]}, ", end = "")
 
+    # --- Master Loop: Traverses chain(s) and calculates chain quality metric/score
     metrics_len = 0
 
     for i in range(maxs_len):
@@ -207,16 +218,24 @@ def calc_metrics1(int[:,:] tiles, int size):
         chain[0][2] = maxs[i][2]
         chain_len = 1
 
-        # --- Process next 3 (or SIZE-1) "largest" tiles
-        for _ in range(size-1):
+        # --- Process next 7 (or SIZE-1) "largest" tiles of "chain"
+        for _ in range(7):
 
-            curr_row = chain[chain_len - 1][1]
-            curr_col = chain[chain_len - 1][2]
+            max_adj[0] = 0
+            max_adj[1] = -1
+            max_adj[2] = -1
 
-            max_adj = max_adjacent(tiles, chain, chain_len, curr_row, curr_col, size)
+            max_adj = max_adjacent(tiles, chain, chain_len, max_adj, size)
+
+            # # DEBUG
+            # curr_row = chain[chain_len-1][1]
+            # curr_col = chain[chain_len-1][2]
+            # print(f"\n[{curr_row}, {curr_col}]: {tiles[curr_row, curr_col]},  " +
+            #       f"Max Adj [{max_adj[1]}, {max_adj[2]}]: {max_adj[0]},  " +
+            #       f"chain_len = {chain_len},  ")
 
             # If Reached the end of the chain, stop looking for more tiles
-            if max_adj[0] < chain[chain_len - 1][0] or max_adj[0] == 0:
+            if max_adj[0] > chain[chain_len - 1][0] or max_adj[0] == 0:
                 end_of_chain = True
                 break
 
@@ -226,19 +245,18 @@ def calc_metrics1(int[:,:] tiles, int size):
             chain[chain_len][2] = max_adj[2]
             chain_len += 1
 
-
-        # --- Done processing first portion of chain
+        # --- Done Identifying this chain
 
         # Add bonus if largest tile in corner
         in_corner1 = (chain[0][1] == 0) or (chain[0][1] == size-1)
         in_corner2 = (chain[0][2] == 0) or (chain[0][2] == size-1)
         in_corner = in_corner1 and in_corner2
-        multiplier1 = 2 if in_corner else 1
+        multiplier1 = 1 if in_corner else 0
 
-        # If these first tiles in the chain are all in the same row or col
+        # If the first <=4 tiles in the chain are all in the same row or col
         same_row = True
         same_col = True
-        for i in range(1, chain_len):
+        for i in range(1, min(4, chain_len)):
             same_row = same_row and (chain[0][1] == chain[i][1])
             same_col = same_col and (chain[0][2] == chain[i][2])
 
@@ -246,56 +264,28 @@ def calc_metrics1(int[:,:] tiles, int size):
         multiplier2 = 2 if in_corner and (same_row or same_col) else 1
 
         # Update metric for this chain
-        mult = 256
+        mult = 8
         for i in range(chain_len):
-            metric += (mult * chain[i][0])
-            mult = mult/2
+            metric += mult*chain[i][0]
+            mult -= 1
 
-        # --- If you have reached the end of this chain, end calculation of metric for this chain
-        # Continue to restart master loop to work on next "max_val" chain, if it exists
-        if end_of_chain:
-            metric = metric * multiplier1 * multiplier2
-            metrics[metrics_len] = metric
-            metrics_len += 1
-            continue
-
-        # --- Otherwise, process next ~4 (or SIZE) "largest" tiles
-        for _ in range(size):
-
-            # Explore adjacent tiles for largest
-            curr_row = chain[chain_len - 1][1]
-            curr_col = chain[chain_len - 1][2]
-
-            max_adj = max_adjacent(tiles, chain, chain_len, curr_row, curr_col, size)
-
-            # If Reached the end of the chain, stop looking for more tiles
-            if max_adj[0] < chain[chain_len - 1][0] or max_adj[0] == 0:
-                end_of_chain = True
-                break
-
-            # Else, save this next tile in chain, and keep looking
-            chain[chain_len][0] = max_adj[0]
-            chain[chain_len][1] = max_adj[1]
-            chain[chain_len][2] = max_adj[2]
-            chain_len += 1
-
-        # --- Done processing second portion of chain
-
-        for i in range(4,chain_len):
-            metric += (mult * chain[i][0])
-            mult = mult / 2
-
-        metric = metric * multiplier1 * multiplier2
-
+        metric = metric * multiplier1 * multiplier2 * num_empty
         metrics[metrics_len] = metric
         metrics_len += 1
+
+        # # DEBUG
+        # print("\nChain: ", end="")
+        # for i in range(chain_len):
+        #     print(f"{chain[i][0]}, ", end="", flush=True)
+        # print(f"  Mult1 = {multiplier1}  Mult2 = {multiplier2}")
+        continue
 
     # --- Done calculating the metrics for all chains
 
     # --- Find the maximum value of metrics
     maximum = 0
     for i in range(metrics_len):
-        if metrics[i] > max:
+        if metrics[i] > maximum:
             maximum = metrics[i]
 
     return maximum
@@ -310,16 +300,19 @@ def calc_metrics1(int[:,:] tiles, int size):
 #       int size         - the dimension length of the game board  (4 if 4x4 tiles)
 # Returns:
 #
-def max_adjacent(int[:,:] tiles, int chain[16][3], int chain_len, int row, int col, int size):
+cdef int *max_adjacent(int[:,:] tiles, int chain[8][3], int chain_len, int max_adj[3], int size):
 
-    cdef int abv_row, rgt_col, blw_row, lft_col
-    cdef int max_adj[3]
+    cdef int curr_val, abv_val, rgt_val, blw_val, lft_val
+    cdef int row, col, abv_row, rgt_col, blw_row, lft_col
     cdef bint in_chain
 
     # Initialize
+    row = chain[chain_len - 1][1]
+    col = chain[chain_len - 1][2]
     max_adj[0] = 0
     max_adj[1] = -1
     max_adj[2] = -1
+    curr_val = tiles[row, col]
 
     # Explore adjacent tiles for largest
 
@@ -328,8 +321,9 @@ def max_adjacent(int[:,:] tiles, int chain[16][3], int chain_len, int row, int c
     if abv_row > -1:
 
         in_chain = check_in_chain(chain, chain_len, abv_row, col)
-        if tiles[abv_row][col] > max_adj[0] and not in_chain:
-            max_adj[0] = tiles[abv_row][col]
+        abv_val = tiles[abv_row, col]
+        if not in_chain and abv_val <= curr_val and abv_val > max_adj[0]:
+            max_adj[0] = abv_val
             max_adj[1] = abv_row
             max_adj[2] = col
 
@@ -338,8 +332,9 @@ def max_adjacent(int[:,:] tiles, int chain[16][3], int chain_len, int row, int c
     if rgt_col < size:
 
         in_chain = check_in_chain(chain, chain_len, row, rgt_col)
-        if tiles[row][rgt_col] > max_adj[0] and not in_chain:
-            max_adj[0] = tiles[row][rgt_col]
+        rgt_val = tiles[row, rgt_col]
+        if not in_chain and rgt_val <= curr_val and rgt_val > max_adj[0]:
+            max_adj[0] = rgt_val
             max_adj[1] = row
             max_adj[2] = rgt_col
 
@@ -348,31 +343,30 @@ def max_adjacent(int[:,:] tiles, int chain[16][3], int chain_len, int row, int c
     if blw_row < size:
 
         in_chain = check_in_chain(chain, chain_len, blw_row, col)
-        if tiles[blw_row][col] > max_adj[0] and not in_chain:
-            max_adj[0] = tiles[blw_row][col]
+        blw_val = tiles[blw_row, col]
+        if not in_chain and blw_val <= curr_val and blw_val > max_adj[0]:
+            max_adj[0] = blw_val
             max_adj[1] = blw_row
             max_adj[2] = col
 
     # Left
     lft_col = col - 1
-    if rgt_col > -1:
+    if lft_col > -1:
 
         in_chain = check_in_chain(chain, chain_len, row, lft_col)
-        if tiles[row][lft_col] > max_adj[0] and not in_chain:
-            max_adj[0] = tiles[row][lft_col]
+        lft_val = tiles[row, lft_col]
+        if not in_chain and lft_val <= curr_val and lft_val > max_adj[0]:
+            max_adj[0] = lft_val
             max_adj[1] = row
             max_adj[2] = lft_col
 
     return max_adj
 
-
 # Check whether a particular tile [row, col] is already saved in "chain"
 # Return True if this tile is already in the chain, False otherwise
-def check_in_chain(int chain[16][3], int chain_len, int row, int col):
+cdef bint check_in_chain(int chain[8][3], int chain_len, int row, int col):
     cdef int i
-    cdef bint in_chain
-
-    in_chain = False
+    cdef bint in_chain = False
 
     for i in range(chain_len):
         if (chain[i][1] == row) and (chain[i][2] == col):

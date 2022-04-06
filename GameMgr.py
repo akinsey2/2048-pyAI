@@ -215,10 +215,6 @@ class Game(object):
             self.tiles = tiles
             self.game_over = game_over
 
-        # TESTING
-        max_tile, num_maxes = Utils.calc_metrics1(self.tiles, 4)
-        print(f"Max Tile: {max_tile}, Num_maxes = {num_maxes}")
-
         return tiles, num_empty, game_over, rand_idx
 
     def check_game_over(self, tiles):
