@@ -14,11 +14,9 @@ class AutoPlayer:
     #6, 7
     def __init__(self, game, tree_depth=6, topx=7, calc_option=1, rand=None):
 
-
-        # Test
-        print(f"AutoPlay: td={tree_depth}, topx={topx}|{2**topx}, calc={calc_option}")
-        print(game)
-
+        # # Test
+        # print(f"AutoPlay: td={tree_depth}, topx={topx}|{2**topx}, calc={calc_option}")
+        # print(game)
 
         # GameMgr.Game object stores current game state: tiles, score, etc
         self.game = game
@@ -40,9 +38,10 @@ class AutoPlayer:
                 self.rand = rand
 
             # Calculate how many random numbers are needed based on move tree size
-            rand_nums = sum([4**i for i in range(tree_depth+1)])*2*5000
-            self.rands = self.rand.random(rand_nums, dtype=np.float32)
+            rand_nums = int(sum([4**i for i in range(tree_depth+1)])*2*4000)
+            self.rands = self.rand.random(rand_nums, dtype=np.single)
             self.rand_idx = int(0)
+            print(f"Length(self.rands) = {self.rands.shape}  dtype = {self.rands.dtype}")
 
         # If Cython is NOT used, (speed not critical)
         # then AutoPlay does not need to contain random numbers
@@ -54,7 +53,8 @@ class AutoPlayer:
         out = list()
         out.append("-"*30 + "\n")
         out.append(f"AutoPlay - Tree Depth: {self.tree_depth} | " +
-                   f"TopX: {2**self.topx} | Calc: {self.calc_option} \n")
+                   f"TopX: {2**self.topx} | Calc: {self.calc_option} | " +
+                   f"Rands Length: {self.rands.size} | rand_idx: {self.rand_idx}\n")
         out.append(repr(self.game))
 
         return "".join(out)
@@ -119,6 +119,7 @@ class AutoPlayer:
             if USE_CYTHON:
                 self.game.tiles, self.game.num_empty, self.rand_idx = \
                     Utils.add_random_tile(tiles2, self.rands, self.rand_idx, 4)
+                self.game.num_moves += 1
             else:
                 self.game.add_random_tile(commit=True)
 
@@ -150,9 +151,8 @@ class MoveNode:
                 self.metric = Utils.calc_metrics1(tiles)
             elif ap.calc_option == 2:
                 self.metric = Utils.calc_metrics2(tiles)
-            # Change to Cython when available
             elif ap.calc_option == 3:
-                self.metric = calc_metrics3(tiles)
+                self.metric = Utils.calc_metrics3(tiles)
 
         else:   # Use slower Python functions
             if ap.calc_option == 0:

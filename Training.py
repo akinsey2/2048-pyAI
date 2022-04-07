@@ -9,13 +9,13 @@ if __name__ == '__main__':
     records = []
 
     # Parameters
-    calc_min = 1
-    calc_max = 1
+    calc_min = 3
+    calc_max = 3
     tree_depth_min = 5
-    tree_depth_max = 7
+    tree_depth_max = 6
     topx_min = 6
-    topx_max = 8
-    reps = 12
+    topx_max = 7
+    reps = 25
 
     # Estimate Time Required
     tot_games = (calc_max - calc_min + 1) * (tree_depth_max - tree_depth_min + 1) * (topx_max - topx_min + 1) * reps
@@ -64,6 +64,7 @@ if __name__ == '__main__':
                     start_time = time.perf_counter()
                     ap = AutoPlayTests.play_games(1, tree_depth, topx, calc_option)
                     end_time = time.perf_counter()
+                    print(ap)
 
                     print(f"{game_num} ({ap.game.score}), ", end="", flush=True)
 
