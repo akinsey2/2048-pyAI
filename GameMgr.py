@@ -22,7 +22,6 @@ class Game(object):
         self.num_empty = None
         self.already_won = False
         self.game_over = False
-        self.num_moves = num_moves
 
         self.rand = np.random.default_rng()
         self.last_move_valid = True

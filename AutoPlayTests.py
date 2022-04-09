@@ -169,7 +169,14 @@ def play_games(num, tree_depth, topx, calc_option):
         ap1 = AutoPlay.AutoPlayer(game1, tree_depth, topx, calc_option)
 
         while not ap1.game.game_over:
-            ap1.auto_move()
+            for _ in range(2000):
+                ap1.auto_move()
+                if ap1.game.game_over:
+                    break
+            print(ap1)
+            print(f"move_metrics = {ap1.move_metrics}, best_move = {ap1.best_move}, " +
+                  f"last_move_valid = {ap1.last_move_valid}")
+
 
     return ap1
 

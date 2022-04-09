@@ -7,18 +7,21 @@ cdef enum:
     SIZE = 4        # Length of single board dimension (4 for 4x4, 5 for 5x5, etc)
     SIZE_X2 = 8     # 2*SIZE
 
-def move_tiles(short direction, tiles, int score, short size):
+def move_tiles(short direction, tiles, int score):
 
-    cdef short idx1, place_idx, eval_idx, inc, row1, row2, col1, col2
-    cdef int tile_sum
-    cdef bint valid_move = False
-
+    assert tiles.shape[0] == tiles.shape[1]
     assert tiles.dtype == DTYPE
+
+    cdef Py_ssize_t size = tiles.shape[0]
 
     tiles1 = np.copy(tiles)
     cdef int[:,:] tiles2 = tiles1
 
     # --- Begin primary move_tiles loop
+
+    cdef short idx1, place_idx, eval_idx, inc, row1, row2, col1, col2
+    cdef int tile_sum
+    cdef bint valid_move = False
 
     # For each row (if left/right) or col (if up/down)
     for idx1 in range(size):
@@ -105,7 +108,12 @@ def move_tiles(short direction, tiles, int score, short size):
     return valid_move, tiles1, score
 
 
-def add_random_tile( tiles, float[:] rands, int rand_idx1, short size):
+def add_random_tile( tiles, float[:] rands, int rand_idx1):
+
+    assert tiles.shape[0] == tiles.shape[1]
+    assert tiles.dtype == DTYPE
+
+    cdef Py_ssize_t size = tiles.shape[0]
 
     cdef short row, col
     cdef short open_positions[16][2]
@@ -168,10 +176,46 @@ def calc_metrics1(tiles1):
     cdef Py_ssize_t size = tiles1.shape[0]
 
     assert tiles1.shape[0] == tiles1.shape[1]
-    assert tiles1.dtype == np.intc
+    assert tiles1.dtype == DTYPE
 
     cdef int[:,:] tiles = tiles1
-    cdef int metric = 0, mult = 2**(size*2),
+
+    print("Made it here")
+    # Check to see if max tile is in upper-right
+    cdef int max_val = 0, val, row, col
+    cdef int maxs[SIZE_X2][3]
+    cdef short maxs_len = 0
+
+    for row in range(size):
+        for col in range(size):
+
+            val = tiles[row, col]
+            if val < max_val:
+                continue
+            # Value is greater
+            elif val > max_val:
+                max_val = val
+                maxs_len = 1
+                maxs[0][0] = val
+                maxs[0][1] = row
+                maxs[0][2] = col
+            else:   # Equal
+                maxs[maxs_len][0] = val
+                maxs[maxs_len][1] = row
+                maxs[maxs_len][2] = col
+                maxs_len += 1
+
+    cdef bint in_corner = False
+    for i in range(maxs_len):
+        if (maxs[i][1] == 0) and (maxs[i][2] == size-1):
+            in_corner = True
+
+    # --- If max tile is NOT in upper-right, metric is zero.
+    if not in_corner:
+        return int(0)
+
+    # Otherwise, calculate the metric
+    cdef int metric = 0, mult = 2**(size*2)
     cdef int rgt_col = size - 1, nxt_col = size - 2
 
     # Right Col, top to bottom
@@ -250,18 +294,17 @@ def calc_metrics2(tiles1):
     #     print(f"{maxs[i][0]}, ", end = "")
 
     # --- Master Loop: Traverses chain(s) and calculates chain quality metric/score
-    cdef int metrics[SIZE_X2]
+    cdef long metrics[SIZE_X2]
     cdef int chain[SIZE_X2][3]
     cdef int max_adj[3]
-    cdef short metrics_len = 0, chain_len = 0, curr_row, curr_col
-    cdef int metric, i
-    cdef bint end_of_chain
-    cdef int mult, multiplier1, multiplier2
+    cdef short metrics_len = 0, chain_len = 0, curr_row, curr_col, i
+    # cdef bint end_of_chain
+    cdef long metric, mult, multiplier1, multiplier2
     cdef bint in_corner1, in_corner2, in_corner, same_row, same_col
 
     for i in range(maxs_len):
 
-        end_of_chain = False    # Have reached the end of the chain?
+        # end_of_chain = False    # Have reached the end of the chain?
         metric = 0              # "Score" metric for the overall chain
 
         # Start with "max" tile
@@ -288,7 +331,7 @@ def calc_metrics2(tiles1):
 
             # If Reached the end of the chain, stop looking for more tiles
             if max_adj[0] > chain[chain_len - 1][0] or max_adj[0] == 0:
-                end_of_chain = True
+                # end_of_chain = True
                 break
 
             # Else, save this next tile in chain, and keep looking
@@ -335,7 +378,7 @@ def calc_metrics2(tiles1):
     # --- Done calculating the metrics for all chains
 
     # --- Find the maximum value of metrics
-    cdef int maximum = 0
+    cdef long maximum = 0
     for i in range(metrics_len):
         if metrics[i] > maximum:
             maximum = metrics[i]
@@ -469,7 +512,7 @@ def calc_metrics3(tiles1):
                 maxs_len += 1
 
     cdef bint row_in_corner = False, col_in_corner = False, in_corner = False
-    cdef int max_corners[4][2]
+    cdef int max_corners[4][3]
     cdef int i, corners_len = 0
 
     for i in range(maxs_len):
@@ -477,13 +520,14 @@ def calc_metrics3(tiles1):
         col_in_corner = (maxs[i][2] == 0 or maxs[i][2] == size-1)
         if row_in_corner and col_in_corner:
             in_corner = True
-            max_corners[corners_len][0] = maxs[i][1]
-            max_corners[corners_len][1] = maxs[i][2]
+            max_corners[corners_len][0] = maxs[i][0]
+            max_corners[corners_len][1] = maxs[i][1]
+            max_corners[corners_len][2] = maxs[i][2]
             corners_len += 1
 
     # If there are no max tiles in corners, metric is 0
     if not in_corner:
-        return 0
+        return 0, []
 
 
     cdef short[9][2] chain00a = [[0, 0], [0, 1], [0, 2], [0, 3], [1, 3], [1, 2], [1, 1], [1, 0], [2, 0]]
@@ -495,58 +539,62 @@ def calc_metrics3(tiles1):
     cdef short[9][2] chain30a = [[3, 0], [2, 0], [1, 0], [0, 0], [0, 1], [1, 1], [2, 1], [3, 1], [3, 2]]
     cdef short[9][2] chain30b = [[3, 0], [3, 1], [3, 2], [3, 3], [2, 3], [2, 2], [2, 1], [2, 0], [1, 0]]
 
-    cdef int metrics[8]
+    cdef long metrics[8]
     cdef short metrics_len = 0
-    cdef int mult = 256, metric = 0
+    cdef long mult = 256, metric = 0
     cdef short[9][2] chain1, chain2
 
     for i in range(corners_len):
 
-        if max_corners[i][0] == 0 and max_corners[i][1] == 0:
+        if max_corners[i][1] == 0 and max_corners[i][2] == 0:
             chain1 = chain00a
             chain2 = chain00b
 
-        elif max_corners[i][0] == 0 and max_corners[i][1] == 3:
+        elif max_corners[i][1] == 0 and max_corners[i][2] == 3:
             chain1 = chain03a
             chain2 = chain03b
 
-        elif max_corners[i][0] == 3 and max_corners[i][1] == 0:
+        elif max_corners[i][1] == 3 and max_corners[i][2] == 0:
             chain1 = chain30a
             chain2 = chain30b
 
-        elif max_corners[i][0] == 3 and max_corners[i][1] == 3:
+        elif max_corners[i][1] == 3 and max_corners[i][2] == 3:
             chain1 = chain33a
             chain2 = chain33b
 
         metric = 0
-        mult = 256
+        mult = 65536
         for j in range(9):
             row = chain1[j][0]
             col = chain1[j][1]
             metric += tiles[row][col] * mult
-            mult = mult // 2
+            mult = mult // 4
 
         metrics[metrics_len] = metric
         metrics_len += 1
 
         metric = 0
-        mult = 256
+        mult = 65536
         for j in range(9):
             row = chain2[j][0]
             col = chain2[j][1]
             metric += tiles[row][col] * mult
-            mult = mult // 2
+            mult = mult // 4
 
         metrics[metrics_len] = metric
         metrics_len += 1
 
-    cdef int maximum = 0
+    cdef long maximum = 0
 
     for i in range(metrics_len):
+        if metrics[i] < 0:
+            neg = True
         if metrics[i] > maximum:
             maximum = metrics[i]
 
-    return maximum
+    max_c_list = list(max_corners)
+    max_c_list = max_c_list[:corners_len]
+    return maximum, max_c_list
 
 
 def calc_metrics4(int[:,:] tiles):

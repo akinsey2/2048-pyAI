@@ -1,11 +1,14 @@
 # Form implementation generated from reading ui file '2048ui.ui'
 #
 # Originally Created by: PyQt6 UI code generator 6.1.0
+import math
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 from math import log2
 import GameMgr
 import AutoPlay
+import csv
+from time import ctime
 # import pprint
 
 SIZE = 4
@@ -178,7 +181,7 @@ class UiMainWindow(object):
         self.game_board.setAutoFillBackground(True)
         self.game_board.setObjectName("game_board")
 
-        # Start, Save and Load
+        # Start
         self.start_button = QtWidgets.QPushButton(self.centralwidget)
         self.start_button.setGeometry(QtCore.QRect(20, 610, 100, 100))
         font = QtGui.QFont()
@@ -187,6 +190,7 @@ class UiMainWindow(object):
         self.start_button.setObjectName("start_button")
         self.start_button.clicked.connect(self.start_clicked)
 
+        # Save
         self.save_button = QtWidgets.QPushButton(self.centralwidget)
         self.save_button.setEnabled(False)
         self.save_button.setGeometry(QtCore.QRect(140, 620, 100, 30))
@@ -194,14 +198,35 @@ class UiMainWindow(object):
         font.setPointSize(12)
         self.save_button.setFont(font)
         self.save_button.setObjectName("save_button")
+        self.save_button.clicked.connect(self.save_clicked)
 
-        self.load_but = QtWidgets.QPushButton(self.centralwidget)
-        self.load_but.setGeometry(QtCore.QRect(140, 670, 100, 30))
+        self.save_dlg = QtWidgets.QFileDialog(self.centralwidget, caption="Save As")
+        self.save_dlg.setAcceptMode(QtWidgets.QFileDialog.AcceptMode.AcceptSave)
+        self.save_dlg.setFileMode(QtWidgets.QFileDialog.FileMode.AnyFile)
+        self.save_dlg.setNameFilter("CSV Files (*.csv)")
+        self.save_dlg.setViewMode(QtWidgets.QFileDialog.ViewMode.Detail)
+
+        # Load
+        self.load_button = QtWidgets.QPushButton(self.centralwidget)
+        self.load_button.setGeometry(QtCore.QRect(140, 670, 100, 30))
         font = QtGui.QFont()
         font.setPointSize(12)
-        self.load_but.setFont(font)
-        self.load_but.setObjectName("load_but")
-        self.load_but.setEnabled(False)
+        self.load_button.setFont(font)
+        self.load_button.setObjectName("load_button")
+        self.load_button.clicked.connect(self.load_clicked)
+        self.load_button.setEnabled(True)
+
+        self.load_dlg = QtWidgets.QFileDialog(self.centralwidget, caption="Open File")
+        self.load_dlg.setAcceptMode(QtWidgets.QFileDialog.AcceptMode.AcceptOpen)
+        self.load_dlg.setFileMode(QtWidgets.QFileDialog.FileMode.ExistingFile)
+        self.load_dlg.setNameFilters(["CSV Files (*.csv)", "Text Files (*.txt)"])
+        self.load_dlg.setViewMode(QtWidgets.QFileDialog.ViewMode.Detail)
+
+        self.loadfile_err_dlg = QtWidgets.QMessageBox(self.centralwidget)
+        self.loadfile_err_dlg.setWindowTitle("Error")
+        self.loadfile_err_dlg.setText("Error Detected in File. Cannot load.")
+        self.loadfile_err_dlg.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+        self.loadfile_err_dlg.setDefaultButton(QtWidgets.QMessageBox.StandardButton.Yes)
 
         self.line = QtWidgets.QFrame(self.centralwidget)
         self.line.setGeometry(QtCore.QRect(240, 600, 20, 131))
@@ -247,13 +272,13 @@ class UiMainWindow(object):
         # Autoplay Strategy ComboBox
         self.comboBox = QtWidgets.QComboBox(self.ap_area_widget)
         self.comboBox.addItems(["Most Blank Tiles", "Maximize Upper Right Chain",
-                                "Any Corner Chain + Blanks", "Corner Chains + Blanks"])
+                                "Any Corner Chain + Blanks", "Aligned Corner Chains Only"])
         self.comboBox.currentIndexChanged.connect(self.ap_type_changed)
         self.comboBox.setEnabled(True)
         self.comboBox.setObjectName("comboBox")
         self.verticalLayout_3.addWidget(self.comboBox)
 
-
+        # AutoPlay Start Button
         self.ap_start_button = QtWidgets.QPushButton(self.ap_area_widget)
         self.ap_start_button.setEnabled(False)
         font = QtGui.QFont()
@@ -306,7 +331,7 @@ class UiMainWindow(object):
         self.game_title.setText(_translate("MainWindow", "2048"))
         self.start_button.setText(_translate("MainWindow", "Start"))
         self.save_button.setText(_translate("MainWindow", "Save Game"))
-        self.load_but.setText(_translate("MainWindow", "Load Game"))
+        self.load_button.setText(_translate("MainWindow", "Load Game"))
         self.curr_score_label.setText(_translate("MainWindow", "Current Score"))
         self.curr_score.setText(_translate("MainWindow", "0"))
         self.record_score_label.setText(_translate("MainWindow", "Record High Score"))
@@ -327,6 +352,8 @@ class UiMainWindow(object):
                 self.start_button.setText("Pause")
                 self.ap_start_button.setEnabled(True)
                 self.horizontalSlider.setEnabled(True)
+                self.load_button.setEnabled(False)
+                self.save_button.setEnabled(False)
 
             else:               # User clicked "Pause"
                 if self.autoplaying:
@@ -336,6 +363,116 @@ class UiMainWindow(object):
                 self.start_button.setText("Play")
                 self.ap_start_button.setEnabled(False)
                 self.horizontalSlider.setEnabled(False)
+                self.load_button.setEnabled(True)
+                self.save_button.setEnabled(True)
+
+    def save_clicked(self):
+
+        accepted = self.save_dlg.exec()
+        if not accepted:
+            return
+
+        save_filename = self.save_dlg.selectedFiles()
+
+        # DEBUG
+        for str1 in save_filename:
+            print(str1)
+
+        # Read saved game data from file
+        with open(save_filename[0], mode="w", newline='') as file1:
+            csv_writer = csv.writer(file1, dialect="excel", delimiter=",")
+            csv_writer.writerow([self.game.score, self.game.num_moves,
+                                 self.game.num_empty, self.game.already_won,
+                                 self.game.game_over])
+            for i in range(4):
+                csv_writer.writerow([self.game.tiles[i][j] for j in range(4)])
+            csv_writer.writerow([ctime()])
+
+    def load_clicked(self):
+
+        # Add Dialog to warn that a current game is in progress and will be lost.
+        if self.current_game:
+            losegame_err_dlg = QtWidgets.QMessageBox(self.centralwidget)
+            losegame_err_dlg.setWindowTitle("Warning")
+            losegame_err_dlg.setText("Current Game in progress will be lost.")
+            losegame_err_dlg.setInformativeText("Are you sure you want to load a saved game?")
+            losegame_err_dlg.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes |
+                                                QtWidgets.QMessageBox.StandardButton.No)
+            losegame_err_dlg.setDefaultButton(QtWidgets.QMessageBox.StandardButton.No)
+            response = losegame_err_dlg.exec()
+            if response == QtWidgets.QMessageBox.StandardButton.No:
+                return
+
+        accepted = self.load_dlg.exec()
+        if not accepted:
+            return
+
+        load_filename = self.load_dlg.selectedFiles()
+
+        # DEBUG
+        for str1 in load_filename:
+            print(str1)
+
+        # Read saved game data from file
+        with open(load_filename[0], mode="r") as file1:
+            csv_reader = csv.reader(file1, dialect="excel", delimiter=",")
+            [score, num_moves, num_empty, already_won, game_over] = next(csv_reader)  # Collect header row
+            tiles = []
+            for _ in range(4):
+                tiles.append([int(i) for i in next(csv_reader)])
+
+        # Error checking of file
+        try:
+            score = int(score)
+            num_moves = int(num_moves)
+            num_empty = int(num_empty)
+            already_won = bool(already_won)
+            game_over = bool(game_over)
+        except Exception as e:
+            self.loadfile_err_dlg.exec()
+            return
+
+        game_state_error = any([score < 0, num_moves < 1, num_empty > 15, num_empty < 2])
+        tiles_error = False
+        for row in range(4):
+            for col in range(4):
+                if tiles[row][col] == 0:
+                    continue
+
+                frac, _ = math.modf(math.log2(tiles[row][col]))
+                if tiles[row][col] < 0 or frac != 0.0:
+                    tiles_error = True
+
+        if game_state_error or tiles_error:
+            self.loadfile_err_dlg.exec()
+            return
+
+        self.game = GameMgr.Game(self, tiles, score, num_moves)
+        self.game.num_empty = num_empty
+        self.game.already_won = already_won
+        self.game.game_over = game_over
+
+        self.load_tile_widgets(tiles)
+
+        self.current_game = True
+
+    def load_tile_widgets(self, tiles):
+
+        for row in range(SIZE):
+            for col in range(SIZE):
+                if tiles[row][col] == 0:
+                    if self.tile_widgets[row][col]:
+                        self.tile_widgets[row][col].hide()
+                        self.tile_widgets[row][col].destroy()
+                    continue
+
+                elif tiles[row][col] > 0:
+                    if self.tile_widgets[row][col]:
+                        self.tile_widgets[row][col].update_num(tiles[row][col])
+                        self.tile_widgets[row][col].show()
+                    else:
+                        self.tile_widgets[row][col] = TileWidget(self.game_board, tiles[row][col], row, col)
+                        self.tile_widgets[row][col].show()
 
     def ap_type_changed(self, i):
         self.ap_type = i
@@ -354,6 +491,8 @@ class UiMainWindow(object):
     def autoplay_start(self):
         self.centralwidget.releaseKeyboard()
         self.comboBox.setEnabled(False)
+        # self.load_button.setEnabled(False)
+        # self.save_button.setEnabled(False)
         self.autoplayer = AutoPlay.AutoPlayer(self.game, calc_option=self.ap_type)
         self.autoplaying = True
         self.ap_start_button.setText("Pause AutoPlay")
@@ -363,6 +502,8 @@ class UiMainWindow(object):
         self.autoplay_timer.stop()
         self.autoplaying = False
         self.comboBox.setEnabled(True)
+        # self.load_button.setEnabled(False)
+        # self.save_button.setEnabled(True)
         self.ap_start_button.setText("Start AutoPlay")
         self.centralwidget.grabKeyboard()
 
@@ -510,6 +651,8 @@ class UiMainWindow(object):
         self.start_button.setText("Pause")
         self.ap_start_button.setEnabled(True)
         self.horizontalSlider.setEnabled(True)
+        self.load_button.setEnabled(False)
+        self.save_button.setEnabled(False)
 
         self.game.add_random_tile(commit=True)
         self.centralwidget.grabKeyboard()  # Enable keyboard events to be processed
@@ -519,6 +662,8 @@ class UiMainWindow(object):
         self.current_game = False
         self.is_paused = True
         self.start_button.setText("New Game")
+        self.load_button.setEnabled(True)
+        self.save_button.setEnabled(True)
 
 
 if __name__ == "__main__":
