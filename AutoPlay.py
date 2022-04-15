@@ -3,6 +3,7 @@ from copy import deepcopy
 import Utils
 import cProfile
 import GameMgr
+from math import floor
 from pprint import pp
 
 SIZE = int(4)
@@ -12,18 +13,15 @@ USE_CYTHON = True
 # ****************************************
 class AutoPlayer:
     #6, 7
-    def __init__(self, game, tree_depth=6, topx=7, calc_option=1, rand=None):
-
-        # # Test
-        # print(f"AutoPlay: td={tree_depth}, topx={topx}|{2**topx}, calc={calc_option}")
-        # print(game)
+    def __init__(self, game, tree_depth=6, topx_perc=0.05, calc_option=3, rand=None):
 
         # GameMgr.Game object stores current game state: tiles, score, etc
         self.game = game
 
         # self.move_tree = None
         self.tree_depth = tree_depth
-        self.topx = topx
+        self.tree_size = 0
+        self.topx_perc = topx_perc
         self.calc_option = calc_option
 
         # If Cython is used, then Autoplay must contain random numbers.
@@ -60,7 +58,7 @@ class AutoPlayer:
         out = list()
         out.append("-"*30 + "\n")
         out.append(f"AutoPlay - Tree Depth: {self.tree_depth} | " +
-                   f"TopX: {2**self.topx} | Calc: {self.calc_option} | " +
+                   f"TopX: {self.topx_perc}%, {floor(self.tree_size*self.topx_perc)} | Calc: {self.calc_option} | " +
                    f"Rands Length: {self.rands.size} | rand_idx: {self.rand_idx}\n")
         out.append(repr(self.game))
 
@@ -68,6 +66,7 @@ class AutoPlayer:
 
     def get_move(self):
 
+        self.tree_size = 0
         move_tree = MoveNode(None, self.game.tiles, self.game.score, self)
 
         # DEBUG
@@ -90,15 +89,16 @@ class AutoPlayer:
                 move_metrics.append(-1.0)
                 continue
 
-            topx_num = 2 ** self.topx
+            # Experiments indicate top ~?% averaged yields best results
+            topx_num = max(1, floor(self.tree_size*self.topx_perc))
             max_metrics = np.zeros(topx_num, dtype=np.int64)
             max_metrics[-1] = move_tree.next[move_dir].metric
             max_metrics = node_tree_max_DFS(move_tree.next[move_dir], max_metrics)
             move_metrics.append(max_metrics.sum() / float(topx_num))
 
-        # TESTING
-        print(f"move_metrics: Up: {move_metrics[0]}, Right: {move_metrics[1]}, " +
-              f"Down: {move_metrics[2]}, Left: {move_metrics[3]}")
+        # # DEBUG
+        # print(f"move_metrics: Up: {move_metrics[0]}, Right: {move_metrics[1]}, " +
+        #       f"Down: {move_metrics[2]}, Left: {move_metrics[3]}")
 
         # Very important...multiple metrics can be the same (usually 0)
         # In this case you must find a valid move to return (not the default "0" - Up)
@@ -127,12 +127,9 @@ class AutoPlayer:
         if self.game.game_over:
             return
 
-        # DEBUG
-        # print(f"rand_idx = {self.rand_idx}")
-
         best_move = self.get_move()
 
-        # DEBUG
+        # # DEBUG
         # options = ["Up", "Right", "Down", "Left"]
         # print(f"Best Move: {options[best_move]}")
         # ans = input("Continue? ")
@@ -179,6 +176,7 @@ class MoveNode:
         self.prev = prev
         self.score = score
         self.level = 0 if (prev is None) else (prev.level + 1)
+        self.metric = 0
 
         if USE_CYTHON:  # Use fast Cython functions
             if ap.calc_option == 0:
@@ -211,8 +209,7 @@ class MoveNode:
 
             # Children Moves: 0 - Up, 1 - Right, 2 - Down, 3 - Left
             for direction in range(4):
-                # DEBUG
-                print(f"Made it level={self.level} dir={direction} before move_tiles()")
+
                 # Move Tiles
                 if USE_CYTHON:
                     valid_move, new_tiles, new_score = \
@@ -220,8 +217,7 @@ class MoveNode:
                 else:
                     valid_move, _, new_tiles, new_score = \
                         ap.game.move_tiles(direction, False, tiles, score)
-                # DEBUG
-                print(f"Made it level={self.level} dir={direction} after move_tiles()")
+
                 # If valid move, add random tile
                 if valid_move:
 
@@ -231,6 +227,8 @@ class MoveNode:
                     else:
                         new_tiles, _, _, ap.rand_idx = \
                             ap.game.add_random_tile(commit=False, tiles=new_tiles)
+
+                    ap.tree_size += 1
 
                     self.next.append(MoveNode(self, new_tiles, new_score, ap))
 
@@ -477,12 +475,12 @@ def calc_metrics3(tiles):
 
 if __name__ == '__main__':
 
-    tiles = [[0, 2, 2, 4],
+    tiles1 = [[0, 2, 2, 4],
              [0, 4, 4, 8],
              [0, 8, 8, 16],
              [16, 32, 32, 2048]]
 
-    calc_metrics1(np.array(tiles))
+    calc_metrics1(np.array(tiles1))
 
     # import GameMgr
 
@@ -495,18 +493,6 @@ if __name__ == '__main__':
     #     print(ap.game)
     #     ap.auto_move()
 
-    # tree_depth = 4
-    # topx = 4
-    # calc_option = 0
-    #
-    # cProfile.run("ap = play_games(1, tree_depth, topx, calc_option)")
-    #
-    # print(ap.game)
-
-    # cProfile.run('nums = gen_timing(50000000)')
-    # tiles, score = run_num_moves(start_tiles, 100, tree_depth, topx, calc_option)
-    # cProfile.run('tiles, score = run_num_moves(start_tiles, 100, tree_depth, topx, calc_option)')
-    #
     # print(f"Score: {score}")
     # print(repr(tiles))
 
@@ -514,15 +500,4 @@ if __name__ == '__main__':
     # limit = 100
     # moves = 0
 
-    # while keep_playing:
-    #     start_time = time.perf_counter()
-    #     for _ in range(limit):
-    #         valid_move, tiles, score, num_empty = ap1.auto_move()
-    #         moves += 1
-    #     end_time = time.perf_counter()
-    #     print(f"{moves} moves completed")
-    #     print(ap1)
-    #     print(f"{limit} moves completed in {end_time-start_time} seconds.")
-    #     print(f"Average: {(end_time-start_time) / limit} sec / move")
-    #     i = input("Keep playing? ")
-    #     keep_playing = False if (i in ["n", "N"]) else True
+

@@ -12,7 +12,7 @@ class Game(object):
 
         self.ui = ui
 
-        if not tiles:
+        if tiles is None:
             self.tiles = np.zeros((SIZE, SIZE), dtype=np.int32)
         else:
             self.tiles = np.array(tiles, dtype=np.int32)
@@ -185,7 +185,7 @@ class Game(object):
 
             # If pre-calculated rands[] array is provided, use them
             if rands is not None:
-                rand_idx2 = int(rands[rand_idx1] * num_empty)
+                rand_idx2 = int(rands[rand_idx] * num_empty)
                 rand_idx += 1
                 row = open_positions[rand_idx2][0]
                 col = open_positions[rand_idx2][1]

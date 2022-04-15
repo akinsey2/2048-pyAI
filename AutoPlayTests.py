@@ -16,7 +16,7 @@ def test_Utils_calc_metrics1():
           [2, 4, 8, 128]]
     t1 = np.array(b1)
     num1 = Utils.calc_metrics1(t1)
-    print(f"metric1 = {num1} | Actual = 141312  ", end="")
+    print(f"metric1 = {num1} | Actual = 0  ", end="")
 
     print("PASSED") if num1 == 141312 else print("FAILED")
 
@@ -184,10 +184,11 @@ def play_games(num, tree_depth, topx, calc_option):
 if __name__ == '__main__':
 
     # Test calc_metrics0()
+    # test_Utils_calc_metrics1()
 
     # # Test calc_metrics3()
     # start = perf_counter()
-    cProfile.run("ap = play_games(1, 6, 7, 3)")
+    cProfile.run("ap = play_games(1, 2, 2, 1)")
     # end = perf_counter()
     # print(f"Duration: {end-start} seconds")
     print(ap)

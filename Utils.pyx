@@ -5,17 +5,17 @@ import numpy as np
 DTYPE = np.intc # Data type of NumPy arrays (tiles[][])
 cdef enum:
     SIZE = 4        # Length of single board dimension (4 for 4x4, 5 for 5x5, etc)
-    SIZE_X2 = 8     # 2*SIZE
+    NUM_TILES = 16     # 2*SIZE
 
 def move_tiles(short direction, tiles, int score):
 
     assert tiles.shape[0] == tiles.shape[1]
     assert tiles.dtype == DTYPE
 
-    cdef Py_ssize_t size = tiles.shape[0]
+    cdef int size = tiles.shape[0]
 
     tiles1 = np.copy(tiles)
-    cdef int[:,:] tiles2 = tiles1
+    cdef int [:, :] tiles1_view = tiles1
 
     # --- Begin primary move_tiles loop
 
@@ -66,17 +66,17 @@ def move_tiles(short direction, tiles, int score):
                 continue
 
             # If the "place" cell is empty
-            elif tiles2[row1, col1] == 0:
+            elif tiles1_view[row1, col1] == 0:
 
                 # And the next tile is also empty
-                if tiles2[row2, col2] == 0:
+                if tiles1_view[row2, col2] == 0:
                     eval_idx += inc
                     continue
 
                 # Found a tile, move to empty
                 else:
-                    tiles2[row1, col1] = tiles2[row2, col2]
-                    tiles2[row2, col2] = 0
+                    tiles1_view[row1, col1] = tiles1_view[row2, col2]
+                    tiles1_view[row2, col2] = 0
                     valid_move = True
                     eval_idx += inc
                     continue
@@ -85,15 +85,15 @@ def move_tiles(short direction, tiles, int score):
             else:
 
                 # And the "eval" tile is empty, move "eval" to next tile
-                if tiles2[row2, col2] == 0:
+                if tiles1_view[row2, col2] == 0:
                     eval_idx += inc
                     continue
 
-                # "Place" and "eval" tiles2 equal.  Merge.
-                elif tiles2[row1, col1] == tiles2[row2, col2]:
-                    tile_sum = tiles2[row1, col1] + tiles2[row2, col2]
-                    tiles2[row1, col1] = tile_sum
-                    tiles2[row2, col2] = 0
+                # "Place" and "eval" tiles1 equal.  Merge.
+                elif tiles1_view[row1, col1] == tiles1_view[row2, col2]:
+                    tile_sum = tiles1_view[row1, col1] + tiles1_view[row2, col2]
+                    tiles1_view[row1, col1] = tile_sum
+                    tiles1_view[row2, col2] = 0
                     valid_move = True
                     place_idx += inc
                     eval_idx += inc
@@ -108,23 +108,23 @@ def move_tiles(short direction, tiles, int score):
     return valid_move, tiles1, score
 
 
-def add_random_tile( tiles, float[:] rands, int rand_idx1):
+def add_random_tile( tiles, float [:] rands, int rand_idx1):
 
     assert tiles.shape[0] == tiles.shape[1]
     assert tiles.dtype == DTYPE
 
-    cdef Py_ssize_t size = tiles.shape[0]
+    cdef int size = tiles.shape[0]
 
     cdef short row, col
     cdef short open_positions[16][2]
     cdef int value, empty, rand_idx2
 
-    cdef int[:,:] tiles2 = tiles
+    cdef int [:, :] tiles_view = tiles
 
     empty = 0
     for row in range(size):
         for col in range(size):
-            if tiles2[row, col] == 0:
+            if tiles_view[row, col] == 0:
                 open_positions[empty][0] = row
                 open_positions[empty][1] = col
                 empty += 1
@@ -141,7 +141,7 @@ def add_random_tile( tiles, float[:] rands, int rand_idx1):
     value = 2 if (rands[rand_idx1] < 0.9) else 4
     rand_idx1 += 1
 
-    tiles2[row, col] = value
+    tiles_view[row, col] = value
     empty -= 1
 
     return tiles, empty, rand_idx1
@@ -150,19 +150,19 @@ def add_random_tile( tiles, float[:] rands, int rand_idx1):
 # Strategy 0:
 # Simplest...Rewards Empty Tiles.
 
-def calc_metrics0(tiles1):
+def calc_metrics0(tiles):
 
-    cdef Py_ssize_t size = tiles1.shape[0]
+    cdef int size = tiles.shape[0]
 
-    assert tiles1.shape[0] == tiles1.shape[1]
-    assert tiles1.dtype == DTYPE
+    assert tiles.shape[0] == tiles.shape[1]
+    assert tiles.dtype == DTYPE
 
-    cdef int[:,:] tiles = tiles1
+    cdef const int [:, :] tiles_view = tiles
     cdef int num_empty = 0, row, col
 
     for row in range(size):
         for col in range(size):
-            if tiles[row, col] == 0:
+            if tiles_view[row, col] == 0:
                 num_empty += 100
 
     return num_empty
@@ -170,26 +170,28 @@ def calc_metrics0(tiles1):
 
 # Strategy 1:
 # Simple metric...Rewards Upper-Right aligned chain.
+def calc_metrics1(tiles):
 
-def calc_metrics1(tiles1):
+    cdef int size = tiles.shape[0]
 
-    cdef Py_ssize_t size = tiles1.shape[0]
+    assert tiles.shape[0] == tiles.shape[1]
+    # assert tiles.dtype == DTYPE
 
-    assert tiles1.shape[0] == tiles1.shape[1]
-    assert tiles1.dtype == DTYPE
+    cdef const int [:, :] tiles_view = tiles
 
-    cdef int[:,:] tiles = tiles1
-
-    print("Made it here")
     # Check to see if max tile is in upper-right
     cdef int max_val = 0, val, row, col
-    cdef int maxs[SIZE_X2][3]
     cdef short maxs_len = 0
+
+    cdef int maxs[NUM_TILES][3]
+    cdef int [:, :] maxs_view = maxs
+    maxs_view[:, :] = 0
 
     for row in range(size):
         for col in range(size):
 
-            val = tiles[row, col]
+            val = tiles_view[row, col]
+
             if val < max_val:
                 continue
             # Value is greater
@@ -205,27 +207,34 @@ def calc_metrics1(tiles1):
                 maxs[maxs_len][2] = col
                 maxs_len += 1
 
-    cdef bint in_corner = False
+    cdef bint in_corner0 = False
+    cdef int i = 0
+
     for i in range(maxs_len):
-        if (maxs[i][1] == 0) and (maxs[i][2] == size-1):
-            in_corner = True
+
+        if (maxs[i][1] == 0) and (maxs[i][2] == (size-1)):
+            in_corner0 = True
 
     # --- If max tile is NOT in upper-right, metric is zero.
-    if not in_corner:
-        return int(0)
+    cdef int metric = 0
+
+    if in_corner0 == False:
+        return metric
 
     # Otherwise, calculate the metric
-    cdef int metric = 0, mult = 2**(size*2)
+    cdef int mult
     cdef int rgt_col = size - 1, nxt_col = size - 2
 
     # Right Col, top to bottom
+    mult = 2 ** (size * 2)
+
     for i in range(size):
-        metric += mult*tiles[i, rgt_col]
+        metric += mult * tiles_view[i, rgt_col]
         mult = mult // 2
 
     # Second-to-right col, bottom to top
     for i in range(size-1, -1, -1):
-        metric += mult*tiles[i, nxt_col]
+        metric += mult * tiles_view[i, nxt_col]
         mult = mult // 2
 
     return metric
@@ -235,7 +244,7 @@ def calc_metrics1(tiles1):
 # More advanced metric. Rewards any "chain" anchored in a corner,
 # with additional "reward" for empty tiles
 
-def calc_metrics2(tiles1):
+def calc_metrics2(tiles):
 
     # graph = {(0, 0): ((1, 0), (0, 1)),
     #          (0, 1): ((0, 0), (1, 1), (0, 2)),
@@ -254,22 +263,25 @@ def calc_metrics2(tiles1):
     #          (3, 2): ((2, 2), (3, 3), (3, 1)),
     #          (3, 3): ((2, 3), (3, 2))}
 
-    cdef Py_ssize_t size = tiles1.shape[0]
+    cdef int size = tiles.shape[0]
 
-    assert tiles1.shape[0] == tiles1.shape[1]
-    assert tiles1.dtype == DTYPE
+    assert tiles.shape[0] == tiles.shape[1]
+    assert tiles.dtype == DTYPE
 
-    cdef int[:,:] tiles = tiles1
+    cdef const int [:, :] tiles_view = tiles
 
     # Find greatest tile(s) value and indeces, the starting point(s) of the "chain" calculation(s)
     cdef int max_val = 0, val
-    cdef int maxs[SIZE_X2][3]
     cdef short maxs_len = 0, num_empty = 0, row, col
+
+    cdef int maxs[NUM_TILES][3]
+    cdef int [:, :] maxs_view = maxs
+    maxs_view[:, :] = 0
 
     for row in range(size):
         for col in range(size):
 
-            val = tiles[row, col]
+            val = tiles_view[row, col]
 
             if val == 0:
                 num_empty += 1
@@ -288,19 +300,23 @@ def calc_metrics2(tiles1):
                 maxs[maxs_len][2] = col
                 maxs_len += 1
 
-    # # DEBUG:
-    # print("Maxes: ", end="")
-    # for i in range(maxs_len):
-    #     print(f"{maxs[i][0]}, ", end = "")
-
     # --- Master Loop: Traverses chain(s) and calculates chain quality metric/score
-    cdef long metrics[SIZE_X2]
-    cdef int chain[SIZE_X2][3]
+
     cdef int max_adj[3]
     cdef short metrics_len = 0, chain_len = 0, curr_row, curr_col, i
     # cdef bint end_of_chain
     cdef long metric, mult, multiplier1, multiplier2
     cdef bint in_corner1, in_corner2, in_corner, same_row, same_col
+
+    # Initialize metrics array
+    cdef long metrics[NUM_TILES]
+    cdef long [:] metrics_view = metrics
+    metrics_view[:] = 0
+
+    # Initialize chain 2D array
+    cdef int chain[NUM_TILES][3]
+    cdef int [:, :] chain_view = chain
+    chain_view[:, :] = 0
 
     for i in range(maxs_len):
 
@@ -321,13 +337,6 @@ def calc_metrics2(tiles1):
             max_adj[2] = -1
 
             max_adj = max_adjacent(tiles, chain, chain_len, max_adj, size)
-
-            # # DEBUG
-            # curr_row = chain[chain_len-1][1]
-            # curr_col = chain[chain_len-1][2]
-            # print(f"\n[{curr_row}, {curr_col}]: {tiles[curr_row, curr_col]},  " +
-            #       f"Max Adj [{max_adj[1]}, {max_adj[2]}]: {max_adj[0]},  " +
-            #       f"chain_len = {chain_len},  ")
 
             # If Reached the end of the chain, stop looking for more tiles
             if max_adj[0] > chain[chain_len - 1][0] or max_adj[0] == 0:
@@ -368,12 +377,7 @@ def calc_metrics2(tiles1):
         metrics[metrics_len] = metric
         metrics_len += 1
 
-        # # DEBUG
-        # print("\nChain: ", end="")
-        # for i in range(chain_len):
-        #     print(f"{chain[i][0]}, ", end="", flush=True)
-        # print(f"  Mult1 = {multiplier1}  Mult2 = {multiplier2}")
-        continue
+        continue        # Unnecessary, but helps readability for long loop
 
     # --- Done calculating the metrics for all chains
 
@@ -388,14 +392,14 @@ def calc_metrics2(tiles1):
 
 # Given a tile [row, col], find and return the largest adjacent tile
 # Inputs:
-#       int[:,:] tiles   - memoryview of numpy array of current game board tiles
+#       int[:,:] tiles_view   - memoryview of numpy array of current game board tiles
 #       int chain[16][3] - C array of tiles found thus far in current "chain"
 #       int chain_len    - length of the current chain
 #       int row, int col - row and column indeces of the current tile to find adjacents of
 #       int size         - the dimension length of the game board  (4 if 4x4 tiles)
 # Returns:
 #
-cdef int *max_adjacent(int[:,:] tiles, int chain[8][3], int chain_len, int max_adj[3], int size):
+cdef int * max_adjacent(const int [:, :] tiles_view, int chain[NUM_TILES][3], int chain_len, int max_adj[3], int size):
 
     cdef int curr_val, abv_val, rgt_val, blw_val, lft_val
     cdef int row, col, abv_row, rgt_col, blw_row, lft_col
@@ -407,7 +411,7 @@ cdef int *max_adjacent(int[:,:] tiles, int chain[8][3], int chain_len, int max_a
     max_adj[0] = 0
     max_adj[1] = -1
     max_adj[2] = -1
-    curr_val = tiles[row, col]
+    curr_val = tiles_view[row, col]
 
     # Explore adjacent tiles for largest
 
@@ -416,7 +420,7 @@ cdef int *max_adjacent(int[:,:] tiles, int chain[8][3], int chain_len, int max_a
     if abv_row > -1:
 
         in_chain = check_in_chain(chain, chain_len, abv_row, col)
-        abv_val = tiles[abv_row, col]
+        abv_val = tiles_view[abv_row, col]
         if not in_chain and abv_val <= curr_val and abv_val > max_adj[0]:
             max_adj[0] = abv_val
             max_adj[1] = abv_row
@@ -427,7 +431,7 @@ cdef int *max_adjacent(int[:,:] tiles, int chain[8][3], int chain_len, int max_a
     if rgt_col < size:
 
         in_chain = check_in_chain(chain, chain_len, row, rgt_col)
-        rgt_val = tiles[row, rgt_col]
+        rgt_val = tiles_view[row, rgt_col]
         if not in_chain and rgt_val <= curr_val and rgt_val > max_adj[0]:
             max_adj[0] = rgt_val
             max_adj[1] = row
@@ -438,7 +442,7 @@ cdef int *max_adjacent(int[:,:] tiles, int chain[8][3], int chain_len, int max_a
     if blw_row < size:
 
         in_chain = check_in_chain(chain, chain_len, blw_row, col)
-        blw_val = tiles[blw_row, col]
+        blw_val = tiles_view[blw_row, col]
         if not in_chain and blw_val <= curr_val and blw_val > max_adj[0]:
             max_adj[0] = blw_val
             max_adj[1] = blw_row
@@ -449,7 +453,7 @@ cdef int *max_adjacent(int[:,:] tiles, int chain[8][3], int chain_len, int max_a
     if lft_col > -1:
 
         in_chain = check_in_chain(chain, chain_len, row, lft_col)
-        lft_val = tiles[row, lft_col]
+        lft_val = tiles_view[row, lft_col]
         if not in_chain and lft_val <= curr_val and lft_val > max_adj[0]:
             max_adj[0] = lft_val
             max_adj[1] = row
@@ -459,7 +463,7 @@ cdef int *max_adjacent(int[:,:] tiles, int chain[8][3], int chain_len, int max_a
 
 # Check whether a particular tile [row, col] is already saved in "chain"
 # Return True if this tile is already in the chain, False otherwise
-cdef bint check_in_chain(int chain[8][3], int chain_len, int row, int col):
+cdef bint check_in_chain(int chain[NUM_TILES][3], int chain_len, int row, int col):
     cdef int i
     cdef bint in_chain = False
 
@@ -474,25 +478,27 @@ cdef bint check_in_chain(int chain[8][3], int chain_len, int row, int col):
 # Strategy 3:
 # More advanced metric. Rewards any "chain" anchored in a corner,
 # with additional "reward" for empty tiles
+def calc_metrics3(tiles):
 
-def calc_metrics3(tiles1):
+    cdef int size = tiles.shape[0]
 
-    cdef Py_ssize_t size = tiles1.shape[0]
+    assert tiles.shape[0] == tiles.shape[1]
+    assert tiles.dtype == DTYPE
 
-    assert tiles1.shape[0] == tiles1.shape[1]
-    assert tiles1.dtype == DTYPE
+    cdef const int [:, :] tiles_view = tiles
 
-    cdef int[:,:] tiles = tiles1
-
-    # Find greatest tile(s) value and indeces, the starting point(s) of the "chain" calculation(s)
+    # Find the greatest tile(s) value and indices, the starting point(s) of the "chain" calculation(s)
     cdef int max_val = 0, val
-    cdef int maxs[SIZE_X2][3]
     cdef short maxs_len = 0, num_empty = 0, row, col
+
+    cdef int maxs[NUM_TILES][3]
+    cdef int [:, :] maxs_view = maxs
+    maxs_view[:, :] = 0
 
     for row in range(size):
         for col in range(size):
 
-            val = tiles[row, col]
+            val = tiles_view[row, col]
 
             if val == 0:
                 num_empty += 1
@@ -567,7 +573,7 @@ def calc_metrics3(tiles1):
         for j in range(9):
             row = chain1[j][0]
             col = chain1[j][1]
-            metric += tiles[row][col] * mult
+            metric += tiles_view[row][col] * mult
             mult = mult // 4
 
         metrics[metrics_len] = metric
@@ -578,7 +584,7 @@ def calc_metrics3(tiles1):
         for j in range(9):
             row = chain2[j][0]
             col = chain2[j][1]
-            metric += tiles[row][col] * mult
+            metric += tiles_view[row][col] * mult
             mult = mult // 4
 
         metrics[metrics_len] = metric
@@ -597,7 +603,7 @@ def calc_metrics3(tiles1):
     return maximum, max_c_list
 
 
-def calc_metrics4(int[:,:] tiles):
+def calc_metrics4(const int [:, :] tiles_view):
     cdef int i = 0
     return 0
 

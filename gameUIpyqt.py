@@ -60,7 +60,7 @@ class CentralWidget(QtWidgets.QWidget):
         else:   # Invalid move
 
             # Use add_random_tile() to detect possible game over
-            _, _, game_over, _ = self.ui_mainwindow.game.add_random_tile(commit=False)
+            _, num_empty, game_over, _ = self.ui_mainwindow.game.add_random_tile(commit=False)
 
             if game_over:
                 self.ui_mainwindow.game_over()
@@ -319,6 +319,7 @@ class UiMainWindow(object):
         self.autoplaying = False
         self.autoplay_speed = 1.0
 
+        # QTimer to trigger "autoplay_move()" on interval
         self.autoplay_timer = QtCore.QTimer(self.centralwidget)
         self.autoplay_timer.setInterval(1000)
         self.autoplay_timer.setSingleShot(False)
@@ -475,7 +476,10 @@ class UiMainWindow(object):
                         self.tile_widgets[row][col].show()
 
     def ap_type_changed(self, i):
-        self.ap_type = i
+
+        # DEBUG
+        print(f"self.ap_type = {i}")
+        self.ap_type = int(i)
 
     def autoplay_clicked(self):
 
@@ -493,7 +497,13 @@ class UiMainWindow(object):
         self.comboBox.setEnabled(False)
         # self.load_button.setEnabled(False)
         # self.save_button.setEnabled(False)
+
+        # ACTUAL
+        # self.autoplayer = AutoPlay.AutoPlayer(self.game, calc_option=self.ap_type)
+
+        # DEBUG
         self.autoplayer = AutoPlay.AutoPlayer(self.game, calc_option=self.ap_type)
+
         self.autoplaying = True
         self.ap_start_button.setText("Pause AutoPlay")
         self.autoplay_timer.start()

@@ -12,9 +12,9 @@ if __name__ == '__main__':
     calc_min = 3
     calc_max = 3
     tree_depth_min = 5
-    tree_depth_max = 6
-    topx_min = 6
-    topx_max = 7
+    tree_depth_max = 7
+    topx_min = 5
+    topx_max = 8
     reps = 25
 
     # Estimate Time Required
@@ -26,7 +26,7 @@ if __name__ == '__main__':
             for topx in range(topx_min, topx_max+1):
                 total_time += reps*0.05*exp(1.15*tree_depth)
 
-    print(f"Total iterations: {tot_games} | Time Estimate: {total_time/60} minutes")
+    print(f"Total iterations: {tot_games} | Time Estimate: {total_time/60} minutes | {total_time/3600} hours")
     ans = input(f"Continue [y/n]? ")
     if ans in ["n", "N"]:
         quit()
@@ -79,6 +79,8 @@ if __name__ == '__main__':
                     # records.append(data)
 
     overall_end_time = time.perf_counter()
-    records.append([overall_start_time, overall_end_time, overall_end_time-overall_start_time])
-
+    # records.append([overall_start_time, overall_end_time, overall_end_time-overall_start_time])
+    with open(filename, mode="a", newline="") as file1:
+        csv_writer = csv.writer(file1, dialect="excel", delimiter=",")
+        csv_writer.writerow([overall_start_time, overall_end_time, overall_end_time-overall_start_time])
 
