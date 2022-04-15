@@ -1,14 +1,22 @@
-# Form implementation generated from reading ui file '2048ui.ui'
-#
-# Originally Created by: PyQt6 UI code generator 6.1.0
-import math
 
-from PyQt6 import QtCore, QtGui, QtWidgets
-from math import log2
+# Originally Created by: PyQt6 UI code generator 6.1.0
+# but heavily edited during further development
+
+from math import modf, log2
+from time import ctime
+import csv
+
+from PyQt6.QtCore import (Qt, QRect, QMetaObject, QTimer, QCoreApplication,
+                          QParallelAnimationGroup, QPropertyAnimation, QPoint,
+                          QEasingCurve)
+from PyQt6.QtGui import (QKeyEvent, QFont)
+from PyQt6.QtWidgets import (QWidget, QLabel, QFrame, QHBoxLayout, QVBoxLayout,
+                             QPushButton, QFileDialog, QMessageBox, QSlider,
+                             QComboBox, QMenuBar, QStatusBar,
+                             QApplication, QMainWindow)
+
 import GameMgr
 import AutoPlay
-import csv
-from time import ctime
 # import pprint
 
 SIZE = 4
@@ -17,7 +25,7 @@ BOARD_MARGIN = 25
 
 
 # To handle keyPressEvent, must create custom subclass with default overridden.
-class CentralWidget(QtWidgets.QWidget):
+class CentralWidget(QWidget):
 
     def __init__(self, mainwindow, ui_mainwindow):
         super().__init__(mainwindow)     # Establish parent, Initialize parent QWidget class
@@ -32,22 +40,22 @@ class CentralWidget(QtWidgets.QWidget):
 
         self.releaseKeyboard()
 
-        if not isinstance(event, QtGui.QKeyEvent):
+        if not isinstance(event, QKeyEvent):
             raise TypeError("CentralWidget keyPressEvent() event is NOT QKeyEvent() ")
 
-        if event.key() == QtCore.Qt.Key.Key_Up.value:
+        if event.key() == Qt.Key.Key_Up.value:
             # print("MOVE UP")
             valid_move, tile_move_vect, _, _ = self.ui_mainwindow.game.move_tiles(0, True)  # '0' means 'Up'
 
-        elif event.key() == QtCore.Qt.Key.Key_Right.value:
+        elif event.key() == Qt.Key.Key_Right.value:
             # print("MOVE RIGHT")
             valid_move, tile_move_vect, _, _ = self.ui_mainwindow.game.move_tiles(1, True)  # '1' means 'Right'
 
-        elif event.key() == QtCore.Qt.Key.Key_Down.value:
+        elif event.key() == Qt.Key.Key_Down.value:
             # print("MOVE DOWN")
             valid_move, tile_move_vect, _, _ = self.ui_mainwindow.game.move_tiles(2, True)  # '2' means 'Down'
 
-        elif event.key() == QtCore.Qt.Key.Key_Left.value:
+        elif event.key() == Qt.Key.Key_Left.value:
             # print("MOVE LEFT")
             valid_move, tile_move_vect, _, _ = self.ui_mainwindow.game.move_tiles(3, True)  # '3' means 'Left'
 
@@ -69,7 +77,7 @@ class CentralWidget(QtWidgets.QWidget):
 
 
 # Custom class for the Tiles displayed on board, subclass of "QLabel"
-class TileWidget(QtWidgets.QLabel):
+class TileWidget(QLabel):
 
     tile_colors = ("FFFFC8", "FFE6C8", "FFCC99", "FFCCCC", "FF9999",
                    "CCECFF", "99CCFF", "CCFFFF", "CCFFCC", "CCFF99",
@@ -82,11 +90,11 @@ class TileWidget(QtWidgets.QLabel):
         self._num = num
 
         self.setGeometry(col*100+25, row*100+25, 100, 100)
-        # self.setFrameStyle(QtWidgets.QFrame.Shape.Panel | QtWidgets.QFrame.Shadow.Raised)
+        # self.setFrameStyle(QFrame.Shape.Panel | QFrame.Shadow.Raised)
         self.setStyleSheet("margin: 2px; border: 4px solid grey; border-radius: 5px; " +
                            "background-color: #" + TileWidget.tile_colors[int(log2(self._num)) - 1] +
                            "; font: bold 32px;")
-        self.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.setText(str(self._num))
 
     def __repr__(self):
@@ -124,134 +132,134 @@ class UiMainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
 
         # Game Title
-        self.game_title = QtWidgets.QLabel(self.centralwidget)
-        self.game_title.setGeometry(QtCore.QRect(180, 10, 121, 61))
-        font = QtGui.QFont()
+        self.game_title = QLabel(self.centralwidget)
+        self.game_title.setGeometry(QRect(180, 10, 121, 61))
+        font = QFont()
         font.setPointSize(36)
         font.setBold(True)
         self.game_title.setFont(font)
         self.game_title.setMidLineWidth(0)
-        self.game_title.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.game_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.game_title.setObjectName("game_title")
 
         # Scores Area
-        self.layoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.layoutWidget.setGeometry(QtCore.QRect(50, 70, 133, 54))
+        self.layoutWidget = QWidget(self.centralwidget)
+        self.layoutWidget.setGeometry(QRect(50, 70, 133, 54))
         self.layoutWidget.setObjectName("layoutWidget")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.layoutWidget)
+        self.verticalLayout = QVBoxLayout(self.layoutWidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.curr_score_label = QtWidgets.QLabel(self.layoutWidget)
-        font = QtGui.QFont()
+        self.curr_score_label = QLabel(self.layoutWidget)
+        font = QFont()
         font.setPointSize(12)
         self.curr_score_label.setFont(font)
         self.curr_score_label.setObjectName("curr_score_label")
         self.verticalLayout.addWidget(self.curr_score_label)
-        self.curr_score = QtWidgets.QLabel(self.layoutWidget)
-        font = QtGui.QFont()
+        self.curr_score = QLabel(self.layoutWidget)
+        font = QFont()
         font.setPointSize(16)
         self.curr_score.setFont(font)
-        self.curr_score.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.curr_score.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.curr_score.setObjectName("curr_score")
         self.verticalLayout.addWidget(self.curr_score)
-        self.layoutWidget1 = QtWidgets.QWidget(self.centralwidget)
-        self.layoutWidget1.setGeometry(QtCore.QRect(320, 70, 133, 54))
+        self.layoutWidget1 = QWidget(self.centralwidget)
+        self.layoutWidget1.setGeometry(QRect(320, 70, 133, 54))
         self.layoutWidget1.setObjectName("layoutWidget1")
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.layoutWidget1)
+        self.verticalLayout_2 = QVBoxLayout(self.layoutWidget1)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.record_score_label = QtWidgets.QLabel(self.layoutWidget1)
-        font = QtGui.QFont()
+        self.record_score_label = QLabel(self.layoutWidget1)
+        font = QFont()
         font.setPointSize(12)
         self.record_score_label.setFont(font)
         self.record_score_label.setObjectName("record_score_label")
         self.verticalLayout_2.addWidget(self.record_score_label)
-        self.record_score = QtWidgets.QLabel(self.layoutWidget1)
-        font = QtGui.QFont()
+        self.record_score = QLabel(self.layoutWidget1)
+        font = QFont()
         font.setPointSize(16)
         self.record_score.setFont(font)
-        self.record_score.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.record_score.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.record_score.setObjectName("record_score")
         self.verticalLayout_2.addWidget(self.record_score)
 
         # Game Board
-        self.game_board = QtWidgets.QFrame(self.centralwidget)
-        self.game_board.setGeometry(QtCore.QRect(25, 130, 450, 450))
-        self.game_board.setFrameStyle(QtWidgets.QFrame.Shape.StyledPanel.value)
+        self.game_board = QFrame(self.centralwidget)
+        self.game_board.setGeometry(QRect(25, 130, 450, 450))
+        self.game_board.setFrameStyle(QFrame.Shape.StyledPanel.value)
         self.game_board.setAutoFillBackground(True)
         self.game_board.setObjectName("game_board")
 
         # Start
-        self.start_button = QtWidgets.QPushButton(self.centralwidget)
-        self.start_button.setGeometry(QtCore.QRect(20, 610, 100, 100))
-        font = QtGui.QFont()
+        self.start_button = QPushButton(self.centralwidget)
+        self.start_button.setGeometry(QRect(20, 610, 100, 100))
+        font = QFont()
         font.setPointSize(12)
         self.start_button.setFont(font)
         self.start_button.setObjectName("start_button")
         self.start_button.clicked.connect(self.start_clicked)
 
         # Save
-        self.save_button = QtWidgets.QPushButton(self.centralwidget)
+        self.save_button = QPushButton(self.centralwidget)
         self.save_button.setEnabled(False)
-        self.save_button.setGeometry(QtCore.QRect(140, 620, 100, 30))
-        font = QtGui.QFont()
+        self.save_button.setGeometry(QRect(140, 620, 100, 30))
+        font = QFont()
         font.setPointSize(12)
         self.save_button.setFont(font)
         self.save_button.setObjectName("save_button")
         self.save_button.clicked.connect(self.save_clicked)
 
-        self.save_dlg = QtWidgets.QFileDialog(self.centralwidget, caption="Save As")
-        self.save_dlg.setAcceptMode(QtWidgets.QFileDialog.AcceptMode.AcceptSave)
-        self.save_dlg.setFileMode(QtWidgets.QFileDialog.FileMode.AnyFile)
+        self.save_dlg = QFileDialog(self.centralwidget, caption="Save As")
+        self.save_dlg.setAcceptMode(QFileDialog.AcceptMode.AcceptSave)
+        self.save_dlg.setFileMode(QFileDialog.FileMode.AnyFile)
         self.save_dlg.setNameFilter("CSV Files (*.csv)")
-        self.save_dlg.setViewMode(QtWidgets.QFileDialog.ViewMode.Detail)
+        self.save_dlg.setViewMode(QFileDialog.ViewMode.Detail)
 
         # Load
-        self.load_button = QtWidgets.QPushButton(self.centralwidget)
-        self.load_button.setGeometry(QtCore.QRect(140, 670, 100, 30))
-        font = QtGui.QFont()
+        self.load_button = QPushButton(self.centralwidget)
+        self.load_button.setGeometry(QRect(140, 670, 100, 30))
+        font = QFont()
         font.setPointSize(12)
         self.load_button.setFont(font)
         self.load_button.setObjectName("load_button")
         self.load_button.clicked.connect(self.load_clicked)
         self.load_button.setEnabled(True)
 
-        self.load_dlg = QtWidgets.QFileDialog(self.centralwidget, caption="Open File")
-        self.load_dlg.setAcceptMode(QtWidgets.QFileDialog.AcceptMode.AcceptOpen)
-        self.load_dlg.setFileMode(QtWidgets.QFileDialog.FileMode.ExistingFile)
+        self.load_dlg = QFileDialog(self.centralwidget, caption="Open File")
+        self.load_dlg.setAcceptMode(QFileDialog.AcceptMode.AcceptOpen)
+        self.load_dlg.setFileMode(QFileDialog.FileMode.ExistingFile)
         self.load_dlg.setNameFilters(["CSV Files (*.csv)", "Text Files (*.txt)"])
-        self.load_dlg.setViewMode(QtWidgets.QFileDialog.ViewMode.Detail)
+        self.load_dlg.setViewMode(QFileDialog.ViewMode.Detail)
 
-        self.loadfile_err_dlg = QtWidgets.QMessageBox(self.centralwidget)
+        self.loadfile_err_dlg = QMessageBox(self.centralwidget)
         self.loadfile_err_dlg.setWindowTitle("Error")
         self.loadfile_err_dlg.setText("Error Detected in File. Cannot load.")
-        self.loadfile_err_dlg.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
-        self.loadfile_err_dlg.setDefaultButton(QtWidgets.QMessageBox.StandardButton.Yes)
+        self.loadfile_err_dlg.setStandardButtons(QMessageBox.StandardButton.Ok)
+        self.loadfile_err_dlg.setDefaultButton(QMessageBox.StandardButton.Yes)
 
-        self.line = QtWidgets.QFrame(self.centralwidget)
-        self.line.setGeometry(QtCore.QRect(240, 600, 20, 131))
-        self.line.setFrameShape(QtWidgets.QFrame.Shape.VLine)
-        self.line.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
+        self.line = QFrame(self.centralwidget)
+        self.line.setGeometry(QRect(240, 600, 20, 131))
+        self.line.setFrameShape(QFrame.Shape.VLine)
+        self.line.setFrameShadow(QFrame.Shadow.Sunken)
         self.line.setObjectName("line")
 
         # Auto-Play Area
-        self.ap_area_widget = QtWidgets.QWidget(self.centralwidget)
-        self.ap_area_widget.setGeometry(QtCore.QRect(260, 600, 211, 131))
+        self.ap_area_widget = QWidget(self.centralwidget)
+        self.ap_area_widget.setGeometry(QRect(260, 600, 211, 131))
         self.ap_area_widget.setObjectName("widget")
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.ap_area_widget)
+        self.verticalLayout_3 = QVBoxLayout(self.ap_area_widget)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.ap_spd_label = QtWidgets.QLabel(self.ap_area_widget)
+        self.ap_spd_label = QLabel(self.ap_area_widget)
         self.ap_spd_label.setEnabled(False)
-        font = QtGui.QFont()
+        font = QFont()
         font.setPointSize(10)
 
         # Autoplay Speed Slider
         self.ap_spd_label.setFont(font)
-        self.ap_spd_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.ap_spd_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.ap_spd_label.setObjectName("ap_spd_label")
         self.verticalLayout_3.addWidget(self.ap_spd_label)
-        self.horizontalSlider = QtWidgets.QSlider(self.ap_area_widget)
+        self.horizontalSlider = QSlider(self.ap_area_widget)
         self.horizontalSlider.setEnabled(False)
         self.horizontalSlider.setMinimum(100)
         self.horizontalSlider.setMaximum(3000)
@@ -263,14 +271,14 @@ class UiMainWindow(object):
         self.horizontalSlider.setInvertedControls(True)
         self.horizontalSlider.setValue(1000)
         self.horizontalSlider.valueChanged.connect(self.update_ap_speed)
-        self.horizontalSlider.setOrientation(QtCore.Qt.Orientation.Horizontal)
-        self.horizontalSlider.setTickPosition(QtWidgets.QSlider.TickPosition.TicksBelow)
+        self.horizontalSlider.setOrientation(Qt.Orientation.Horizontal)
+        self.horizontalSlider.setTickPosition(QSlider.TickPosition.TicksBelow)
         self.horizontalSlider.setTickInterval(5)
         self.horizontalSlider.setObjectName("horizontalSlider")
         self.verticalLayout_3.addWidget(self.horizontalSlider)
 
         # Autoplay Strategy ComboBox
-        self.comboBox = QtWidgets.QComboBox(self.ap_area_widget)
+        self.comboBox = QComboBox(self.ap_area_widget)
         self.comboBox.addItems(["Most Blank Tiles", "Maximize Upper Right Chain",
                                 "Any Corner Chain + Blanks", "Aligned Corner Chains Only"])
         self.comboBox.currentIndexChanged.connect(self.ap_type_changed)
@@ -279,9 +287,9 @@ class UiMainWindow(object):
         self.verticalLayout_3.addWidget(self.comboBox)
 
         # AutoPlay Start Button
-        self.ap_start_button = QtWidgets.QPushButton(self.ap_area_widget)
+        self.ap_start_button = QPushButton(self.ap_area_widget)
         self.ap_start_button.setEnabled(False)
-        font = QtGui.QFont()
+        font = QFont()
         font.setFamily("Tahoma")
         font.setPointSize(12)
         self.ap_start_button.setFont(font)
@@ -290,17 +298,17 @@ class UiMainWindow(object):
         self.verticalLayout_3.addWidget(self.ap_start_button)
 
         main_window.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(main_window)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 499, 22))
+        self.menubar = QMenuBar(main_window)
+        self.menubar.setGeometry(QRect(0, 0, 499, 22))
         self.menubar.setObjectName("menubar")
         main_window.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(main_window)
+        self.statusbar = QStatusBar(main_window)
         self.statusbar.setObjectName("statusbar")
         main_window.setStatusBar(self.statusbar)
 
         # for enabling multi-language support
         self.retranslate_ui(main_window)
-        QtCore.QMetaObject.connectSlotsByName(main_window)
+        QMetaObject.connectSlotsByName(main_window)
 
         self.game = None
         self.current_game = False
@@ -320,14 +328,14 @@ class UiMainWindow(object):
         self.autoplay_speed = 1.0
 
         # QTimer to trigger "autoplay_move()" on interval
-        self.autoplay_timer = QtCore.QTimer(self.centralwidget)
+        self.autoplay_timer = QTimer(self.centralwidget)
         self.autoplay_timer.setInterval(1000)
         self.autoplay_timer.setSingleShot(False)
-        self.autoplay_timer.setTimerType(QtCore.Qt.TimerType.CoarseTimer)
+        self.autoplay_timer.setTimerType(Qt.TimerType.CoarseTimer)
         self.autoplay_timer.timeout.connect(self.autoplay_move)
 
     def retranslate_ui(self, main_window):
-        _translate = QtCore.QCoreApplication.translate
+        _translate = QCoreApplication.translate
         main_window.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.game_title.setText(_translate("MainWindow", "2048"))
         self.start_button.setText(_translate("MainWindow", "Start"))
@@ -393,15 +401,15 @@ class UiMainWindow(object):
 
         # Add Dialog to warn that a current game is in progress and will be lost.
         if self.current_game:
-            losegame_err_dlg = QtWidgets.QMessageBox(self.centralwidget)
+            losegame_err_dlg = QMessageBox(self.centralwidget)
             losegame_err_dlg.setWindowTitle("Warning")
             losegame_err_dlg.setText("Current Game in progress will be lost.")
             losegame_err_dlg.setInformativeText("Are you sure you want to load a saved game?")
-            losegame_err_dlg.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes |
-                                                QtWidgets.QMessageBox.StandardButton.No)
-            losegame_err_dlg.setDefaultButton(QtWidgets.QMessageBox.StandardButton.No)
+            losegame_err_dlg.setStandardButtons(QMessageBox.StandardButton.Yes |
+                                                QMessageBox.StandardButton.No)
+            losegame_err_dlg.setDefaultButton(QMessageBox.StandardButton.No)
             response = losegame_err_dlg.exec()
-            if response == QtWidgets.QMessageBox.StandardButton.No:
+            if response == QMessageBox.StandardButton.No:
                 return
 
         accepted = self.load_dlg.exec()
@@ -429,6 +437,7 @@ class UiMainWindow(object):
             num_empty = int(num_empty)
             already_won = bool(already_won)
             game_over = bool(game_over)
+
         except Exception as e:
             self.loadfile_err_dlg.exec()
             return
@@ -440,7 +449,7 @@ class UiMainWindow(object):
                 if tiles[row][col] == 0:
                     continue
 
-                frac, _ = math.modf(math.log2(tiles[row][col]))
+                frac, _ = modf(log2(tiles[row][col]))
                 if tiles[row][col] < 0 or frac != 0.0:
                     tiles_error = True
 
@@ -541,7 +550,7 @@ class UiMainWindow(object):
 
     def animate_tiles(self, vectors):
 
-        self.anim_group = QtCore.QParallelAnimationGroup()
+        self.anim_group = QParallelAnimationGroup()
         anims = []
 
         # By Row
@@ -551,11 +560,11 @@ class UiMainWindow(object):
 
                     end_x = self.tile_widgets[row][col].x() + 100 * vectors[row][col][0]
                     end_y = self.tile_widgets[row][col].y() + 100 * vectors[row][col][1]
-                    anims.append(QtCore.QPropertyAnimation(self.tile_widgets[row][col], b"pos"))
+                    anims.append(QPropertyAnimation(self.tile_widgets[row][col], b"pos"))
                     anims[-1].setStartValue(self.tile_widgets[row][col].pos())
-                    anims[-1].setEndValue(QtCore.QPoint(end_x, end_y))
+                    anims[-1].setEndValue(QPoint(end_x, end_y))
                     anims[-1].setDuration(self.anim_duration)
-                    anims[-1].setEasingCurve(QtCore.QEasingCurve.Type.Linear)
+                    anims[-1].setEasingCurve(QEasingCurve.Type.Linear)
                     self.anim_group.addAnimation(anims[-1])
 
         self.anim_group.finished.connect(self.delete_and_new)
@@ -608,18 +617,18 @@ class UiMainWindow(object):
         self.centralwidget.releaseKeyboard()
         self.autoplay_stop()
 
-        game_over_dlg = QtWidgets.QMessageBox(self.centralwidget)
+        game_over_dlg = QMessageBox(self.centralwidget)
         game_over_dlg.setWindowTitle("Game Over. New Game?")
         game_over_dlg.setText("Game Over.")
         game_over_dlg.setInformativeText("Start New Game?")
-        game_over_dlg.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No)
-        game_over_dlg.setDefaultButton(QtWidgets.QMessageBox.StandardButton.Yes)
+        game_over_dlg.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        game_over_dlg.setDefaultButton(QMessageBox.StandardButton.Yes)
 
         selection = game_over_dlg.exec()
 
-        if selection == QtWidgets.QMessageBox.StandardButton.Yes:
+        if selection == QMessageBox.StandardButton.Yes:
             self.new_game()
-        elif selection == QtWidgets.QMessageBox.StandardButton.No:
+        elif selection == QMessageBox.StandardButton.No:
             self.stop_game()
         else:
             raise ValueError("Invalid selection returned from Game_Over dialog")
@@ -629,18 +638,18 @@ class UiMainWindow(object):
         self.centralwidget.releaseKeyboard()
         self.autoplay_stop()
 
-        won_game_dlg = QtWidgets.QMessageBox(self.centralwidget)
+        won_game_dlg = QMessageBox(self.centralwidget)
         won_game_dlg.setWindowTitle("You Win!!")
         won_game_dlg.setText("You Win!!")
         won_game_dlg.setInformativeText("Continue Playing?")
-        won_game_dlg.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No)
-        won_game_dlg.setDefaultButton(QtWidgets.QMessageBox.StandardButton.Yes)
+        won_game_dlg.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        won_game_dlg.setDefaultButton(QMessageBox.StandardButton.Yes)
 
         selection = won_game_dlg.exec()
 
-        if selection == QtWidgets.QMessageBox.StandardButton.Yes:
+        if selection == QMessageBox.StandardButton.Yes:
             return True
-        elif selection == QtWidgets.QMessageBox.StandardButton.Yes:
+        elif selection == QMessageBox.StandardButton.Yes:
             return False
 
     def new_game(self):
@@ -679,8 +688,8 @@ class UiMainWindow(object):
 if __name__ == "__main__":
     import sys
     tile_id = ord("A")-1
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
+    app = QApplication(sys.argv)
+    MainWindow = QMainWindow()
     ui = UiMainWindow(MainWindow)
     MainWindow.show()
     sys.exit(app.exec())

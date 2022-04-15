@@ -1,6 +1,5 @@
 import numpy as np
 from copy import deepcopy
-import Utils
 # import pprint
 
 SIZE = 4
