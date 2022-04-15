@@ -198,6 +198,12 @@
   ('zipimport',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\zipimport.py',
    'PYMODULE'),
+  ('importlib.abc',
+   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\importlib\\abc.py',
+   'PYMODULE'),
+  ('typing',
+   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\typing.py',
+   'PYMODULE'),
   ('importlib.util',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\importlib\\util.py',
    'PYMODULE'),
@@ -435,9 +441,6 @@
   ('asyncio.staggered',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\asyncio\\staggered.py',
    'PYMODULE'),
-  ('typing',
-   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\typing.py',
-   'PYMODULE'),
   ('asyncio.tasks',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\asyncio\\tasks.py',
    'PYMODULE'),
@@ -654,9 +657,6 @@
   ('configparser',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\configparser.py',
    'PYMODULE'),
-  ('importlib.abc',
-   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\importlib\\abc.py',
-   'PYMODULE'),
   ('importlib._bootstrap',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\importlib\\_bootstrap.py',
    'PYMODULE'),
@@ -678,41 +678,286 @@
   ('ast',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\ast.py',
    'PYMODULE'),
-  ('tracemalloc',
-   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\tracemalloc.py',
-   'PYMODULE'),
   ('_py_abc',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\_py_abc.py',
    'PYMODULE'),
+  ('tracemalloc',
+   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\tracemalloc.py',
+   'PYMODULE'),
   ('stringprep',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\stringprep.py',
-   'PYMODULE'),
-  ('csv',
-   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\csv.py',
    'PYMODULE'),
   ('AutoPlay',
    'C:\\Users\\Stephanie\\Documents\\Machine '
    'Learning\\2048\\2048project\\AutoPlay.py',
    'PYMODULE'),
-  ('cProfile',
-   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\cProfile.py',
-   'PYMODULE'),
-  ('pstats',
-   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\pstats.py',
-   'PYMODULE'),
-  ('dataclasses',
-   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\dataclasses.py',
-   'PYMODULE'),
-  ('profile',
-   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\profile.py',
-   'PYMODULE'),
-  ('numpy',
+  ('AutoPlayUtilsPy',
    'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\__init__.py',
+   'Learning\\2048\\2048project\\AutoPlayUtilsPy.py',
+   'PYMODULE'),
+  ('numpy.random',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\random\\__init__.py',
+   'PYMODULE'),
+  ('numpy._pytesttester',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\_pytesttester.py',
+   'PYMODULE'),
+  ('numpy.testing',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\testing\\__init__.py',
+   'PYMODULE'),
+  ('numpy.testing._private.nosetester',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\testing\\_private\\nosetester.py',
+   'PYMODULE'),
+  ('numpy.testing._private.noseclasses',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\testing\\_private\\noseclasses.py',
+   'PYMODULE'),
+  ('numpy.core',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\__init__.py',
+   'PYMODULE'),
+  ('numpy.core._dtype',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\_dtype.py',
+   'PYMODULE'),
+  ('numpy.core._internal',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\_internal.py',
    'PYMODULE'),
   ('numpy.core._dtype_ctypes',
    'C:\\Users\\Stephanie\\Documents\\Machine '
    'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\_dtype_ctypes.py',
+   'PYMODULE'),
+  ('numpy.core._add_newdocs_scalars',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\_add_newdocs_scalars.py',
+   'PYMODULE'),
+  ('numpy.core._add_newdocs',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\_add_newdocs.py',
+   'PYMODULE'),
+  ('numpy.core.einsumfunc',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\einsumfunc.py',
+   'PYMODULE'),
+  ('numpy.core._machar',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\_machar.py',
+   'PYMODULE'),
+  ('numpy.core._ufunc_config',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\_ufunc_config.py',
+   'PYMODULE'),
+  ('numpy.core.function_base',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\function_base.py',
+   'PYMODULE'),
+  ('numpy.core.memmap',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\memmap.py',
+   'PYMODULE'),
+  ('numpy.compat',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\compat\\__init__.py',
+   'PYMODULE'),
+  ('numpy.compat.py3k',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\compat\\py3k.py',
+   'PYMODULE'),
+  ('numpy.compat._inspect',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\compat\\_inspect.py',
+   'PYMODULE'),
+  ('numpy.core.records',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\records.py',
+   'PYMODULE'),
+  ('numpy.core.arrayprint',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\arrayprint.py',
+   'PYMODULE'),
+  ('numpy.core.defchararray',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\defchararray.py',
+   'PYMODULE'),
+  ('numpy.core._asarray',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\_asarray.py',
+   'PYMODULE'),
+  ('numpy.core.shape_base',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\shape_base.py',
+   'PYMODULE'),
+  ('numpy.core.fromnumeric',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\fromnumeric.py',
+   'PYMODULE'),
+  ('numpy.core._methods',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\_methods.py',
+   'PYMODULE'),
+  ('numpy.lib.stride_tricks',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\stride_tricks.py',
+   'PYMODULE'),
+  ('numpy.lib',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\__init__.py',
+   'PYMODULE'),
+  ('numpy.lib._version',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\_version.py',
+   'PYMODULE'),
+  ('numpy.lib.arraypad',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\arraypad.py',
+   'PYMODULE'),
+  ('numpy.lib.arrayterator',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\arrayterator.py',
+   'PYMODULE'),
+  ('numpy.lib.npyio',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\npyio.py',
+   'PYMODULE'),
+  ('numpy.ma.mrecords',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\ma\\mrecords.py',
+   'PYMODULE'),
+  ('numpy.ma',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\ma\\__init__.py',
+   'PYMODULE'),
+  ('numpy.ma.extras',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\ma\\extras.py',
+   'PYMODULE'),
+  ('numpy.ma.core',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\ma\\core.py',
+   'PYMODULE'),
+  ('numpy.lib._iotools',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\_iotools.py',
+   'PYMODULE'),
+  ('numpy.lib._datasource',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\_datasource.py',
+   'PYMODULE'),
+  ('numpy.lib.format',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\format.py',
+   'PYMODULE'),
+  ('numpy.lib.arraysetops',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\arraysetops.py',
+   'PYMODULE'),
+  ('numpy.lib.utils',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\utils.py',
+   'PYMODULE'),
+  ('numpy.lib.polynomial',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\polynomial.py',
+   'PYMODULE'),
+  ('numpy.linalg',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\linalg\\__init__.py',
+   'PYMODULE'),
+  ('numpy.linalg.linalg',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\linalg\\linalg.py',
+   'PYMODULE'),
+  ('numpy.lib.histograms',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\histograms.py',
+   'PYMODULE'),
+  ('numpy.lib.ufunclike',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\ufunclike.py',
+   'PYMODULE'),
+  ('numpy.lib.twodim_base',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\twodim_base.py',
+   'PYMODULE'),
+  ('numpy.lib.shape_base',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\shape_base.py',
+   'PYMODULE'),
+  ('numpy.matrixlib.defmatrix',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\matrixlib\\defmatrix.py',
+   'PYMODULE'),
+  ('numpy.matrixlib',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\matrixlib\\__init__.py',
+   'PYMODULE'),
+  ('numpy.lib.nanfunctions',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\nanfunctions.py',
+   'PYMODULE'),
+  ('numpy.lib.function_base',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\function_base.py',
+   'PYMODULE'),
+  ('numpy.lib.index_tricks',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\index_tricks.py',
+   'PYMODULE'),
+  ('numpy.lib.type_check',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\type_check.py',
+   'PYMODULE'),
+  ('numpy.lib.scimath',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\scimath.py',
+   'PYMODULE'),
+  ('numpy.lib.mixins',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\mixins.py',
+   'PYMODULE'),
+  ('numpy._globals',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\_globals.py',
+   'PYMODULE'),
+  ('numpy.core.getlimits',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\getlimits.py',
+   'PYMODULE'),
+  ('numpy.core._exceptions',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\_exceptions.py',
+   'PYMODULE'),
+  ('numpy.core.numeric',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\numeric.py',
+   'PYMODULE'),
+  ('numpy.core.numerictypes',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\numerictypes.py',
+   'PYMODULE'),
+  ('numpy.core._type_aliases',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\_type_aliases.py',
+   'PYMODULE'),
+  ('numpy.core._string_helpers',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\_string_helpers.py',
+   'PYMODULE'),
+  ('numpy.core.umath',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\umath.py',
+   'PYMODULE'),
+  ('numpy.core.multiarray',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\multiarray.py',
+   'PYMODULE'),
+  ('numpy.core.overrides',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\overrides.py',
    'PYMODULE'),
   ('numpy.version',
    'C:\\Users\\Stephanie\\Documents\\Machine '
@@ -734,17 +979,21 @@
   ('json.scanner',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\json\\scanner.py',
    'PYMODULE'),
-  ('numpy._pytesttester',
+  ('numpy.testing._private.decorators',
    'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\_pytesttester.py',
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\testing\\_private\\decorators.py',
    'PYMODULE'),
-  ('numpy.distutils.cpuinfo',
+  ('numpy.testing._private.parameterized',
    'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\distutils\\cpuinfo.py',
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\testing\\_private\\parameterized.py',
    'PYMODULE'),
-  ('numpy.distutils',
+  ('numpy.testing._private.extbuild',
    'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\distutils\\__init__.py',
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\testing\\_private\\extbuild.py',
+   'PYMODULE'),
+  ('numpy.distutils.ccompiler',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\distutils\\ccompiler.py',
    'PYMODULE'),
   ('numpy.distutils.fcompiler',
    'C:\\Users\\Stephanie\\Documents\\Machine '
@@ -876,6 +1125,10 @@
    'C:\\Users\\Stephanie\\Documents\\Machine '
    'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\distutils\\mingw32ccompiler.py',
    'PYMODULE'),
+  ('numpy.distutils.lib2def',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\distutils\\lib2def.py',
+   'PYMODULE'),
   ('distutils.msvccompiler',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\distutils\\msvccompiler.py',
    'PYMODULE'),
@@ -884,9 +1137,6 @@
    'PYMODULE'),
   ('distutils.cygwinccompiler',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\distutils\\cygwinccompiler.py',
-   'PYMODULE'),
-  ('distutils.version',
-   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\distutils\\version.py',
    'PYMODULE'),
   ('distutils.command.config',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\distutils\\command\\config.py',
@@ -937,36 +1187,6 @@
    'C:\\Users\\Stephanie\\Documents\\Machine '
    'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\distutils\\fcompiler\\environment.py',
    'PYMODULE'),
-  ('numpy.distutils.exec_command',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\distutils\\exec_command.py',
-   'PYMODULE'),
-  ('numpy.distutils.misc_util',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\distutils\\misc_util.py',
-   'PYMODULE'),
-  ('curses',
-   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\curses\\__init__.py',
-   'PYMODULE'),
-  ('curses.has_key',
-   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\curses\\has_key.py',
-   'PYMODULE'),
-  ('numpy.distutils.__config__',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\distutils\\__config__.py',
-   'PYMODULE'),
-  ('numpy.distutils.npy_pkg_config',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\distutils\\npy_pkg_config.py',
-   'PYMODULE'),
-  ('numpy.distutils.unixccompiler',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\distutils\\unixccompiler.py',
-   'PYMODULE'),
-  ('numpy.distutils.ccompiler',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\distutils\\ccompiler.py',
-   'PYMODULE'),
   ('numpy.distutils._shell_utils',
    'C:\\Users\\Stephanie\\Documents\\Machine '
    'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\distutils\\_shell_utils.py',
@@ -974,37 +1194,30 @@
   ('pipes',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\pipes.py',
    'PYMODULE'),
-  ('numpy.distutils.lib2def',
+  ('numpy.distutils.misc_util',
    'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\distutils\\lib2def.py',
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\distutils\\misc_util.py',
+   'PYMODULE'),
+  ('numpy.distutils.npy_pkg_config',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\distutils\\npy_pkg_config.py',
+   'PYMODULE'),
+  ('curses',
+   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\curses\\__init__.py',
+   'PYMODULE'),
+  ('curses.has_key',
+   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\curses\\has_key.py',
+   'PYMODULE'),
+  ('numpy.distutils.exec_command',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\distutils\\exec_command.py',
    'PYMODULE'),
   ('numpy.distutils.log',
    'C:\\Users\\Stephanie\\Documents\\Machine '
    'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\distutils\\log.py',
    'PYMODULE'),
-  ('numpy.testing',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\testing\\__init__.py',
-   'PYMODULE'),
-  ('numpy.testing._private.nosetester',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\testing\\_private\\nosetester.py',
-   'PYMODULE'),
-  ('numpy.testing._private.noseclasses',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\testing\\_private\\noseclasses.py',
-   'PYMODULE'),
-  ('numpy.testing._private.decorators',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\testing\\_private\\decorators.py',
-   'PYMODULE'),
-  ('numpy.testing._private.parameterized',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\testing\\_private\\parameterized.py',
-   'PYMODULE'),
-  ('numpy.testing._private.extbuild',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\testing\\_private\\extbuild.py',
+  ('distutils.version',
+   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\distutils\\version.py',
    'PYMODULE'),
   ('numpy.testing._private',
    'C:\\Users\\Stephanie\\Documents\\Machine '
@@ -1013,310 +1226,6 @@
   ('numpy.testing._private.utils',
    'C:\\Users\\Stephanie\\Documents\\Machine '
    'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\testing\\_private\\utils.py',
-   'PYMODULE'),
-  ('numpy.core.fromnumeric',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\fromnumeric.py',
-   'PYMODULE'),
-  ('numpy.core._methods',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\_methods.py',
-   'PYMODULE'),
-  ('numpy.lib.stride_tricks',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\stride_tricks.py',
-   'PYMODULE'),
-  ('numpy.core.numeric',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\numeric.py',
-   'PYMODULE'),
-  ('numpy.core._asarray',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\_asarray.py',
-   'PYMODULE'),
-  ('numpy.core.arrayprint',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\arrayprint.py',
-   'PYMODULE'),
-  ('numpy.core._ufunc_config',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\_ufunc_config.py',
-   'PYMODULE'),
-  ('numpy.core.shape_base',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\shape_base.py',
-   'PYMODULE'),
-  ('numpy.core._exceptions',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\_exceptions.py',
-   'PYMODULE'),
-  ('numpy.core.umath',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\umath.py',
-   'PYMODULE'),
-  ('numpy.core.overrides',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\overrides.py',
-   'PYMODULE'),
-  ('numpy.compat._inspect',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\compat\\_inspect.py',
-   'PYMODULE'),
-  ('numpy.core.multiarray',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\multiarray.py',
-   'PYMODULE'),
-  ('numpy.core.numerictypes',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\numerictypes.py',
-   'PYMODULE'),
-  ('numpy.core._dtype',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\_dtype.py',
-   'PYMODULE'),
-  ('numpy.core._type_aliases',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\_type_aliases.py',
-   'PYMODULE'),
-  ('numpy.core._string_helpers',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\_string_helpers.py',
-   'PYMODULE'),
-  ('numpy.matrixlib',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\matrixlib\\__init__.py',
-   'PYMODULE'),
-  ('numpy.matrixlib.defmatrix',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\matrixlib\\defmatrix.py',
-   'PYMODULE'),
-  ('numpy.ma',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\ma\\__init__.py',
-   'PYMODULE'),
-  ('numpy.ma.extras',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\ma\\extras.py',
-   'PYMODULE'),
-  ('numpy.lib.index_tricks',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\index_tricks.py',
-   'PYMODULE'),
-  ('numpy.lib.function_base',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\function_base.py',
-   'PYMODULE'),
-  ('numpy.lib.histograms',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\histograms.py',
-   'PYMODULE'),
-  ('numpy.lib.twodim_base',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\twodim_base.py',
-   'PYMODULE'),
-  ('numpy.core.function_base',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\function_base.py',
-   'PYMODULE'),
-  ('numpy.ma.core',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\ma\\core.py',
-   'PYMODULE'),
-  ('numpy.ctypeslib',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\ctypeslib.py',
-   'PYMODULE'),
-  ('numpy.core._internal',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\_internal.py',
-   'PYMODULE'),
-  ('numpy.random',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\random\\__init__.py',
-   'PYMODULE'),
-  ('numpy.random._pickle',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\random\\_pickle.py',
-   'PYMODULE'),
-  ('numpy.polynomial',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\polynomial\\__init__.py',
-   'PYMODULE'),
-  ('numpy.polynomial._polybase',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\polynomial\\_polybase.py',
-   'PYMODULE'),
-  ('numpy.polynomial.laguerre',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\polynomial\\laguerre.py',
-   'PYMODULE'),
-  ('numpy.polynomial.hermite_e',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\polynomial\\hermite_e.py',
-   'PYMODULE'),
-  ('numpy.polynomial.hermite',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\polynomial\\hermite.py',
-   'PYMODULE'),
-  ('numpy.polynomial.legendre',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\polynomial\\legendre.py',
-   'PYMODULE'),
-  ('numpy.polynomial.chebyshev',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\polynomial\\chebyshev.py',
-   'PYMODULE'),
-  ('numpy.polynomial.polynomial',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\polynomial\\polynomial.py',
-   'PYMODULE'),
-  ('numpy.polynomial.polyutils',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\polynomial\\polyutils.py',
-   'PYMODULE'),
-  ('numpy.fft',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\fft\\__init__.py',
-   'PYMODULE'),
-  ('numpy.fft.helper',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\fft\\helper.py',
-   'PYMODULE'),
-  ('numpy.fft._pocketfft',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\fft\\_pocketfft.py',
-   'PYMODULE'),
-  ('numpy.linalg',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\linalg\\__init__.py',
-   'PYMODULE'),
-  ('numpy.linalg.linalg',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\linalg\\linalg.py',
-   'PYMODULE'),
-  ('numpy.lib',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\__init__.py',
-   'PYMODULE'),
-  ('numpy.lib._version',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\_version.py',
-   'PYMODULE'),
-  ('numpy.lib.arraypad',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\arraypad.py',
-   'PYMODULE'),
-  ('numpy.lib.arrayterator',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\arrayterator.py',
-   'PYMODULE'),
-  ('numpy.lib.npyio',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\npyio.py',
-   'PYMODULE'),
-  ('numpy.ma.mrecords',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\ma\\mrecords.py',
-   'PYMODULE'),
-  ('numpy.core.records',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\records.py',
-   'PYMODULE'),
-  ('numpy.lib._iotools',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\_iotools.py',
-   'PYMODULE'),
-  ('numpy.lib._datasource',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\_datasource.py',
-   'PYMODULE'),
-  ('numpy.lib.format',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\format.py',
-   'PYMODULE'),
-  ('numpy.lib.arraysetops',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\arraysetops.py',
-   'PYMODULE'),
-  ('numpy.lib.utils',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\utils.py',
-   'PYMODULE'),
-  ('numpy.lib.polynomial',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\polynomial.py',
-   'PYMODULE'),
-  ('numpy.lib.ufunclike',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\ufunclike.py',
-   'PYMODULE'),
-  ('numpy.lib.shape_base',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\shape_base.py',
-   'PYMODULE'),
-  ('numpy.lib.nanfunctions',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\nanfunctions.py',
-   'PYMODULE'),
-  ('numpy.lib.type_check',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\type_check.py',
-   'PYMODULE'),
-  ('numpy.core.getlimits',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\getlimits.py',
-   'PYMODULE'),
-  ('numpy.core._machar',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\_machar.py',
-   'PYMODULE'),
-  ('numpy.lib.scimath',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\scimath.py',
-   'PYMODULE'),
-  ('numpy.lib.mixins',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\lib\\mixins.py',
-   'PYMODULE'),
-  ('numpy.compat',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\compat\\__init__.py',
-   'PYMODULE'),
-  ('numpy.compat.py3k',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\compat\\py3k.py',
-   'PYMODULE'),
-  ('numpy.core',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\__init__.py',
-   'PYMODULE'),
-  ('numpy.core._add_newdocs_scalars',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\_add_newdocs_scalars.py',
-   'PYMODULE'),
-  ('numpy.core._add_newdocs',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\_add_newdocs.py',
-   'PYMODULE'),
-  ('numpy.core.einsumfunc',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\einsumfunc.py',
-   'PYMODULE'),
-  ('numpy.core.memmap',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\memmap.py',
-   'PYMODULE'),
-  ('numpy.core.defchararray',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\core\\defchararray.py',
-   'PYMODULE'),
-  ('numpy._distributor_init',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\_distributor_init.py',
-   'PYMODULE'),
-  ('numpy.__config__',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\__config__.py',
    'PYMODULE'),
   ('numpy.array_api',
    'C:\\Users\\Stephanie\\Documents\\Machine '
@@ -1410,6 +1319,9 @@
    'C:\\Users\\Stephanie\\Documents\\Machine '
    'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\array_api\\_data_type_functions.py',
    'PYMODULE'),
+  ('dataclasses',
+   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\dataclasses.py',
+   'PYMODULE'),
   ('numpy.array_api._creation_functions',
    'C:\\Users\\Stephanie\\Documents\\Machine '
    'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\array_api\\_creation_functions.py',
@@ -1418,9 +1330,89 @@
    'C:\\Users\\Stephanie\\Documents\\Machine '
    'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\array_api\\_constants.py',
    'PYMODULE'),
-  ('numpy._globals',
+  ('numpy.distutils.cpuinfo',
    'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\_globals.py',
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\distutils\\cpuinfo.py',
+   'PYMODULE'),
+  ('numpy.distutils',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\distutils\\__init__.py',
+   'PYMODULE'),
+  ('numpy.distutils.__config__',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\distutils\\__config__.py',
+   'PYMODULE'),
+  ('numpy.distutils.unixccompiler',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\distutils\\unixccompiler.py',
+   'PYMODULE'),
+  ('numpy.random._pickle',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\random\\_pickle.py',
+   'PYMODULE'),
+  ('numpy',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\__init__.py',
+   'PYMODULE'),
+  ('numpy.ctypeslib',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\ctypeslib.py',
+   'PYMODULE'),
+  ('numpy.polynomial',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\polynomial\\__init__.py',
+   'PYMODULE'),
+  ('numpy.polynomial._polybase',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\polynomial\\_polybase.py',
+   'PYMODULE'),
+  ('numpy.polynomial.laguerre',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\polynomial\\laguerre.py',
+   'PYMODULE'),
+  ('numpy.polynomial.hermite_e',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\polynomial\\hermite_e.py',
+   'PYMODULE'),
+  ('numpy.polynomial.hermite',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\polynomial\\hermite.py',
+   'PYMODULE'),
+  ('numpy.polynomial.legendre',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\polynomial\\legendre.py',
+   'PYMODULE'),
+  ('numpy.polynomial.chebyshev',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\polynomial\\chebyshev.py',
+   'PYMODULE'),
+  ('numpy.polynomial.polynomial',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\polynomial\\polynomial.py',
+   'PYMODULE'),
+  ('numpy.polynomial.polyutils',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\polynomial\\polyutils.py',
+   'PYMODULE'),
+  ('numpy.fft',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\fft\\__init__.py',
+   'PYMODULE'),
+  ('numpy.fft.helper',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\fft\\helper.py',
+   'PYMODULE'),
+  ('numpy.fft._pocketfft',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\fft\\_pocketfft.py',
+   'PYMODULE'),
+  ('numpy._distributor_init',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\_distributor_init.py',
+   'PYMODULE'),
+  ('numpy.__config__',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\__config__.py',
    'PYMODULE'),
   ('GameMgr',
    'C:\\Users\\Stephanie\\Documents\\Machine '
@@ -1429,4 +1421,7 @@
   ('PyQt6',
    'C:\\Users\\Stephanie\\Documents\\Machine '
    'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\__init__.py',
+   'PYMODULE'),
+  ('csv',
+   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\csv.py',
    'PYMODULE')])

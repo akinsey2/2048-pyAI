@@ -70,7 +70,7 @@
  [],
  False,
  False,
- 1649986222,
+ 1649990673,
  [('run.exe',
    'C:\\Users\\Stephanie\\Documents\\Machine '
    'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit\\run.exe',

@@ -1,8 +1,8 @@
 # cython: language_level=3
 
-import numpy as np
+from numpy import intc, copy
 
-DTYPE = np.intc # Data type of NumPy arrays (tiles[][])
+DTYPE = intc # Data type of NumPy arrays (tiles[][])
 cdef enum:
     SIZE = 4        # Length of single board dimension (4 for 4x4, 5 for 5x5, etc)
     NUM_TILES = 16     # 2*SIZE
@@ -14,7 +14,7 @@ def move_tiles(short direction, tiles, int score):
 
     cdef int size = tiles.shape[0]
 
-    tiles1 = np.copy(tiles)
+    tiles1 = copy(tiles)
     cdef int [:, :] tiles1_view = tiles1
 
     # --- Begin primary move_tiles loop

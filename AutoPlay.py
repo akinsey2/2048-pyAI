@@ -1,7 +1,7 @@
 
 
 from math import floor
-import numpy as np
+from numpy import array, zeros, random, single, int64
 # from pprint import pp
 # import cProfile
 
@@ -36,13 +36,13 @@ class AutoPlayer:
 
             # Enable optional passing of fixed seed NumPy number generator for testing
             if rand is None:
-                self.rand = np.random.default_rng()
+                self.rand = random.default_rng()
             else:
                 self.rand = rand
 
             # Calculate how many random numbers are needed based on move tree size
             rand_nums = int(sum([4**i for i in range(tree_depth+1)])*2*4000)
-            self.rands = self.rand.random(rand_nums, dtype=np.single)
+            self.rands = self.rand.random(rand_nums, dtype=single)
             self.rand_idx = int(0)
 
             # # DEBUG
@@ -96,7 +96,7 @@ class AutoPlayer:
 
             # Experiments indicate top ~?% averaged yields best results
             topx_num = max(1, floor(self.tree_size*self.topx_perc))
-            max_metrics = np.zeros(topx_num, dtype=np.int64)
+            max_metrics = zeros(topx_num, dtype=int64)
             max_metrics[-1] = move_tree.next[move_dir].metric
             max_metrics = AutoPlayUtilsPy.node_tree_max_DFS(move_tree.next[move_dir], max_metrics)
             move_metrics.append(max_metrics.sum() / float(topx_num))
@@ -257,7 +257,7 @@ if __name__ == '__main__':
     #          [0, 8, 8, 16],
     #          [16, 32, 32, 2048]]
     #
-    # AutoPlayUtilsCy.calc_metrics1(np.array(tiles1))
+    # AutoPlayUtilsCy.calc_metrics1(array(tiles1))
 
     # import GameMgr
 

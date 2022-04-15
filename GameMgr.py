@@ -1,4 +1,4 @@
-import numpy as np
+from numpy import zeros, array, random, int32, argwhere
 from copy import deepcopy
 # import pprint
 
@@ -12,9 +12,9 @@ class Game(object):
         self.ui = ui
 
         if tiles is None:
-            self.tiles = np.zeros((SIZE, SIZE), dtype=np.int32)
+            self.tiles = zeros((SIZE, SIZE), dtype=int32)
         else:
-            self.tiles = np.array(tiles, dtype=np.int32)
+            self.tiles = array(tiles, dtype=int32)
 
         self.score = int(score)
         self.num_moves = num_moves
@@ -22,7 +22,7 @@ class Game(object):
         self.already_won = False
         self.game_over = False
 
-        self.rand = np.random.default_rng()
+        self.rand = random.default_rng()
         self.last_move_valid = True
 
     def __repr__(self):
@@ -176,7 +176,7 @@ class Game(object):
         game_over = False
 
         # Find open positions
-        open_positions = np.argwhere(tiles == 0)
+        open_positions = argwhere(tiles == 0)
         num_empty = int(open_positions.size / 2)
 
         # --- Calculations to add tile

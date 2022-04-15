@@ -4,7 +4,8 @@
 
 from math import modf, log2
 from time import ctime
-import csv
+from csv import reader as csvreader
+from csv import writer as csvwriter
 
 from PyQt6.QtCore import (Qt, QRect, QMetaObject, QTimer, QCoreApplication,
                           QParallelAnimationGroup, QPropertyAnimation, QPoint,
@@ -389,7 +390,7 @@ class UiMainWindow(object):
 
         # Read saved game data from file
         with open(save_filename[0], mode="w", newline='') as file1:
-            csv_writer = csv.writer(file1, dialect="excel", delimiter=",")
+            csv_writer = csvwriter(file1, dialect="excel", delimiter=",")
             csv_writer.writerow([self.game.score, self.game.num_moves,
                                  self.game.num_empty, self.game.already_won,
                                  self.game.game_over])
@@ -424,7 +425,7 @@ class UiMainWindow(object):
 
         # Read saved game data from file
         with open(load_filename[0], mode="r") as file1:
-            csv_reader = csv.reader(file1, dialect="excel", delimiter=",")
+            csv_reader = csvreader(file1, dialect="excel", delimiter=",")
             [score, num_moves, num_empty, already_won, game_over] = next(csv_reader)  # Collect header row
             tiles = []
             for _ in range(4):
