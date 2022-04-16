@@ -1,6 +1,6 @@
 import GameMgr
 import AutoPlay
-import Utils
+import AutoPlayUtilsCy
 import numpy as np
 from time import perf_counter
 import cProfile
@@ -15,7 +15,7 @@ def test_Utils_calc_metrics1():
           [0, 0, 4, 16],
           [2, 4, 8, 128]]
     t1 = np.array(b1)
-    num1 = Utils.calc_metrics1(t1)
+    num1 = AutoPlayUtilsCy.calc_metrics1(t1, 2.0)
     print(f"metric1 = {num1} | Actual = 0  ", end="")
 
     print("PASSED") if num1 == 141312 else print("FAILED")
@@ -25,7 +25,7 @@ def test_Utils_calc_metrics1():
           [4, 128, 8, 2],
           [2, 16, 2, 0]]
     t1 = np.array(b1)
-    num1 = Utils.calc_metrics1(t1)
+    num1 = AutoPlayUtilsCy.calc_metrics1(t1, 2.0)
     print(f"metric1 = {num1} | Actual = 263168  ", end="")
 
     print("PASSED") if num1 == 263168 else print("FAILED")
@@ -35,7 +35,7 @@ def test_Utils_calc_metrics1():
           [64, 256, 16, 2],
           [16, 32, 8, 2]]
     t1 = np.array(b1)
-    num1 = Utils.calc_metrics1(t1)
+    num1 = AutoPlayUtilsCy.calc_metrics1(t1, 2.0)
     print(f"metric1 = {num1} | Actual = 608256  ", end="")
 
     print("PASSED") if num1 == 608256 else print("FAILED")
@@ -47,7 +47,7 @@ def test_Utils_calc_metrics3():
           [0, 0, 4, 16],
           [2, 4, 8, 128]]
     t1 = np.array(b1)
-    num1 = Utils.calc_metrics3(t1)
+    num1 = AutoPlayUtilsCy.calc_metrics3(t1, 2.0)
     print(f"metric1 = {num1} | Actual = 35364  ", end="")
 
     print("PASSED") if num1 == 35364 else print("FAILED")
@@ -57,7 +57,7 @@ def test_Utils_calc_metrics3():
           [4, 128, 8, 2],
           [2, 16, 2, 0]]
     t1 = np.array(b1)
-    num1 = Utils.calc_metrics3(t1)
+    num1 = AutoPlayUtilsCy.calc_metrics3(t1, 2.0)
     print(f"metric1 = {num1} | Actual = 67266  ", end="")
 
     print("PASSED") if num1 == 67266 else print("FAILED")
@@ -67,7 +67,7 @@ def test_Utils_calc_metrics3():
           [64, 256, 16, 2],
           [16, 32, 8, 2]]
     t1 = np.array(b1)
-    num1 = Utils.calc_metrics3(t1)
+    num1 = AutoPlayUtilsCy.calc_metrics3(t1, 2.0)
     print(f"metric1 = {num1} | Actual = 154648  ", end="")
 
     print("PASSED") if num1 == 154648 else print("FAILED")
@@ -77,7 +77,7 @@ def test_Utils_calc_metrics3():
           [64, 256, 512, 2],
           [16, 32, 8, 2]]
     t1 = np.array(b1)
-    num1 = Utils.calc_metrics3(t1)
+    num1 = AutoPlayUtilsCy.calc_metrics3(t1, 2.0)
     print(f"metric1 = {num1} | Actual = 0  ", end="")
 
     print("PASSED") if num1 == 0 else print("FAILED")
@@ -159,24 +159,20 @@ def run_num_moves(start_tiles, num_moves, tree_depth, topx, calc_option):
     return tiles, score
 
 
-def play_games(num, tree_depth, topx, calc_option):
+def play_games(num, tree_depth, topx, calc_option, calc_mult):
 
     for i in range(num):
 
         game1 = GameMgr.Game(None)
         game1.add_random_tile(commit=True)
 
-        ap1 = AutoPlay.AutoPlayer(game1, tree_depth, topx, calc_option)
+        ap1 = AutoPlay.AutoPlayer(game1, tree_depth, topx, calc_option, mult_base=calc_mult)
 
         while not ap1.game.game_over:
             for _ in range(2000):
                 ap1.auto_move()
                 if ap1.game.game_over:
                     break
-            print(ap1)
-            print(f"move_metrics = {ap1.move_metrics}, best_move = {ap1.best_move}, " +
-                  f"last_move_valid = {ap1.last_move_valid}")
-
 
     return ap1
 

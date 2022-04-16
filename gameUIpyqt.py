@@ -2,6 +2,10 @@
 # Originally Created by: PyQt6 UI code generator 6.1.0
 # but heavily edited during further development
 
+"""
+This is the main file designed to be run to play the 2048 game on a PC user interface.
+"""
+
 from math import modf, log2
 from time import ctime
 from csv import reader as csvreader
@@ -24,106 +28,156 @@ SIZE = 4
 BOARD_SIZE_PX = 450
 BOARD_MARGIN = 25
 
+# ------------------------------
 
-# To handle keyPressEvent, must create custom subclass with default overridden.
+
 class CentralWidget(QWidget):
+    """
+    Custom Subclass of QWidget to handle keyboard-triggered QKeyEvent(s)
+    A single instance can receive and process all keyboard events
 
-    def __init__(self, mainwindow, ui_mainwindow):
-        super().__init__(mainwindow)     # Establish parent, Initialize parent QWidget class
+    ----- Method -----
+
+    - keyPressEvent(QKeyEvent)
+    """
+
+    def __init__(self, mainwindow, ui_main):
+        super().__init__(mainwindow)     # Establish parent, Initialize parent class
         self.custom_init()
-        self.ui_mainwindow = ui_mainwindow
+        self.ui_main = ui_main
 
     def custom_init(self):
         pass
 
-    # Custom Handler for keyboard key press events
     def keyPressEvent(self, event):
+        """Custom callback handler to process key press QKeyEvent(s)"""
 
         self.releaseKeyboard()
 
         if not isinstance(event, QKeyEvent):
             raise TypeError("CentralWidget keyPressEvent() event is NOT QKeyEvent() ")
 
+        # Identify Up / Down / Left / Right key presses
+
         if event.key() == Qt.Key.Key_Up.value:
-            # print("MOVE UP")
-            valid_move, tile_move_vect, _, _ = self.ui_mainwindow.game.move_tiles(0, True)  # '0' means 'Up'
+            valid_move, tile_move_vect, _, _ = self.ui_main.game.move_tiles(0, True)  # '0' means 'Up'
 
         elif event.key() == Qt.Key.Key_Right.value:
-            # print("MOVE RIGHT")
-            valid_move, tile_move_vect, _, _ = self.ui_mainwindow.game.move_tiles(1, True)  # '1' means 'Right'
+            valid_move, tile_move_vect, _, _ = self.ui_main.game.move_tiles(1, True)  # '1' means 'Right'
 
         elif event.key() == Qt.Key.Key_Down.value:
-            # print("MOVE DOWN")
-            valid_move, tile_move_vect, _, _ = self.ui_mainwindow.game.move_tiles(2, True)  # '2' means 'Down'
+            valid_move, tile_move_vect, _, _ = self.ui_main.game.move_tiles(2, True)  # '2' means 'Down'
 
         elif event.key() == Qt.Key.Key_Left.value:
-            # print("MOVE LEFT")
-            valid_move, tile_move_vect, _, _ = self.ui_mainwindow.game.move_tiles(3, True)  # '3' means 'Left'
+            valid_move, tile_move_vect, _, _ = self.ui_main.game.move_tiles(3, True)  # '3' means 'Left'
 
+        # If any other key is pressed
         else:
-            valid_move = False
+            return
 
         if valid_move:
-            self.ui_mainwindow.animate_tiles(tile_move_vect)
+            self.ui_main.animate_tiles(tile_move_vect)
 
         else:   # Invalid move
 
             # Use add_random_tile() to detect possible game over
-            _, num_empty, game_over, _ = self.ui_mainwindow.game.add_random_tile(commit=False)
+            _, num_empty, game_over, _ = self.ui_main.game.add_random_tile(commit=False)
 
             if game_over:
-                self.ui_mainwindow.game_over()
+                self.ui_main.game_over()
             else:   # Game not over, continue
                 self.grabKeyboard()
 
+# ------------------------------
 
-# Custom class for the Tiles displayed on board, subclass of "QLabel"
+
 class TileWidget(QLabel):
+    """Custom object for each tile displayed on the game board
+
+    Subclass of QLabel with additional state for number and background color."""
 
     tile_colors = ("FFFFC8", "FFE6C8", "FFCC99", "FFCCCC", "FF9999",
                    "CCECFF", "99CCFF", "CCFFFF", "CCFFCC", "CCFF99",
                    "66FF66", "00CCFF", "9999FF", "FF99FF", "FF0066")
 
     def __init__(self, parent, num, row, col):
+        """
+        :param parent: "parent" widget (optional) in Qt widget hierarchy
+        :param num: number displayed on tile
+        :param row: row position in tiles grid. 0 is top row, increasing downwards
+        :param col: column position in tiles grid. 0 is top row, increasing downwards"""
+
+        # Call parent QLabel.__init__()
         super().__init__(str(num), parent)
 
-        self.num = property(self.get_num, self.set_num)
-        self._num = num
+        self.num = num
 
         self.setGeometry(col*100+25, row*100+25, 100, 100)
         # self.setFrameStyle(QFrame.Shape.Panel | QFrame.Shadow.Raised)
         self.setStyleSheet("margin: 2px; border: 4px solid grey; border-radius: 5px; " +
-                           "background-color: #" + TileWidget.tile_colors[int(log2(self._num)) - 1] +
+                           "background-color: #" + TileWidget.tile_colors[int(log2(self.num)) - 1] +
                            "; font: bold 32px;")
         self.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.setText(str(self._num))
+        self.setText(str(self.num))
 
     def __repr__(self):
-        return str(self._num)
-
-    def get_num(self):
-        return self._num
-
-    def set_num(self, val):
-        self._num = val
+        return str(self.num)
 
     def update_num(self, num):
+        """
+        Updates the displayed number, font, and color on a tile
 
-        self._num = num
+        :param num: number to be displayed on tile
+        :return: None """
 
-        if self._num < 10000:
+        self.num = num
+
+        if self.num < 10000:
             self.setStyleSheet("margin: 2px; border: 4px solid grey; border-radius: 5px; " +
-                               "background-color: #" + TileWidget.tile_colors[int(log2(self._num)) - 1] +
+                               "background-color: #" + TileWidget.tile_colors[int(log2(self.num)) - 1] +
                                "; font: bold 32px;")
-        elif self._num > 9999:
+        elif self.num > 9999:
             self.setStyleSheet("margin: 2px; border: 4px solid grey; border-radius: 5px; " +
-                               "background-color: #" + TileWidget.tile_colors[int(log2(self._num)) - 1] +
+                               "background-color: #" + TileWidget.tile_colors[int(log2(self.num)) - 1] +
                                "; font: bold 24px;")
 
-        self.setText(str(self._num))
+        self.setText(str(self.num))
+
+# ------------------------------
 
 
-class UiMainWindow(object):
+class UiMain(object):
+    """
+    The Primary Class of User Interface where most UI state is stored.
+
+    ----- Attributes -----
+
+    MANY. Widgets for each UI element, among others.
+
+    ----- "Main" Functional Methods -----
+
+    - autoplay_start()
+    - autoplay_stop()
+    - load_tile_widgets(tiles)
+    - animate_tiles(vectors)
+    - delete_and_new()
+    - add_tile(row, col, value)
+    - game_over()
+    - stop_game()
+    - won_game()
+    - new_game()
+    - retranslate_ui(main_window)
+
+    ----- Callback / Handler Methods -----
+
+    - start_clicked()
+    - save_clicked()
+    - load_clicked()
+    - autoplay_clicked()
+    - autoplay_move()
+    - ap_speed_changed()
+    - ap_type_changed(i)
+    """
 
     def __init__(self, main_window):
 
@@ -271,7 +325,7 @@ class UiMainWindow(object):
         self.horizontalSlider.setInvertedAppearance(True)
         self.horizontalSlider.setInvertedControls(True)
         self.horizontalSlider.setValue(1000)
-        self.horizontalSlider.valueChanged.connect(self.update_ap_speed)
+        self.horizontalSlider.valueChanged.connect(self.ap_speed_changed)
         self.horizontalSlider.setOrientation(Qt.Orientation.Horizontal)
         self.horizontalSlider.setTickPosition(QSlider.TickPosition.TicksBelow)
         self.horizontalSlider.setTickInterval(5)
@@ -311,6 +365,7 @@ class UiMainWindow(object):
         self.retranslate_ui(main_window)
         QMetaObject.connectSlotsByName(main_window)
 
+        # State variables
         self.game = None
         self.current_game = False
         self.is_paused = True
@@ -336,6 +391,8 @@ class UiMainWindow(object):
         self.autoplay_timer.timeout.connect(self.autoplay_move)
 
     def retranslate_ui(self, main_window):
+        """Enables all text fields to be translated into other languages"""
+
         _translate = QCoreApplication.translate
         main_window.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.game_title.setText(_translate("MainWindow", "2048"))
@@ -350,6 +407,7 @@ class UiMainWindow(object):
         self.ap_start_button.setText(_translate("MainWindow", "Start Auto-Play"))
 
     def start_clicked(self):
+        """Handler auto-called when Start/Play/Pause button is clicked"""
 
         # If no game is in progress
         if not self.current_game:
@@ -377,6 +435,7 @@ class UiMainWindow(object):
                 self.save_button.setEnabled(True)
 
     def save_clicked(self):
+        """Handler auto-called when Save button is clicked"""
 
         accepted = self.save_dlg.exec()
         if not accepted:
@@ -399,8 +458,9 @@ class UiMainWindow(object):
             csv_writer.writerow([ctime()])
 
     def load_clicked(self):
+        """Handler auto-called when Load button is clicked"""
 
-        # Add Dialog to warn that a current game is in progress and will be lost.
+        # Warning Dialog
         if self.current_game:
             losegame_err_dlg = QMessageBox(self.centralwidget)
             losegame_err_dlg.setWindowTitle("Warning")
@@ -468,9 +528,11 @@ class UiMainWindow(object):
         self.current_game = True
 
     def load_tile_widgets(self, tiles):
+        """During loading of a saved game, updates the game board TileWidgets displayed"""
 
         for row in range(SIZE):
             for col in range(SIZE):
+
                 if tiles[row][col] == 0:
                     if self.tile_widgets[row][col]:
                         self.tile_widgets[row][col].hide()
@@ -485,56 +547,8 @@ class UiMainWindow(object):
                         self.tile_widgets[row][col] = TileWidget(self.game_board, tiles[row][col], row, col)
                         self.tile_widgets[row][col].show()
 
-    def ap_type_changed(self, i):
-
-        # DEBUG
-        print(f"self.ap_type = {i}")
-        self.ap_type = int(i)
-
-    def autoplay_clicked(self):
-
-        # If autoplay is currently paused, start AutoPlay
-        if self.autoplaying is False:
-            self.autoplay_start()
-            return
-
-        # If AutoPlay is active, Pause it.
-        else:
-            self.autoplay_stop()
-
-    def autoplay_start(self):
-        self.centralwidget.releaseKeyboard()
-        self.comboBox.setEnabled(False)
-        # self.load_button.setEnabled(False)
-        # self.save_button.setEnabled(False)
-
-        # ACTUAL
-        # self.autoplayer = AutoPlay.AutoPlayer(self.game, calc_option=self.ap_type)
-
-        # DEBUG
-        self.autoplayer = AutoPlay.AutoPlayer(self.game, calc_option=self.ap_type)
-
-        self.autoplaying = True
-        self.ap_start_button.setText("Pause AutoPlay")
-        self.autoplay_timer.start()
-
-    def autoplay_stop(self):
-        self.autoplay_timer.stop()
-        self.autoplaying = False
-        self.comboBox.setEnabled(True)
-        # self.load_button.setEnabled(False)
-        # self.save_button.setEnabled(True)
-        self.ap_start_button.setText("Start AutoPlay")
-        self.centralwidget.grabKeyboard()
-
-    def autoplay_move(self):
-
-        move_dir = self.autoplayer.get_move()
-        valid_move, tile_move_vect, _, _ = self.game.move_tiles(move_dir, True)
-
-        self.animate_tiles(tile_move_vect)
-
-    def update_ap_speed(self):
+    def ap_speed_changed(self):
+        """Handler auto-called when AutoPlay speed slider is changed"""
 
         self.autoplay_timer.stop()
 
@@ -549,7 +563,65 @@ class UiMainWindow(object):
         if self.autoplaying:
             self.autoplay_timer.start()
 
+    def ap_type_changed(self, i):
+        """Handler auto-called when AutoPlay strategy ComboBox option is changed
+
+        :param i: index of selection in ComboBox automatically passed"""
+
+        self.ap_type = int(i)
+
+    def autoplay_clicked(self):
+        """Handler auto-called when AutoPlay button is clicked"""
+
+        # If autoplay is currently paused, start AutoPlay
+        if self.autoplaying is False:
+            self.autoplay_start()
+            return
+
+        # If AutoPlay is active, Pause it.
+        else:
+            self.autoplay_stop()
+
+    def autoplay_start(self):
+        """Update game state to start AutoPlay after AutoPlay button press"""
+
+        self.centralwidget.releaseKeyboard()
+        self.comboBox.setEnabled(False)
+        # self.load_button.setEnabled(False)
+        # self.save_button.setEnabled(False)
+
+        self.autoplayer = AutoPlay.AutoPlayer(self.game, calc_option=self.ap_type)
+
+        self.autoplaying = True
+        self.ap_start_button.setText("Pause AutoPlay")
+        self.autoplay_timer.start()
+
+    def autoplay_stop(self):
+        """Update game state to stop AutoPlay after AutoPlay button press"""
+
+        self.autoplay_timer.stop()
+        self.autoplaying = False
+        self.comboBox.setEnabled(True)
+        # self.load_button.setEnabled(False)
+        # self.save_button.setEnabled(True)
+        self.ap_start_button.setText("Start AutoPlay")
+        self.centralwidget.grabKeyboard()
+
+    def autoplay_move(self):
+        """Called by AutoPlay QTimer timeout to initiate an automatic move"""
+
+        # Calculate "best" move using chosen strategy
+        move_dir = self.autoplayer.get_move()
+
+        valid_move, tile_move_vect, _, _ = self.game.move_tiles(move_dir, True)
+
+        self.animate_tiles(tile_move_vect)
+
     def animate_tiles(self, vectors):
+        """Visually moves tiles according to the result of GameMgr.Game.move_tiles()
+        Automatically calls delete_and_new() upon completion of animation
+
+        :param vectors: Array of vectors describing correct movement of each tile"""
 
         self.anim_group = QParallelAnimationGroup()
         anims = []
@@ -568,11 +640,17 @@ class UiMainWindow(object):
                     anims[-1].setEasingCurve(QEasingCurve.Type.Linear)
                     self.anim_group.addAnimation(anims[-1])
 
+        # Upon animation finished, automatically call delete_and_new()
         self.anim_group.finished.connect(self.delete_and_new)
+
+        # Must not trigger another move while animation in progress
         self.autoplay_timer.stop()
+
         self.anim_group.start()
 
     def delete_and_new(self):
+        """Removes merged (deleted) tiles from display, and updates displayed numbers
+        Automatically called by animate_tiles()"""
 
         if self.autoplaying:
             self.autoplay_timer.start()
@@ -609,11 +687,14 @@ class UiMainWindow(object):
             self.centralwidget.grabKeyboard()
 
     def add_tile(self, row, col, value):
+        """Creates a new TileWidget for display on game_board.
+        Called by GameMgr.Game.add_random_tile()"""
 
         self.tile_widgets[row][col] = TileWidget(self.game_board, value, row, col)
         self.tile_widgets[row][col].show()
 
     def game_over(self):
+        """Updates game state upon game over with dialog to ask user for next action"""
 
         self.centralwidget.releaseKeyboard()
         self.autoplay_stop()
@@ -634,7 +715,19 @@ class UiMainWindow(object):
         else:
             raise ValueError("Invalid selection returned from Game_Over dialog")
 
+    def stop_game(self):
+        """Ends game upon user selection after win or game over."""
+
+        self.current_game = False
+        self.is_paused = True
+        self.start_button.setText("New Game")
+        self.load_button.setEnabled(True)
+        self.save_button.setEnabled(True)
+
     def won_game(self):
+        """Updates UI state upon game win with dialog to ask user for next action
+
+        :returns: bool. True if user wants to continue playing, False otherwise"""
 
         self.centralwidget.releaseKeyboard()
         self.autoplay_stop()
@@ -654,6 +747,7 @@ class UiMainWindow(object):
             return False
 
     def new_game(self):
+        """Sets all needed UI and Game state for new game."""
 
         # If a previous game exists, clear previous tiles on board
         if self.game:
@@ -677,20 +771,12 @@ class UiMainWindow(object):
         self.game.add_random_tile(commit=True)
         self.centralwidget.grabKeyboard()  # Enable keyboard events to be processed
 
-    def stop_game(self):
-
-        self.current_game = False
-        self.is_paused = True
-        self.start_button.setText("New Game")
-        self.load_button.setEnabled(True)
-        self.save_button.setEnabled(True)
-
 
 if __name__ == "__main__":
     import sys
-    tile_id = ord("A")-1
+
     app = QApplication(sys.argv)
     MainWindow = QMainWindow()
-    ui = UiMainWindow(MainWindow)
+    ui = UiMain(MainWindow)
     MainWindow.show()
     sys.exit(app.exec())

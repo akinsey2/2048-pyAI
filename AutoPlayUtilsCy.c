@@ -1028,7 +1028,7 @@ struct __pyx_memoryviewslice_obj;
 
 /* "AutoPlayUtilsCy.pyx":6
  * 
- * DTYPE = np.intc # Data type of NumPy arrays (tiles[][])
+ * DTYPE = intc # Data type of NumPy arrays (tiles[][])
  * cdef enum:             # <<<<<<<<<<<<<<
  *     SIZE = 4        # Length of single board dimension (4 for 4x4, 5 for 5x5, etc)
  *     NUM_TILES = 16     # 2*SIZE
@@ -1397,9 +1397,6 @@ static CYTHON_INLINE int __pyx_sub_acquisition_count_locked(
 static CYTHON_INLINE void __Pyx_INC_MEMVIEW(__Pyx_memviewslice *, int, int);
 static CYTHON_INLINE void __Pyx_XDEC_MEMVIEW(__Pyx_memviewslice *, int, int);
 
-/* DivInt[long].proto */
-static CYTHON_INLINE long __Pyx_div_long(long, long);
-
 /* IncludeStringH.proto */
 #include <string.h>
 
@@ -1443,15 +1440,6 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
 static void __Pyx_WriteUnraisable(const char *name, int clineno,
                                   int lineno, const char *filename,
                                   int full_traceback, int nogil);
-
-/* SliceTupleAndList.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyList_GetSlice(PyObject* src, Py_ssize_t start, Py_ssize_t stop);
-static CYTHON_INLINE PyObject* __Pyx_PyTuple_GetSlice(PyObject* src, Py_ssize_t start, Py_ssize_t stop);
-#else
-#define __Pyx_PyList_GetSlice(seq, start, stop)   PySequence_GetSlice(seq, start, stop)
-#define __Pyx_PyTuple_GetSlice(seq, start, stop)  PySequence_GetSlice(seq, start, stop)
-#endif
 
 /* ArgTypeTest.proto */
 #define __Pyx_ArgTypeTest(obj, type, none_allowed, name, exact)\
@@ -1644,6 +1632,9 @@ static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
 /* None.proto */
 static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname);
 
+/* DivInt[long].proto */
+static CYTHON_INLINE long __Pyx_div_long(long, long);
+
 /* ImportFrom.proto */
 static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name);
 
@@ -1797,11 +1788,8 @@ static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dsds_i
 /* ObjectToMemviewSlice.proto */
 static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dsds_int(PyObject *, int writable_flag);
 
-/* IntPow.proto */
-static CYTHON_INLINE long __Pyx_pow_long(long, long);
-
 /* ObjectToMemviewSlice.proto */
-static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_long(PyObject *, int writable_flag);
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_double(PyObject *, int writable_flag);
 
 /* MemviewSliceCopyTemplate.proto */
 static __Pyx_memviewslice
@@ -1833,9 +1821,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_short(short value);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
-
-/* CIntFromPy.proto */
-static CYTHON_INLINE size_t __Pyx_PyInt_As_size_t(PyObject *);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE char __Pyx_PyInt_As_char(PyObject *);
@@ -1871,10 +1856,6 @@ static int __pyx_memoryview_thread_locks_used;
 static PyThread_type_lock __pyx_memoryview_thread_locks[8];
 static int *__pyx_f_15AutoPlayUtilsCy_max_adjacent(__Pyx_memviewslice, int (*)[3], int, int *, int); /*proto*/
 static int __pyx_f_15AutoPlayUtilsCy_check_in_chain(int (*)[3], int, int, int); /*proto*/
-static CYTHON_INLINE PyObject *__Pyx_carray_to_py_int(int *, Py_ssize_t); /*proto*/
-static CYTHON_INLINE PyObject *__Pyx_carray_to_tuple_int(int *, Py_ssize_t); /*proto*/
-static CYTHON_INLINE PyObject *__Pyx_carray_to_py_int___5b_3_5d_(int (*)[3], Py_ssize_t); /*proto*/
-static CYTHON_INLINE PyObject *__Pyx_carray_to_tuple_int___5b_3_5d_(int (*)[3], Py_ssize_t); /*proto*/
 static struct __pyx_array_obj *__pyx_array_new(PyObject *, Py_ssize_t, char *, char *, char *); /*proto*/
 static void *__pyx_align_pointer(void *, size_t); /*proto*/
 static PyObject *__pyx_memoryview_new(PyObject *, int, int, __Pyx_TypeInfo *); /*proto*/
@@ -1910,7 +1891,7 @@ static void __pyx_memoryview__slice_assign_scalar(char *, Py_ssize_t *, Py_ssize
 static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *, PyObject *); /*proto*/
 static PyObject *__pyx_format_from_typeinfo(__Pyx_TypeInfo *); /*proto*/
 static __Pyx_TypeInfo __Pyx_TypeInfo_int = { "int", NULL, sizeof(int), { 0 }, 0, IS_UNSIGNED(int) ? 'U' : 'I', IS_UNSIGNED(int), 0 };
-static __Pyx_TypeInfo __Pyx_TypeInfo_long = { "long", NULL, sizeof(long), { 0 }, 0, IS_UNSIGNED(long) ? 'U' : 'I', IS_UNSIGNED(long), 0 };
+static __Pyx_TypeInfo __Pyx_TypeInfo_double = { "double", NULL, sizeof(double), { 0 }, 0, 'R', 0, 0 };
 static __Pyx_TypeInfo __Pyx_TypeInfo_float = { "float", NULL, sizeof(float), { 0 }, 0, 'R', 0, 0 };
 static __Pyx_TypeInfo __Pyx_TypeInfo_int__const__ = { "const int", NULL, sizeof(int const ), { 0 }, 0, IS_UNSIGNED(int const ) ? 'U' : 'I', IS_UNSIGNED(int const ), 0 };
 #define __Pyx_MODULE_NAME "AutoPlayUtilsCy"
@@ -1933,7 +1914,6 @@ static const char __pyx_k_T[] = "T{";
   static const char __pyx_k_j[] = "j";
   static const char __pyx_k_s[] = "(%s)";
   static const char __pyx_k_id[] = "id";
-  static const char __pyx_k_np[] = "np";
   static const char __pyx_k__19[] = "^";
   static const char __pyx_k__20[] = "";
   static const char __pyx_k__21[] = ":";
@@ -1942,7 +1922,6 @@ static const char __pyx_k__23[] = ",";
 static const char __pyx_k__32[] = "_";
 static const char __pyx_k_col[] = "col";
 static const char __pyx_k_inc[] = "inc";
-static const char __pyx_k_neg[] = "neg";
 static const char __pyx_k_new[] = "__new__";
 static const char __pyx_k_obj[] = "obj";
 static const char __pyx_k_row[] = "row";
@@ -2031,6 +2010,7 @@ static const char __pyx_k_direction[] = "direction";
 static const char __pyx_k_enumerate[] = "enumerate";
 static const char __pyx_k_in_corner[] = "in_corner";
 static const char __pyx_k_maxs_view[] = "maxs_view";
+static const char __pyx_k_mult_base[] = "mult_base";
 static const char __pyx_k_num_empty[] = "num_empty";
 static const char __pyx_k_place_idx[] = "place_idx";
 static const char __pyx_k_pyx_state[] = "__pyx_state";
@@ -2043,7 +2023,6 @@ static const char __pyx_k_chain_view[] = "chain_view";
 static const char __pyx_k_in_corner0[] = "in_corner0";
 static const char __pyx_k_in_corner1[] = "in_corner1";
 static const char __pyx_k_in_corner2[] = "in_corner2";
-static const char __pyx_k_max_c_list[] = "max_c_list";
 static const char __pyx_k_move_tiles[] = "move_tiles";
 static const char __pyx_k_pyx_result[] = "__pyx_result";
 static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
@@ -2203,7 +2182,6 @@ static PyObject *__pyx_n_s_j;
 static PyObject *__pyx_n_s_join;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_max_adj;
-static PyObject *__pyx_n_s_max_c_list;
 static PyObject *__pyx_n_s_max_corners;
 static PyObject *__pyx_n_s_max_val;
 static PyObject *__pyx_n_s_maximum;
@@ -2218,15 +2196,14 @@ static PyObject *__pyx_n_s_metrics_view;
 static PyObject *__pyx_n_s_mode;
 static PyObject *__pyx_n_s_move_tiles;
 static PyObject *__pyx_n_s_mult;
+static PyObject *__pyx_n_s_mult_base;
 static PyObject *__pyx_n_s_multiplier1;
 static PyObject *__pyx_n_s_multiplier2;
 static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_name_2;
 static PyObject *__pyx_n_s_ndim;
-static PyObject *__pyx_n_s_neg;
 static PyObject *__pyx_n_s_new;
 static PyObject *__pyx_kp_s_no_default___reduce___due_to_non;
-static PyObject *__pyx_n_s_np;
 static PyObject *__pyx_n_s_num_empty;
 static PyObject *__pyx_n_s_numpy;
 static PyObject *__pyx_n_s_nxt_col;
@@ -2287,9 +2264,9 @@ static PyObject *__pyx_n_s_value;
 static PyObject *__pyx_pf_15AutoPlayUtilsCy_move_tiles(CYTHON_UNUSED PyObject *__pyx_self, short __pyx_v_direction, PyObject *__pyx_v_tiles, int __pyx_v_score); /* proto */
 static PyObject *__pyx_pf_15AutoPlayUtilsCy_2add_random_tile(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_tiles, __Pyx_memviewslice __pyx_v_rands, int __pyx_v_rand_idx1); /* proto */
 static PyObject *__pyx_pf_15AutoPlayUtilsCy_4calc_metrics0(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_tiles); /* proto */
-static PyObject *__pyx_pf_15AutoPlayUtilsCy_6calc_metrics1(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_tiles); /* proto */
-static PyObject *__pyx_pf_15AutoPlayUtilsCy_8calc_metrics2(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_tiles); /* proto */
-static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_tiles); /* proto */
+static PyObject *__pyx_pf_15AutoPlayUtilsCy_6calc_metrics1(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_tiles, double __pyx_v_mult_base); /* proto */
+static PyObject *__pyx_pf_15AutoPlayUtilsCy_8calc_metrics2(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_tiles, double __pyx_v_mult_base); /* proto */
+static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_tiles, double __pyx_v_mult_base); /* proto */
 static PyObject *__pyx_pf_15AutoPlayUtilsCy_12calc_metrics4(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_tiles_view); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(struct __pyx_array_obj *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
@@ -2337,6 +2314,7 @@ static PyObject *__pyx_tp_new_array(PyTypeObject *t, PyObject *a, PyObject *k); 
 static PyObject *__pyx_tp_new_Enum(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_memoryview(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new__memoryviewslice(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_float_0_0;
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
 static PyObject *__pyx_int_184977713;
@@ -2562,7 +2540,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_move_tiles(CYTHON_UNUSED PyObject *_
  * 
  *     cdef int size = tiles.shape[0]             # <<<<<<<<<<<<<<
  * 
- *     tiles1 = np.copy(tiles)
+ *     tiles1 = copy(tiles)
  */
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_tiles, __pyx_n_s_shape); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -2576,36 +2554,33 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_move_tiles(CYTHON_UNUSED PyObject *_
   /* "AutoPlayUtilsCy.pyx":17
  *     cdef int size = tiles.shape[0]
  * 
- *     tiles1 = np.copy(tiles)             # <<<<<<<<<<<<<<
+ *     tiles1 = copy(tiles)             # <<<<<<<<<<<<<<
  *     cdef int [:, :] tiles1_view = tiles1
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_copy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_copy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_1))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_1);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-      __Pyx_INCREF(__pyx_t_2);
+  __pyx_t_1 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_1)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_1);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_1, function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
     }
   }
-  __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_2, __pyx_v_tiles) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_tiles);
-  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_3 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_1, __pyx_v_tiles) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_tiles);
+  __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_tiles1 = __pyx_t_3;
   __pyx_t_3 = 0;
 
   /* "AutoPlayUtilsCy.pyx":18
  * 
- *     tiles1 = np.copy(tiles)
+ *     tiles1 = copy(tiles)
  *     cdef int [:, :] tiles1_view = tiles1             # <<<<<<<<<<<<<<
  * 
  *     # --- Begin primary move_tiles loop
@@ -3428,21 +3403,21 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_move_tiles(CYTHON_UNUSED PyObject *_
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_v_valid_move); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_score); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 108, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_score); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_3);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_3);
   __Pyx_INCREF(__pyx_v_tiles1);
   __Pyx_GIVEREF(__pyx_v_tiles1);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_v_tiles1);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_2, 2, __pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_v_tiles1);
+  __Pyx_GIVEREF(__pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_t_2);
   __pyx_t_3 = 0;
-  __pyx_t_1 = 0;
-  __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
   goto __pyx_L0;
 
   /* "AutoPlayUtilsCy.pyx":10
@@ -4223,26 +4198,77 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_4calc_metrics0(CYTHON_UNUSED PyObjec
 /* "AutoPlayUtilsCy.pyx":173
  * # Strategy 1:
  * # Simple metric...Rewards Upper-Right aligned chain.
- * def calc_metrics1(tiles):             # <<<<<<<<<<<<<<
+ * def calc_metrics1(tiles, double mult_base):             # <<<<<<<<<<<<<<
  * 
  *     cdef int size = tiles.shape[0]
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_15AutoPlayUtilsCy_7calc_metrics1(PyObject *__pyx_self, PyObject *__pyx_v_tiles); /*proto*/
-static PyMethodDef __pyx_mdef_15AutoPlayUtilsCy_7calc_metrics1 = {"calc_metrics1", (PyCFunction)__pyx_pw_15AutoPlayUtilsCy_7calc_metrics1, METH_O, 0};
-static PyObject *__pyx_pw_15AutoPlayUtilsCy_7calc_metrics1(PyObject *__pyx_self, PyObject *__pyx_v_tiles) {
+static PyObject *__pyx_pw_15AutoPlayUtilsCy_7calc_metrics1(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_15AutoPlayUtilsCy_7calc_metrics1 = {"calc_metrics1", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_15AutoPlayUtilsCy_7calc_metrics1, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_15AutoPlayUtilsCy_7calc_metrics1(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_tiles = 0;
+  double __pyx_v_mult_base;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("calc_metrics1 (wrapper)", 0);
-  __pyx_r = __pyx_pf_15AutoPlayUtilsCy_6calc_metrics1(__pyx_self, ((PyObject *)__pyx_v_tiles));
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_tiles,&__pyx_n_s_mult_base,0};
+    PyObject* values[2] = {0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_tiles)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_mult_base)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("calc_metrics1", 1, 2, 2, 1); __PYX_ERR(0, 173, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "calc_metrics1") < 0)) __PYX_ERR(0, 173, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+    }
+    __pyx_v_tiles = values[0];
+    __pyx_v_mult_base = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_mult_base == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 173, __pyx_L3_error)
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("calc_metrics1", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 173, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("AutoPlayUtilsCy.calc_metrics1", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_15AutoPlayUtilsCy_6calc_metrics1(__pyx_self, __pyx_v_tiles, __pyx_v_mult_base);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_15AutoPlayUtilsCy_6calc_metrics1(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_tiles) {
+static PyObject *__pyx_pf_15AutoPlayUtilsCy_6calc_metrics1(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_tiles, double __pyx_v_mult_base) {
   int __pyx_v_size;
   __Pyx_memviewslice __pyx_v_tiles_view = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_v_max_val;
@@ -4254,8 +4280,8 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_6calc_metrics1(CYTHON_UNUSED PyObjec
   __Pyx_memviewslice __pyx_v_maxs_view = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_v_in_corner0;
   int __pyx_v_i;
-  int __pyx_v_metric;
-  int __pyx_v_mult;
+  double __pyx_v_metric;
+  double __pyx_v_mult;
   int __pyx_v_rgt_col;
   int __pyx_v_nxt_col;
   PyObject *__pyx_r = NULL;
@@ -4285,7 +4311,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_6calc_metrics1(CYTHON_UNUSED PyObjec
   __Pyx_RefNannySetupContext("calc_metrics1", 0);
 
   /* "AutoPlayUtilsCy.pyx":175
- * def calc_metrics1(tiles):
+ * def calc_metrics1(tiles, double mult_base):
  * 
  *     cdef int size = tiles.shape[0]             # <<<<<<<<<<<<<<
  * 
@@ -4666,14 +4692,14 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_6calc_metrics1(CYTHON_UNUSED PyObjec
   /* "AutoPlayUtilsCy.pyx":219
  * 
  *     # --- If max tile is NOT in upper-right, metric is zero.
- *     cdef int metric = 0             # <<<<<<<<<<<<<<
+ *     cdef double metric = 0             # <<<<<<<<<<<<<<
  * 
  *     if in_corner0 == False:
  */
-  __pyx_v_metric = 0;
+  __pyx_v_metric = 0.0;
 
   /* "AutoPlayUtilsCy.pyx":221
- *     cdef int metric = 0
+ *     cdef double metric = 0
  * 
  *     if in_corner0 == False:             # <<<<<<<<<<<<<<
  *         return metric
@@ -4690,14 +4716,14 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_6calc_metrics1(CYTHON_UNUSED PyObjec
  *     # Otherwise, calculate the metric
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_metric); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 222, __pyx_L1_error)
+    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_metric); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 222, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_r = __pyx_t_4;
     __pyx_t_4 = 0;
     goto __pyx_L0;
 
     /* "AutoPlayUtilsCy.pyx":221
- *     cdef int metric = 0
+ *     cdef double metric = 0
  * 
  *     if in_corner0 == False:             # <<<<<<<<<<<<<<
  *         return metric
@@ -4707,7 +4733,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_6calc_metrics1(CYTHON_UNUSED PyObjec
 
   /* "AutoPlayUtilsCy.pyx":226
  *     # Otherwise, calculate the metric
- *     cdef int mult
+ *     cdef double mult
  *     cdef int rgt_col = size - 1, nxt_col = size - 2             # <<<<<<<<<<<<<<
  * 
  *     # Right Col, top to bottom
@@ -4718,18 +4744,18 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_6calc_metrics1(CYTHON_UNUSED PyObjec
   /* "AutoPlayUtilsCy.pyx":229
  * 
  *     # Right Col, top to bottom
- *     mult = 2 ** (size * 2)             # <<<<<<<<<<<<<<
+ *     mult = mult_base ** (size * 2)             # <<<<<<<<<<<<<<
  * 
  *     for i in range(size):
  */
-  __pyx_v_mult = __Pyx_pow_long(2, (__pyx_v_size * 2));
+  __pyx_v_mult = pow(__pyx_v_mult_base, ((double)(__pyx_v_size * 2)));
 
   /* "AutoPlayUtilsCy.pyx":231
- *     mult = 2 ** (size * 2)
+ *     mult = mult_base ** (size * 2)
  * 
  *     for i in range(size):             # <<<<<<<<<<<<<<
  *         metric += mult * tiles_view[i, rgt_col]
- *         mult = mult // 2
+ *         mult = mult / mult_base
  */
   __pyx_t_3 = __pyx_v_size;
   __pyx_t_9 = __pyx_t_3;
@@ -4740,7 +4766,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_6calc_metrics1(CYTHON_UNUSED PyObjec
  * 
  *     for i in range(size):
  *         metric += mult * tiles_view[i, rgt_col]             # <<<<<<<<<<<<<<
- *         mult = mult // 2
+ *         mult = mult / mult_base
  * 
  */
     __pyx_t_15 = __pyx_v_i;
@@ -4763,11 +4789,15 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_6calc_metrics1(CYTHON_UNUSED PyObjec
     /* "AutoPlayUtilsCy.pyx":233
  *     for i in range(size):
  *         metric += mult * tiles_view[i, rgt_col]
- *         mult = mult // 2             # <<<<<<<<<<<<<<
+ *         mult = mult / mult_base             # <<<<<<<<<<<<<<
  * 
  *     # Second-to-right col, bottom to top
  */
-    __pyx_v_mult = __Pyx_div_long(__pyx_v_mult, 2);
+    if (unlikely(__pyx_v_mult_base == 0)) {
+      PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+      __PYX_ERR(0, 233, __pyx_L1_error)
+    }
+    __pyx_v_mult = (__pyx_v_mult / __pyx_v_mult_base);
   }
 
   /* "AutoPlayUtilsCy.pyx":236
@@ -4775,7 +4805,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_6calc_metrics1(CYTHON_UNUSED PyObjec
  *     # Second-to-right col, bottom to top
  *     for i in range(size-1, -1, -1):             # <<<<<<<<<<<<<<
  *         metric += mult * tiles_view[i, nxt_col]
- *         mult = mult // 2
+ *         mult = mult / mult_base
  */
   for (__pyx_t_3 = (__pyx_v_size - 1); __pyx_t_3 > -1; __pyx_t_3-=1) {
     __pyx_v_i = __pyx_t_3;
@@ -4784,7 +4814,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_6calc_metrics1(CYTHON_UNUSED PyObjec
  *     # Second-to-right col, bottom to top
  *     for i in range(size-1, -1, -1):
  *         metric += mult * tiles_view[i, nxt_col]             # <<<<<<<<<<<<<<
- *         mult = mult // 2
+ *         mult = mult / mult_base
  * 
  */
     __pyx_t_14 = __pyx_v_i;
@@ -4807,22 +4837,26 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_6calc_metrics1(CYTHON_UNUSED PyObjec
     /* "AutoPlayUtilsCy.pyx":238
  *     for i in range(size-1, -1, -1):
  *         metric += mult * tiles_view[i, nxt_col]
- *         mult = mult // 2             # <<<<<<<<<<<<<<
+ *         mult = mult / mult_base             # <<<<<<<<<<<<<<
  * 
  *     return metric
  */
-    __pyx_v_mult = __Pyx_div_long(__pyx_v_mult, 2);
+    if (unlikely(__pyx_v_mult_base == 0)) {
+      PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+      __PYX_ERR(0, 238, __pyx_L1_error)
+    }
+    __pyx_v_mult = (__pyx_v_mult / __pyx_v_mult_base);
   }
 
   /* "AutoPlayUtilsCy.pyx":240
- *         mult = mult // 2
+ *         mult = mult / mult_base
  * 
  *     return metric             # <<<<<<<<<<<<<<
  * 
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_metric); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 240, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_metric); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 240, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_r = __pyx_t_4;
   __pyx_t_4 = 0;
@@ -4831,7 +4865,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_6calc_metrics1(CYTHON_UNUSED PyObjec
   /* "AutoPlayUtilsCy.pyx":173
  * # Strategy 1:
  * # Simple metric...Rewards Upper-Right aligned chain.
- * def calc_metrics1(tiles):             # <<<<<<<<<<<<<<
+ * def calc_metrics1(tiles, double mult_base):             # <<<<<<<<<<<<<<
  * 
  *     cdef int size = tiles.shape[0]
  */
@@ -4857,26 +4891,77 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_6calc_metrics1(CYTHON_UNUSED PyObjec
 /* "AutoPlayUtilsCy.pyx":247
  * # with additional "reward" for empty tiles
  * 
- * def calc_metrics2(tiles):             # <<<<<<<<<<<<<<
+ * def calc_metrics2(tiles, double mult_base):             # <<<<<<<<<<<<<<
  * 
  *     # graph = {(0, 0): ((1, 0), (0, 1)),
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_15AutoPlayUtilsCy_9calc_metrics2(PyObject *__pyx_self, PyObject *__pyx_v_tiles); /*proto*/
-static PyMethodDef __pyx_mdef_15AutoPlayUtilsCy_9calc_metrics2 = {"calc_metrics2", (PyCFunction)__pyx_pw_15AutoPlayUtilsCy_9calc_metrics2, METH_O, 0};
-static PyObject *__pyx_pw_15AutoPlayUtilsCy_9calc_metrics2(PyObject *__pyx_self, PyObject *__pyx_v_tiles) {
+static PyObject *__pyx_pw_15AutoPlayUtilsCy_9calc_metrics2(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_15AutoPlayUtilsCy_9calc_metrics2 = {"calc_metrics2", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_15AutoPlayUtilsCy_9calc_metrics2, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_15AutoPlayUtilsCy_9calc_metrics2(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_tiles = 0;
+  double __pyx_v_mult_base;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("calc_metrics2 (wrapper)", 0);
-  __pyx_r = __pyx_pf_15AutoPlayUtilsCy_8calc_metrics2(__pyx_self, ((PyObject *)__pyx_v_tiles));
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_tiles,&__pyx_n_s_mult_base,0};
+    PyObject* values[2] = {0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_tiles)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_mult_base)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("calc_metrics2", 1, 2, 2, 1); __PYX_ERR(0, 247, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "calc_metrics2") < 0)) __PYX_ERR(0, 247, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+    }
+    __pyx_v_tiles = values[0];
+    __pyx_v_mult_base = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_mult_base == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 247, __pyx_L3_error)
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("calc_metrics2", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 247, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("AutoPlayUtilsCy.calc_metrics2", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_15AutoPlayUtilsCy_8calc_metrics2(__pyx_self, __pyx_v_tiles, __pyx_v_mult_base);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_15AutoPlayUtilsCy_8calc_metrics2(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_tiles) {
+static PyObject *__pyx_pf_15AutoPlayUtilsCy_8calc_metrics2(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_tiles, double __pyx_v_mult_base) {
   int __pyx_v_size;
   __Pyx_memviewslice __pyx_v_tiles_view = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_v_max_val;
@@ -4891,21 +4976,21 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_8calc_metrics2(CYTHON_UNUSED PyObjec
   short __pyx_v_metrics_len;
   short __pyx_v_chain_len;
   short __pyx_v_i;
-  long __pyx_v_metric;
-  long __pyx_v_mult;
-  long __pyx_v_multiplier1;
-  long __pyx_v_multiplier2;
+  double __pyx_v_metric;
+  double __pyx_v_mult;
+  double __pyx_v_multiplier1;
+  double __pyx_v_multiplier2;
   int __pyx_v_in_corner1;
   int __pyx_v_in_corner2;
   int __pyx_v_in_corner;
   int __pyx_v_same_row;
   int __pyx_v_same_col;
-  long __pyx_v_metrics[__pyx_e_15AutoPlayUtilsCy_NUM_TILES];
+  double __pyx_v_metrics[__pyx_e_15AutoPlayUtilsCy_NUM_TILES];
   __Pyx_memviewslice __pyx_v_metrics_view = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_v_chain[__pyx_e_15AutoPlayUtilsCy_NUM_TILES][3];
   __Pyx_memviewslice __pyx_v_chain_view = { 0, 0, { 0 }, { 0 }, { 0 } };
   CYTHON_UNUSED long __pyx_v__;
-  long __pyx_v_maximum;
+  double __pyx_v_maximum;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -4931,9 +5016,10 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_8calc_metrics2(CYTHON_UNUSED PyObjec
   long __pyx_t_21;
   __Pyx_memviewslice __pyx_t_22 = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_t_23;
-  short __pyx_t_24;
+  double __pyx_t_24;
   short __pyx_t_25;
   short __pyx_t_26;
+  short __pyx_t_27;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -5311,42 +5397,42 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_8calc_metrics2(CYTHON_UNUSED PyObjec
  *     cdef int max_adj[3]
  *     cdef short metrics_len = 0, chain_len = 0, curr_row, curr_col, i             # <<<<<<<<<<<<<<
  *     # cdef bint end_of_chain
- *     cdef long metric, mult, multiplier1, multiplier2
+ *     cdef double metric, mult, multiplier1, multiplier2
  */
   __pyx_v_metrics_len = 0;
   __pyx_v_chain_len = 0;
 
   /* "AutoPlayUtilsCy.pyx":313
  *     # Initialize metrics array
- *     cdef long metrics[NUM_TILES]
- *     cdef long [:] metrics_view = metrics             # <<<<<<<<<<<<<<
+ *     cdef double metrics[NUM_TILES]
+ *     cdef double [:] metrics_view = metrics             # <<<<<<<<<<<<<<
  *     metrics_view[:] = 0
  * 
  */
-  __pyx_t_1 = __pyx_format_from_typeinfo(&__Pyx_TypeInfo_long); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 313, __pyx_L1_error)
+  __pyx_t_1 = __pyx_format_from_typeinfo(&__Pyx_TypeInfo_double); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 313, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_4 = Py_BuildValue((char*) "("  __PYX_BUILD_PY_SSIZE_T  ")", ((Py_ssize_t)__pyx_e_15AutoPlayUtilsCy_NUM_TILES)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 313, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_7 = __pyx_array_new(__pyx_t_4, sizeof(long), PyBytes_AS_STRING(__pyx_t_1), (char *) "fortran", (char *) __pyx_v_metrics);
+  __pyx_t_7 = __pyx_array_new(__pyx_t_4, sizeof(double), PyBytes_AS_STRING(__pyx_t_1), (char *) "fortran", (char *) __pyx_v_metrics);
   if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 313, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_17 = __Pyx_PyObject_to_MemoryviewSlice_ds_long(((PyObject *)__pyx_t_7), PyBUF_WRITABLE); if (unlikely(!__pyx_t_17.memview)) __PYX_ERR(0, 313, __pyx_L1_error)
+  __pyx_t_17 = __Pyx_PyObject_to_MemoryviewSlice_ds_double(((PyObject *)__pyx_t_7), PyBUF_WRITABLE); if (unlikely(!__pyx_t_17.memview)) __PYX_ERR(0, 313, __pyx_L1_error)
   __Pyx_DECREF(((PyObject *)__pyx_t_7)); __pyx_t_7 = 0;
   __pyx_v_metrics_view = __pyx_t_17;
   __pyx_t_17.memview = NULL;
   __pyx_t_17.data = NULL;
 
   /* "AutoPlayUtilsCy.pyx":314
- *     cdef long metrics[NUM_TILES]
- *     cdef long [:] metrics_view = metrics
+ *     cdef double metrics[NUM_TILES]
+ *     cdef double [:] metrics_view = metrics
  *     metrics_view[:] = 0             # <<<<<<<<<<<<<<
  * 
  *     # Initialize chain 2D array
  */
   {
-      long __pyx_temp_scalar = 0;
+      double __pyx_temp_scalar = 0.0;
       {
           Py_ssize_t __pyx_temp_extent_0 = __pyx_v_metrics_view.shape[0];
           Py_ssize_t __pyx_temp_stride_0 = __pyx_v_metrics_view.strides[0];
@@ -5354,7 +5440,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_8calc_metrics2(CYTHON_UNUSED PyObjec
           Py_ssize_t __pyx_temp_idx_0;
           __pyx_temp_pointer_0 = __pyx_v_metrics_view.data;
           for (__pyx_temp_idx_0 = 0; __pyx_temp_idx_0 < __pyx_temp_extent_0; __pyx_temp_idx_0++) {
-            *((long *) __pyx_temp_pointer_0) = __pyx_temp_scalar;
+            *((double *) __pyx_temp_pointer_0) = __pyx_temp_scalar;
             __pyx_temp_pointer_0 += __pyx_temp_stride_0;
           }
       }
@@ -5431,7 +5517,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_8calc_metrics2(CYTHON_UNUSED PyObjec
  * 
  *         # Start with "max" tile
  */
-    __pyx_v_metric = 0;
+    __pyx_v_metric = 0.0;
 
     /* "AutoPlayUtilsCy.pyx":327
  * 
@@ -5657,11 +5743,11 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_8calc_metrics2(CYTHON_UNUSED PyObjec
  *         # If the first <=4 tiles in the chain are all in the same row or col
  */
     if ((__pyx_v_in_corner != 0)) {
-      __pyx_t_19 = 2;
+      __pyx_t_24 = 2.0;
     } else {
-      __pyx_t_19 = 1;
+      __pyx_t_24 = 1.0;
     }
-    __pyx_v_multiplier1 = __pyx_t_19;
+    __pyx_v_multiplier1 = __pyx_t_24;
 
     /* "AutoPlayUtilsCy.pyx":361
  * 
@@ -5688,17 +5774,17 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_8calc_metrics2(CYTHON_UNUSED PyObjec
  *             same_row = same_row and (chain[0][1] == chain[i][1])
  *             same_col = same_col and (chain[0][2] == chain[i][2])
  */
-    __pyx_t_24 = __pyx_v_chain_len;
+    __pyx_t_25 = __pyx_v_chain_len;
     __pyx_t_19 = 4;
-    if (((__pyx_t_24 < __pyx_t_19) != 0)) {
-      __pyx_t_20 = __pyx_t_24;
+    if (((__pyx_t_25 < __pyx_t_19) != 0)) {
+      __pyx_t_20 = __pyx_t_25;
     } else {
       __pyx_t_20 = __pyx_t_19;
     }
     __pyx_t_19 = __pyx_t_20;
     __pyx_t_20 = __pyx_t_19;
-    for (__pyx_t_24 = 1; __pyx_t_24 < __pyx_t_20; __pyx_t_24+=1) {
-      __pyx_v_i = __pyx_t_24;
+    for (__pyx_t_25 = 1; __pyx_t_25 < __pyx_t_20; __pyx_t_25+=1) {
+      __pyx_v_i = __pyx_t_25;
 
       /* "AutoPlayUtilsCy.pyx":364
  *         same_col = True
@@ -5760,38 +5846,38 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_8calc_metrics2(CYTHON_UNUSED PyObjec
     __pyx_t_5 = __pyx_t_23;
     __pyx_L27_bool_binop_done:;
     if (__pyx_t_5) {
-      __pyx_t_19 = 2;
+      __pyx_t_24 = 2.0;
     } else {
-      __pyx_t_19 = 1;
+      __pyx_t_24 = 1.0;
     }
-    __pyx_v_multiplier2 = __pyx_t_19;
+    __pyx_v_multiplier2 = __pyx_t_24;
 
     /* "AutoPlayUtilsCy.pyx":371
  * 
  *         # Update metric for this chain
- *         mult = 8             # <<<<<<<<<<<<<<
+ *         mult = mult_base ** chain_len             # <<<<<<<<<<<<<<
  *         for i in range(chain_len):
  *             metric += mult*chain[i][0]
  */
-    __pyx_v_mult = 8;
+    __pyx_v_mult = pow(__pyx_v_mult_base, ((double)__pyx_v_chain_len));
 
     /* "AutoPlayUtilsCy.pyx":372
  *         # Update metric for this chain
- *         mult = 8
+ *         mult = mult_base ** chain_len
  *         for i in range(chain_len):             # <<<<<<<<<<<<<<
  *             metric += mult*chain[i][0]
- *             mult -= 1
+ *             mult = mult / mult_base
  */
-    __pyx_t_24 = __pyx_v_chain_len;
-    __pyx_t_25 = __pyx_t_24;
-    for (__pyx_t_26 = 0; __pyx_t_26 < __pyx_t_25; __pyx_t_26+=1) {
-      __pyx_v_i = __pyx_t_26;
+    __pyx_t_25 = __pyx_v_chain_len;
+    __pyx_t_26 = __pyx_t_25;
+    for (__pyx_t_27 = 0; __pyx_t_27 < __pyx_t_26; __pyx_t_27+=1) {
+      __pyx_v_i = __pyx_t_27;
 
       /* "AutoPlayUtilsCy.pyx":373
- *         mult = 8
+ *         mult = mult_base ** chain_len
  *         for i in range(chain_len):
  *             metric += mult*chain[i][0]             # <<<<<<<<<<<<<<
- *             mult -= 1
+ *             mult = mult / mult_base
  * 
  */
       __pyx_v_metric = (__pyx_v_metric + (__pyx_v_mult * ((__pyx_v_chain[__pyx_v_i])[0])));
@@ -5799,15 +5885,19 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_8calc_metrics2(CYTHON_UNUSED PyObjec
       /* "AutoPlayUtilsCy.pyx":374
  *         for i in range(chain_len):
  *             metric += mult*chain[i][0]
- *             mult -= 1             # <<<<<<<<<<<<<<
+ *             mult = mult / mult_base             # <<<<<<<<<<<<<<
  * 
  *         metric = metric * multiplier1 * multiplier2 * num_empty
  */
-      __pyx_v_mult = (__pyx_v_mult - 1);
+      if (unlikely(__pyx_v_mult_base == 0)) {
+        PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+        __PYX_ERR(0, 374, __pyx_L1_error)
+      }
+      __pyx_v_mult = (__pyx_v_mult / __pyx_v_mult_base);
     }
 
     /* "AutoPlayUtilsCy.pyx":376
- *             mult -= 1
+ *             mult = mult / mult_base
  * 
  *         metric = metric * multiplier1 * multiplier2 * num_empty             # <<<<<<<<<<<<<<
  *         metrics[metrics_len] = metric
@@ -5847,15 +5937,15 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_8calc_metrics2(CYTHON_UNUSED PyObjec
   /* "AutoPlayUtilsCy.pyx":385
  * 
  *     # --- Find the maximum value of metrics
- *     cdef long maximum = 0             # <<<<<<<<<<<<<<
+ *     cdef double maximum = 0             # <<<<<<<<<<<<<<
  *     for i in range(metrics_len):
  *         if metrics[i] > maximum:
  */
-  __pyx_v_maximum = 0;
+  __pyx_v_maximum = 0.0;
 
   /* "AutoPlayUtilsCy.pyx":386
  *     # --- Find the maximum value of metrics
- *     cdef long maximum = 0
+ *     cdef double maximum = 0
  *     for i in range(metrics_len):             # <<<<<<<<<<<<<<
  *         if metrics[i] > maximum:
  *             maximum = metrics[i]
@@ -5866,7 +5956,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_8calc_metrics2(CYTHON_UNUSED PyObjec
     __pyx_v_i = __pyx_t_18;
 
     /* "AutoPlayUtilsCy.pyx":387
- *     cdef long maximum = 0
+ *     cdef double maximum = 0
  *     for i in range(metrics_len):
  *         if metrics[i] > maximum:             # <<<<<<<<<<<<<<
  *             maximum = metrics[i]
@@ -5885,7 +5975,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_8calc_metrics2(CYTHON_UNUSED PyObjec
       __pyx_v_maximum = (__pyx_v_metrics[__pyx_v_i]);
 
       /* "AutoPlayUtilsCy.pyx":387
- *     cdef long maximum = 0
+ *     cdef double maximum = 0
  *     for i in range(metrics_len):
  *         if metrics[i] > maximum:             # <<<<<<<<<<<<<<
  *             maximum = metrics[i]
@@ -5902,7 +5992,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_8calc_metrics2(CYTHON_UNUSED PyObjec
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = __Pyx_PyInt_From_long(__pyx_v_maximum); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 390, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_maximum); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 390, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_r = __pyx_t_4;
   __pyx_t_4 = 0;
@@ -5911,7 +6001,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_8calc_metrics2(CYTHON_UNUSED PyObjec
   /* "AutoPlayUtilsCy.pyx":247
  * # with additional "reward" for empty tiles
  * 
- * def calc_metrics2(tiles):             # <<<<<<<<<<<<<<
+ * def calc_metrics2(tiles, double mult_base):             # <<<<<<<<<<<<<<
  * 
  *     # graph = {(0, 0): ((1, 0), (0, 1)),
  */
@@ -6666,26 +6756,77 @@ static int __pyx_f_15AutoPlayUtilsCy_check_in_chain(int (*__pyx_v_chain)[3], int
 /* "AutoPlayUtilsCy.pyx":481
  * # More advanced metric. Rewards any "chain" anchored in a corner,
  * # with additional "reward" for empty tiles
- * def calc_metrics3(tiles):             # <<<<<<<<<<<<<<
+ * def calc_metrics3(tiles, double mult_base):             # <<<<<<<<<<<<<<
  * 
  *     cdef int size = tiles.shape[0]
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_15AutoPlayUtilsCy_11calc_metrics3(PyObject *__pyx_self, PyObject *__pyx_v_tiles); /*proto*/
-static PyMethodDef __pyx_mdef_15AutoPlayUtilsCy_11calc_metrics3 = {"calc_metrics3", (PyCFunction)__pyx_pw_15AutoPlayUtilsCy_11calc_metrics3, METH_O, 0};
-static PyObject *__pyx_pw_15AutoPlayUtilsCy_11calc_metrics3(PyObject *__pyx_self, PyObject *__pyx_v_tiles) {
+static PyObject *__pyx_pw_15AutoPlayUtilsCy_11calc_metrics3(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_15AutoPlayUtilsCy_11calc_metrics3 = {"calc_metrics3", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_15AutoPlayUtilsCy_11calc_metrics3, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_15AutoPlayUtilsCy_11calc_metrics3(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_tiles = 0;
+  double __pyx_v_mult_base;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("calc_metrics3 (wrapper)", 0);
-  __pyx_r = __pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(__pyx_self, ((PyObject *)__pyx_v_tiles));
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_tiles,&__pyx_n_s_mult_base,0};
+    PyObject* values[2] = {0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_tiles)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_mult_base)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("calc_metrics3", 1, 2, 2, 1); __PYX_ERR(0, 481, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "calc_metrics3") < 0)) __PYX_ERR(0, 481, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+    }
+    __pyx_v_tiles = values[0];
+    __pyx_v_mult_base = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_mult_base == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 481, __pyx_L3_error)
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("calc_metrics3", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 481, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("AutoPlayUtilsCy.calc_metrics3", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(__pyx_self, __pyx_v_tiles, __pyx_v_mult_base);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_tiles) {
+static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_tiles, double __pyx_v_mult_base) {
   int __pyx_v_size;
   __Pyx_memviewslice __pyx_v_tiles_view = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_v_max_val;
@@ -6710,16 +6851,14 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObje
   short __pyx_v_chain33b[9][2];
   short __pyx_v_chain30a[9][2];
   short __pyx_v_chain30b[9][2];
-  long __pyx_v_metrics[8];
+  double __pyx_v_metrics[8];
   short __pyx_v_metrics_len;
-  long __pyx_v_mult;
-  long __pyx_v_metric;
+  double __pyx_v_mult;
+  double __pyx_v_metric;
   short __pyx_v_chain1[9][2];
   short __pyx_v_chain2[9][2];
   long __pyx_v_j;
-  long __pyx_v_maximum;
-  CYTHON_UNUSED int __pyx_v_neg;
-  PyObject *__pyx_v_max_c_list = NULL;
+  double __pyx_v_maximum;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -6826,7 +6965,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObje
   __Pyx_RefNannySetupContext("calc_metrics3", 0);
 
   /* "AutoPlayUtilsCy.pyx":483
- * def calc_metrics3(tiles):
+ * def calc_metrics3(tiles, double mult_base):
  * 
  *     cdef int size = tiles.shape[0]             # <<<<<<<<<<<<<<
  * 
@@ -7337,7 +7476,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObje
  * 
  *     # If there are no max tiles in corners, metric is 0
  *     if not in_corner:             # <<<<<<<<<<<<<<
- *         return 0, []
+ *         return 0.0
  * 
  */
   __pyx_t_5 = ((!(__pyx_v_in_corner != 0)) != 0);
@@ -7346,30 +7485,20 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObje
     /* "AutoPlayUtilsCy.pyx":536
  *     # If there are no max tiles in corners, metric is 0
  *     if not in_corner:
- *         return 0, []             # <<<<<<<<<<<<<<
+ *         return 0.0             # <<<<<<<<<<<<<<
  * 
  * 
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 536, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 536, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_INCREF(__pyx_int_0);
-    __Pyx_GIVEREF(__pyx_int_0);
-    PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_int_0);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
-    __pyx_r = __pyx_t_1;
-    __pyx_t_1 = 0;
+    __Pyx_INCREF(__pyx_float_0_0);
+    __pyx_r = __pyx_float_0_0;
     goto __pyx_L0;
 
     /* "AutoPlayUtilsCy.pyx":535
  * 
  *     # If there are no max tiles in corners, metric is 0
  *     if not in_corner:             # <<<<<<<<<<<<<<
- *         return 0, []
+ *         return 0.0
  * 
  */
   }
@@ -7631,7 +7760,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObje
  *     cdef short[9][2] chain30a = [[3, 0], [2, 0], [1, 0], [0, 0], [0, 1], [1, 1], [2, 1], [3, 1], [3, 2]]
  *     cdef short[9][2] chain30b = [[3, 0], [3, 1], [3, 2], [3, 3], [2, 3], [2, 2], [2, 1], [2, 0], [1, 0]]             # <<<<<<<<<<<<<<
  * 
- *     cdef long metrics[8]
+ *     cdef double metrics[8]
  */
   __pyx_t_88[0] = 3;
   __pyx_t_88[1] = 0;
@@ -7664,22 +7793,22 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObje
 
   /* "AutoPlayUtilsCy.pyx":549
  * 
- *     cdef long metrics[8]
+ *     cdef double metrics[8]
  *     cdef short metrics_len = 0             # <<<<<<<<<<<<<<
- *     cdef long mult = 256, metric = 0
+ *     cdef double mult = 256, metric = 0
  *     cdef short[9][2] chain1, chain2
  */
   __pyx_v_metrics_len = 0;
 
   /* "AutoPlayUtilsCy.pyx":550
- *     cdef long metrics[8]
+ *     cdef double metrics[8]
  *     cdef short metrics_len = 0
- *     cdef long mult = 256, metric = 0             # <<<<<<<<<<<<<<
+ *     cdef double mult = 256, metric = 0             # <<<<<<<<<<<<<<
  *     cdef short[9][2] chain1, chain2
  * 
  */
-  __pyx_v_mult = 0x100;
-  __pyx_v_metric = 0;
+  __pyx_v_mult = 256.0;
+  __pyx_v_metric = 0.0;
 
   /* "AutoPlayUtilsCy.pyx":553
  *     cdef short[9][2] chain1, chain2
@@ -7863,7 +7992,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObje
  *             chain1 = chain33a
  *             chain2 = chain33b             # <<<<<<<<<<<<<<
  * 
- *         metric = 0
+ *         metric = 0.0
  */
       memcpy(&(__pyx_v_chain2[0]), __pyx_v_chain33b, sizeof(__pyx_v_chain2[0]) * (9));
 
@@ -7880,24 +8009,24 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObje
     /* "AutoPlayUtilsCy.pyx":571
  *             chain2 = chain33b
  * 
- *         metric = 0             # <<<<<<<<<<<<<<
- *         mult = 65536
+ *         metric = 0.0             # <<<<<<<<<<<<<<
+ *         mult = mult_base ** 9
  *         for j in range(9):
  */
-    __pyx_v_metric = 0;
+    __pyx_v_metric = 0.0;
 
     /* "AutoPlayUtilsCy.pyx":572
  * 
- *         metric = 0
- *         mult = 65536             # <<<<<<<<<<<<<<
+ *         metric = 0.0
+ *         mult = mult_base ** 9             # <<<<<<<<<<<<<<
  *         for j in range(9):
  *             row = chain1[j][0]
  */
-    __pyx_v_mult = 0x10000;
+    __pyx_v_mult = pow(__pyx_v_mult_base, 9.0);
 
     /* "AutoPlayUtilsCy.pyx":573
- *         metric = 0
- *         mult = 65536
+ *         metric = 0.0
+ *         mult = mult_base ** 9
  *         for j in range(9):             # <<<<<<<<<<<<<<
  *             row = chain1[j][0]
  *             col = chain1[j][1]
@@ -7906,7 +8035,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObje
       __pyx_v_j = __pyx_t_98;
 
       /* "AutoPlayUtilsCy.pyx":574
- *         mult = 65536
+ *         mult = mult_base ** 9
  *         for j in range(9):
  *             row = chain1[j][0]             # <<<<<<<<<<<<<<
  *             col = chain1[j][1]
@@ -7919,7 +8048,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObje
  *             row = chain1[j][0]
  *             col = chain1[j][1]             # <<<<<<<<<<<<<<
  *             metric += tiles_view[row][col] * mult
- *             mult = mult // 4
+ *             mult = mult / mult_base
  */
       __pyx_v_col = ((__pyx_v_chain1[__pyx_v_j])[1]);
 
@@ -7927,7 +8056,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObje
  *             row = chain1[j][0]
  *             col = chain1[j][1]
  *             metric += tiles_view[row][col] * mult             # <<<<<<<<<<<<<<
- *             mult = mult // 4
+ *             mult = mult / mult_base
  * 
  */
       __pyx_t_15 = __pyx_v_row;
@@ -7950,15 +8079,19 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObje
       /* "AutoPlayUtilsCy.pyx":577
  *             col = chain1[j][1]
  *             metric += tiles_view[row][col] * mult
- *             mult = mult // 4             # <<<<<<<<<<<<<<
+ *             mult = mult / mult_base             # <<<<<<<<<<<<<<
  * 
  *         metrics[metrics_len] = metric
  */
-      __pyx_v_mult = __Pyx_div_long(__pyx_v_mult, 4);
+      if (unlikely(__pyx_v_mult_base == 0)) {
+        PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+        __PYX_ERR(0, 577, __pyx_L1_error)
+      }
+      __pyx_v_mult = (__pyx_v_mult / __pyx_v_mult_base);
     }
 
     /* "AutoPlayUtilsCy.pyx":579
- *             mult = mult // 4
+ *             mult = mult / mult_base
  * 
  *         metrics[metrics_len] = metric             # <<<<<<<<<<<<<<
  *         metrics_len += 1
@@ -7971,31 +8104,31 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObje
  *         metrics[metrics_len] = metric
  *         metrics_len += 1             # <<<<<<<<<<<<<<
  * 
- *         metric = 0
+ *         metric = 0.0
  */
     __pyx_v_metrics_len = (__pyx_v_metrics_len + 1);
 
     /* "AutoPlayUtilsCy.pyx":582
  *         metrics_len += 1
  * 
- *         metric = 0             # <<<<<<<<<<<<<<
- *         mult = 65536
+ *         metric = 0.0             # <<<<<<<<<<<<<<
+ *         mult = mult_base ** 9
  *         for j in range(9):
  */
-    __pyx_v_metric = 0;
+    __pyx_v_metric = 0.0;
 
     /* "AutoPlayUtilsCy.pyx":583
  * 
- *         metric = 0
- *         mult = 65536             # <<<<<<<<<<<<<<
+ *         metric = 0.0
+ *         mult = mult_base ** 9             # <<<<<<<<<<<<<<
  *         for j in range(9):
  *             row = chain2[j][0]
  */
-    __pyx_v_mult = 0x10000;
+    __pyx_v_mult = pow(__pyx_v_mult_base, 9.0);
 
     /* "AutoPlayUtilsCy.pyx":584
- *         metric = 0
- *         mult = 65536
+ *         metric = 0.0
+ *         mult = mult_base ** 9
  *         for j in range(9):             # <<<<<<<<<<<<<<
  *             row = chain2[j][0]
  *             col = chain2[j][1]
@@ -8004,7 +8137,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObje
       __pyx_v_j = __pyx_t_98;
 
       /* "AutoPlayUtilsCy.pyx":585
- *         mult = 65536
+ *         mult = mult_base ** 9
  *         for j in range(9):
  *             row = chain2[j][0]             # <<<<<<<<<<<<<<
  *             col = chain2[j][1]
@@ -8017,7 +8150,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObje
  *             row = chain2[j][0]
  *             col = chain2[j][1]             # <<<<<<<<<<<<<<
  *             metric += tiles_view[row][col] * mult
- *             mult = mult // 4
+ *             mult = mult / mult_base
  */
       __pyx_v_col = ((__pyx_v_chain2[__pyx_v_j])[1]);
 
@@ -8025,7 +8158,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObje
  *             row = chain2[j][0]
  *             col = chain2[j][1]
  *             metric += tiles_view[row][col] * mult             # <<<<<<<<<<<<<<
- *             mult = mult // 4
+ *             mult = mult / mult_base
  * 
  */
       __pyx_t_14 = __pyx_v_row;
@@ -8048,15 +8181,19 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObje
       /* "AutoPlayUtilsCy.pyx":588
  *             col = chain2[j][1]
  *             metric += tiles_view[row][col] * mult
- *             mult = mult // 4             # <<<<<<<<<<<<<<
+ *             mult = mult / mult_base             # <<<<<<<<<<<<<<
  * 
  *         metrics[metrics_len] = metric
  */
-      __pyx_v_mult = __Pyx_div_long(__pyx_v_mult, 4);
+      if (unlikely(__pyx_v_mult_base == 0)) {
+        PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+        __PYX_ERR(0, 588, __pyx_L1_error)
+      }
+      __pyx_v_mult = (__pyx_v_mult / __pyx_v_mult_base);
     }
 
     /* "AutoPlayUtilsCy.pyx":590
- *             mult = mult // 4
+ *             mult = mult / mult_base
  * 
  *         metrics[metrics_len] = metric             # <<<<<<<<<<<<<<
  *         metrics_len += 1
@@ -8069,63 +8206,35 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObje
  *         metrics[metrics_len] = metric
  *         metrics_len += 1             # <<<<<<<<<<<<<<
  * 
- *     cdef long maximum = 0
+ *     # Find the largest of the metrics calculated for this board
  */
     __pyx_v_metrics_len = (__pyx_v_metrics_len + 1);
   }
 
-  /* "AutoPlayUtilsCy.pyx":593
- *         metrics_len += 1
+  /* "AutoPlayUtilsCy.pyx":594
  * 
- *     cdef long maximum = 0             # <<<<<<<<<<<<<<
+ *     # Find the largest of the metrics calculated for this board
+ *     cdef double maximum = 0             # <<<<<<<<<<<<<<
  * 
  *     for i in range(metrics_len):
  */
-  __pyx_v_maximum = 0;
+  __pyx_v_maximum = 0.0;
 
-  /* "AutoPlayUtilsCy.pyx":595
- *     cdef long maximum = 0
+  /* "AutoPlayUtilsCy.pyx":596
+ *     cdef double maximum = 0
  * 
  *     for i in range(metrics_len):             # <<<<<<<<<<<<<<
- *         if metrics[i] < 0:
- *             neg = True
+ *         if metrics[i] > maximum:
+ *             maximum = metrics[i]
  */
   __pyx_t_10 = __pyx_v_metrics_len;
   __pyx_t_13 = __pyx_t_10;
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_13; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "AutoPlayUtilsCy.pyx":596
+    /* "AutoPlayUtilsCy.pyx":597
  * 
  *     for i in range(metrics_len):
- *         if metrics[i] < 0:             # <<<<<<<<<<<<<<
- *             neg = True
- *         if metrics[i] > maximum:
- */
-    __pyx_t_5 = (((__pyx_v_metrics[__pyx_v_i]) < 0) != 0);
-    if (__pyx_t_5) {
-
-      /* "AutoPlayUtilsCy.pyx":597
- *     for i in range(metrics_len):
- *         if metrics[i] < 0:
- *             neg = True             # <<<<<<<<<<<<<<
- *         if metrics[i] > maximum:
- *             maximum = metrics[i]
- */
-      __pyx_v_neg = 1;
-
-      /* "AutoPlayUtilsCy.pyx":596
- * 
- *     for i in range(metrics_len):
- *         if metrics[i] < 0:             # <<<<<<<<<<<<<<
- *             neg = True
- *         if metrics[i] > maximum:
- */
-    }
-
-    /* "AutoPlayUtilsCy.pyx":598
- *         if metrics[i] < 0:
- *             neg = True
  *         if metrics[i] > maximum:             # <<<<<<<<<<<<<<
  *             maximum = metrics[i]
  * 
@@ -8133,18 +8242,18 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObje
     __pyx_t_5 = (((__pyx_v_metrics[__pyx_v_i]) > __pyx_v_maximum) != 0);
     if (__pyx_t_5) {
 
-      /* "AutoPlayUtilsCy.pyx":599
- *             neg = True
+      /* "AutoPlayUtilsCy.pyx":598
+ *     for i in range(metrics_len):
  *         if metrics[i] > maximum:
  *             maximum = metrics[i]             # <<<<<<<<<<<<<<
  * 
- *     max_c_list = list(max_corners)
+ *     # max_c_list = list(max_corners)
  */
       __pyx_v_maximum = (__pyx_v_metrics[__pyx_v_i]);
 
-      /* "AutoPlayUtilsCy.pyx":598
- *         if metrics[i] < 0:
- *             neg = True
+      /* "AutoPlayUtilsCy.pyx":597
+ * 
+ *     for i in range(metrics_len):
  *         if metrics[i] > maximum:             # <<<<<<<<<<<<<<
  *             maximum = metrics[i]
  * 
@@ -8152,59 +8261,24 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObje
     }
   }
 
-  /* "AutoPlayUtilsCy.pyx":601
- *             maximum = metrics[i]
- * 
- *     max_c_list = list(max_corners)             # <<<<<<<<<<<<<<
- *     max_c_list = max_c_list[:corners_len]
- *     return maximum, max_c_list
- */
-  __pyx_t_1 = __Pyx_carray_to_py_int___5b_3_5d_(__pyx_v_max_corners, 4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 601, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = PySequence_List(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 601, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v_max_c_list = ((PyObject*)__pyx_t_4);
-  __pyx_t_4 = 0;
-
   /* "AutoPlayUtilsCy.pyx":602
- * 
- *     max_c_list = list(max_corners)
- *     max_c_list = max_c_list[:corners_len]             # <<<<<<<<<<<<<<
- *     return maximum, max_c_list
- * 
- */
-  __pyx_t_4 = __Pyx_PyList_GetSlice(__pyx_v_max_c_list, 0, __pyx_v_corners_len); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 602, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF_SET(__pyx_v_max_c_list, ((PyObject*)__pyx_t_4));
-  __pyx_t_4 = 0;
-
-  /* "AutoPlayUtilsCy.pyx":603
- *     max_c_list = list(max_corners)
- *     max_c_list = max_c_list[:corners_len]
- *     return maximum, max_c_list             # <<<<<<<<<<<<<<
+ *     # max_c_list = list(max_corners)
+ *     # max_c_list = max_c_list[:corners_len]
+ *     return maximum             # <<<<<<<<<<<<<<
  * 
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = __Pyx_PyInt_From_long(__pyx_v_maximum); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 603, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_maximum); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 602, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 603, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GIVEREF(__pyx_t_4);
-  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_4);
-  __Pyx_INCREF(__pyx_v_max_c_list);
-  __Pyx_GIVEREF(__pyx_v_max_c_list);
-  PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_v_max_c_list);
+  __pyx_r = __pyx_t_4;
   __pyx_t_4 = 0;
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
   goto __pyx_L0;
 
   /* "AutoPlayUtilsCy.pyx":481
  * # More advanced metric. Rewards any "chain" anchored in a corner,
  * # with additional "reward" for empty tiles
- * def calc_metrics3(tiles):             # <<<<<<<<<<<<<<
+ * def calc_metrics3(tiles, double mult_base):             # <<<<<<<<<<<<<<
  * 
  *     cdef int size = tiles.shape[0]
  */
@@ -8222,13 +8296,12 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_10calc_metrics3(CYTHON_UNUSED PyObje
   __pyx_L0:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_tiles_view, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_maxs_view, 1);
-  __Pyx_XDECREF(__pyx_v_max_c_list);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "AutoPlayUtilsCy.pyx":606
+/* "AutoPlayUtilsCy.pyx":605
  * 
  * 
  * def calc_metrics4(const int [:, :] tiles_view):             # <<<<<<<<<<<<<<
@@ -8248,7 +8321,7 @@ static PyObject *__pyx_pw_15AutoPlayUtilsCy_13calc_metrics4(PyObject *__pyx_self
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("calc_metrics4 (wrapper)", 0);
   assert(__pyx_arg_tiles_view); {
-    __pyx_v_tiles_view = __Pyx_PyObject_to_MemoryviewSlice_dsds_int__const__(__pyx_arg_tiles_view, 0); if (unlikely(!__pyx_v_tiles_view.memview)) __PYX_ERR(0, 606, __pyx_L3_error)
+    __pyx_v_tiles_view = __Pyx_PyObject_to_MemoryviewSlice_dsds_int__const__(__pyx_arg_tiles_view, 0); if (unlikely(!__pyx_v_tiles_view.memview)) __PYX_ERR(0, 605, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -8269,7 +8342,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_12calc_metrics4(CYTHON_UNUSED PyObje
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("calc_metrics4", 0);
 
-  /* "AutoPlayUtilsCy.pyx":607
+  /* "AutoPlayUtilsCy.pyx":606
  * 
  * def calc_metrics4(const int [:, :] tiles_view):
  *     cdef int i = 0             # <<<<<<<<<<<<<<
@@ -8278,7 +8351,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_12calc_metrics4(CYTHON_UNUSED PyObje
  */
   __pyx_v_i = 0;
 
-  /* "AutoPlayUtilsCy.pyx":608
+  /* "AutoPlayUtilsCy.pyx":607
  * def calc_metrics4(const int [:, :] tiles_view):
  *     cdef int i = 0
  *     return 0             # <<<<<<<<<<<<<<
@@ -8290,7 +8363,7 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_12calc_metrics4(CYTHON_UNUSED PyObje
   __pyx_r = __pyx_int_0;
   goto __pyx_L0;
 
-  /* "AutoPlayUtilsCy.pyx":606
+  /* "AutoPlayUtilsCy.pyx":605
  * 
  * 
  * def calc_metrics4(const int [:, :] tiles_view):             # <<<<<<<<<<<<<<
@@ -8301,444 +8374,6 @@ static PyObject *__pyx_pf_15AutoPlayUtilsCy_12calc_metrics4(CYTHON_UNUSED PyObje
   /* function exit code */
   __pyx_L0:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_tiles_view, 1);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "carray.to_py":112
- * 
- * @cname("__Pyx_carray_to_py_int")
- * cdef inline list __Pyx_carray_to_py_int(base_type *v, Py_ssize_t length):             # <<<<<<<<<<<<<<
- *     cdef size_t i
- *     cdef object value
- */
-
-static CYTHON_INLINE PyObject *__Pyx_carray_to_py_int(int *__pyx_v_v, Py_ssize_t __pyx_v_length) {
-  size_t __pyx_v_i;
-  PyObject *__pyx_v_value = 0;
-  PyObject *__pyx_v_l = NULL;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  size_t __pyx_t_2;
-  size_t __pyx_t_3;
-  size_t __pyx_t_4;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__Pyx_carray_to_py_int", 0);
-
-  /* "carray.to_py":115
- *     cdef size_t i
- *     cdef object value
- *     l = PyList_New(length)             # <<<<<<<<<<<<<<
- *     for i in range(<size_t>length):
- *         value = v[i]
- */
-  __pyx_t_1 = PyList_New(__pyx_v_length); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 115, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_l = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* "carray.to_py":116
- *     cdef object value
- *     l = PyList_New(length)
- *     for i in range(<size_t>length):             # <<<<<<<<<<<<<<
- *         value = v[i]
- *         Py_INCREF(value)
- */
-  __pyx_t_2 = ((size_t)__pyx_v_length);
-  __pyx_t_3 = __pyx_t_2;
-  for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
-    __pyx_v_i = __pyx_t_4;
-
-    /* "carray.to_py":117
- *     l = PyList_New(length)
- *     for i in range(<size_t>length):
- *         value = v[i]             # <<<<<<<<<<<<<<
- *         Py_INCREF(value)
- *         PyList_SET_ITEM(l, i, value)
- */
-    __pyx_t_1 = __Pyx_PyInt_From_int((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 117, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_XDECREF_SET(__pyx_v_value, __pyx_t_1);
-    __pyx_t_1 = 0;
-
-    /* "carray.to_py":118
- *     for i in range(<size_t>length):
- *         value = v[i]
- *         Py_INCREF(value)             # <<<<<<<<<<<<<<
- *         PyList_SET_ITEM(l, i, value)
- *     return l
- */
-    Py_INCREF(__pyx_v_value);
-
-    /* "carray.to_py":119
- *         value = v[i]
- *         Py_INCREF(value)
- *         PyList_SET_ITEM(l, i, value)             # <<<<<<<<<<<<<<
- *     return l
- * 
- */
-    PyList_SET_ITEM(__pyx_v_l, __pyx_v_i, __pyx_v_value);
-  }
-
-  /* "carray.to_py":120
- *         Py_INCREF(value)
- *         PyList_SET_ITEM(l, i, value)
- *     return l             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_l);
-  __pyx_r = __pyx_v_l;
-  goto __pyx_L0;
-
-  /* "carray.to_py":112
- * 
- * @cname("__Pyx_carray_to_py_int")
- * cdef inline list __Pyx_carray_to_py_int(base_type *v, Py_ssize_t length):             # <<<<<<<<<<<<<<
- *     cdef size_t i
- *     cdef object value
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("carray.to_py.__Pyx_carray_to_py_int", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_value);
-  __Pyx_XDECREF(__pyx_v_l);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "carray.to_py":124
- * 
- * @cname("__Pyx_carray_to_tuple_int")
- * cdef inline tuple __Pyx_carray_to_tuple_int(base_type *v, Py_ssize_t length):             # <<<<<<<<<<<<<<
- *     cdef size_t i
- *     cdef object value
- */
-
-static CYTHON_INLINE PyObject *__Pyx_carray_to_tuple_int(int *__pyx_v_v, Py_ssize_t __pyx_v_length) {
-  size_t __pyx_v_i;
-  PyObject *__pyx_v_value = 0;
-  PyObject *__pyx_v_t = NULL;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  size_t __pyx_t_2;
-  size_t __pyx_t_3;
-  size_t __pyx_t_4;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__Pyx_carray_to_tuple_int", 0);
-
-  /* "carray.to_py":127
- *     cdef size_t i
- *     cdef object value
- *     t = PyTuple_New(length)             # <<<<<<<<<<<<<<
- *     for i in range(<size_t>length):
- *         value = v[i]
- */
-  __pyx_t_1 = PyTuple_New(__pyx_v_length); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 127, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_t = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* "carray.to_py":128
- *     cdef object value
- *     t = PyTuple_New(length)
- *     for i in range(<size_t>length):             # <<<<<<<<<<<<<<
- *         value = v[i]
- *         Py_INCREF(value)
- */
-  __pyx_t_2 = ((size_t)__pyx_v_length);
-  __pyx_t_3 = __pyx_t_2;
-  for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
-    __pyx_v_i = __pyx_t_4;
-
-    /* "carray.to_py":129
- *     t = PyTuple_New(length)
- *     for i in range(<size_t>length):
- *         value = v[i]             # <<<<<<<<<<<<<<
- *         Py_INCREF(value)
- *         PyTuple_SET_ITEM(t, i, value)
- */
-    __pyx_t_1 = __Pyx_PyInt_From_int((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 129, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_XDECREF_SET(__pyx_v_value, __pyx_t_1);
-    __pyx_t_1 = 0;
-
-    /* "carray.to_py":130
- *     for i in range(<size_t>length):
- *         value = v[i]
- *         Py_INCREF(value)             # <<<<<<<<<<<<<<
- *         PyTuple_SET_ITEM(t, i, value)
- *     return t
- */
-    Py_INCREF(__pyx_v_value);
-
-    /* "carray.to_py":131
- *         value = v[i]
- *         Py_INCREF(value)
- *         PyTuple_SET_ITEM(t, i, value)             # <<<<<<<<<<<<<<
- *     return t
- */
-    PyTuple_SET_ITEM(__pyx_v_t, __pyx_v_i, __pyx_v_value);
-  }
-
-  /* "carray.to_py":132
- *         Py_INCREF(value)
- *         PyTuple_SET_ITEM(t, i, value)
- *     return t             # <<<<<<<<<<<<<<
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_t);
-  __pyx_r = __pyx_v_t;
-  goto __pyx_L0;
-
-  /* "carray.to_py":124
- * 
- * @cname("__Pyx_carray_to_tuple_int")
- * cdef inline tuple __Pyx_carray_to_tuple_int(base_type *v, Py_ssize_t length):             # <<<<<<<<<<<<<<
- *     cdef size_t i
- *     cdef object value
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("carray.to_py.__Pyx_carray_to_tuple_int", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_value);
-  __Pyx_XDECREF(__pyx_v_t);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "carray.to_py":112
- * 
- * @cname("__Pyx_carray_to_py_int___5b_3_5d_")
- * cdef inline list __Pyx_carray_to_py_int___5b_3_5d_(base_type *v, Py_ssize_t length):             # <<<<<<<<<<<<<<
- *     cdef size_t i
- *     cdef object value
- */
-
-static CYTHON_INLINE PyObject *__Pyx_carray_to_py_int___5b_3_5d_(int (*__pyx_v_v)[3], Py_ssize_t __pyx_v_length) {
-  size_t __pyx_v_i;
-  PyObject *__pyx_v_value = 0;
-  PyObject *__pyx_v_l = NULL;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  size_t __pyx_t_2;
-  size_t __pyx_t_3;
-  size_t __pyx_t_4;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__Pyx_carray_to_py_int___5b_3_5d_", 0);
-
-  /* "carray.to_py":115
- *     cdef size_t i
- *     cdef object value
- *     l = PyList_New(length)             # <<<<<<<<<<<<<<
- *     for i in range(<size_t>length):
- *         value = v[i]
- */
-  __pyx_t_1 = PyList_New(__pyx_v_length); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 115, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_l = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* "carray.to_py":116
- *     cdef object value
- *     l = PyList_New(length)
- *     for i in range(<size_t>length):             # <<<<<<<<<<<<<<
- *         value = v[i]
- *         Py_INCREF(value)
- */
-  __pyx_t_2 = ((size_t)__pyx_v_length);
-  __pyx_t_3 = __pyx_t_2;
-  for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
-    __pyx_v_i = __pyx_t_4;
-
-    /* "carray.to_py":117
- *     l = PyList_New(length)
- *     for i in range(<size_t>length):
- *         value = v[i]             # <<<<<<<<<<<<<<
- *         Py_INCREF(value)
- *         PyList_SET_ITEM(l, i, value)
- */
-    __pyx_t_1 = __Pyx_carray_to_py_int((__pyx_v_v[__pyx_v_i]), 3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 117, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_XDECREF_SET(__pyx_v_value, __pyx_t_1);
-    __pyx_t_1 = 0;
-
-    /* "carray.to_py":118
- *     for i in range(<size_t>length):
- *         value = v[i]
- *         Py_INCREF(value)             # <<<<<<<<<<<<<<
- *         PyList_SET_ITEM(l, i, value)
- *     return l
- */
-    Py_INCREF(__pyx_v_value);
-
-    /* "carray.to_py":119
- *         value = v[i]
- *         Py_INCREF(value)
- *         PyList_SET_ITEM(l, i, value)             # <<<<<<<<<<<<<<
- *     return l
- * 
- */
-    PyList_SET_ITEM(__pyx_v_l, __pyx_v_i, __pyx_v_value);
-  }
-
-  /* "carray.to_py":120
- *         Py_INCREF(value)
- *         PyList_SET_ITEM(l, i, value)
- *     return l             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_l);
-  __pyx_r = __pyx_v_l;
-  goto __pyx_L0;
-
-  /* "carray.to_py":112
- * 
- * @cname("__Pyx_carray_to_py_int___5b_3_5d_")
- * cdef inline list __Pyx_carray_to_py_int___5b_3_5d_(base_type *v, Py_ssize_t length):             # <<<<<<<<<<<<<<
- *     cdef size_t i
- *     cdef object value
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("carray.to_py.__Pyx_carray_to_py_int___5b_3_5d_", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_value);
-  __Pyx_XDECREF(__pyx_v_l);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "carray.to_py":124
- * 
- * @cname("__Pyx_carray_to_tuple_int___5b_3_5d_")
- * cdef inline tuple __Pyx_carray_to_tuple_int___5b_3_5d_(base_type *v, Py_ssize_t length):             # <<<<<<<<<<<<<<
- *     cdef size_t i
- *     cdef object value
- */
-
-static CYTHON_INLINE PyObject *__Pyx_carray_to_tuple_int___5b_3_5d_(int (*__pyx_v_v)[3], Py_ssize_t __pyx_v_length) {
-  size_t __pyx_v_i;
-  PyObject *__pyx_v_value = 0;
-  PyObject *__pyx_v_t = NULL;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  size_t __pyx_t_2;
-  size_t __pyx_t_3;
-  size_t __pyx_t_4;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__Pyx_carray_to_tuple_int___5b_3_5d_", 0);
-
-  /* "carray.to_py":127
- *     cdef size_t i
- *     cdef object value
- *     t = PyTuple_New(length)             # <<<<<<<<<<<<<<
- *     for i in range(<size_t>length):
- *         value = v[i]
- */
-  __pyx_t_1 = PyTuple_New(__pyx_v_length); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 127, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_t = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* "carray.to_py":128
- *     cdef object value
- *     t = PyTuple_New(length)
- *     for i in range(<size_t>length):             # <<<<<<<<<<<<<<
- *         value = v[i]
- *         Py_INCREF(value)
- */
-  __pyx_t_2 = ((size_t)__pyx_v_length);
-  __pyx_t_3 = __pyx_t_2;
-  for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
-    __pyx_v_i = __pyx_t_4;
-
-    /* "carray.to_py":129
- *     t = PyTuple_New(length)
- *     for i in range(<size_t>length):
- *         value = v[i]             # <<<<<<<<<<<<<<
- *         Py_INCREF(value)
- *         PyTuple_SET_ITEM(t, i, value)
- */
-    __pyx_t_1 = __Pyx_carray_to_py_int((__pyx_v_v[__pyx_v_i]), 3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 129, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_XDECREF_SET(__pyx_v_value, __pyx_t_1);
-    __pyx_t_1 = 0;
-
-    /* "carray.to_py":130
- *     for i in range(<size_t>length):
- *         value = v[i]
- *         Py_INCREF(value)             # <<<<<<<<<<<<<<
- *         PyTuple_SET_ITEM(t, i, value)
- *     return t
- */
-    Py_INCREF(__pyx_v_value);
-
-    /* "carray.to_py":131
- *         value = v[i]
- *         Py_INCREF(value)
- *         PyTuple_SET_ITEM(t, i, value)             # <<<<<<<<<<<<<<
- *     return t
- */
-    PyTuple_SET_ITEM(__pyx_v_t, __pyx_v_i, __pyx_v_value);
-  }
-
-  /* "carray.to_py":132
- *         Py_INCREF(value)
- *         PyTuple_SET_ITEM(t, i, value)
- *     return t             # <<<<<<<<<<<<<<
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_t);
-  __pyx_r = __pyx_v_t;
-  goto __pyx_L0;
-
-  /* "carray.to_py":124
- * 
- * @cname("__Pyx_carray_to_tuple_int___5b_3_5d_")
- * cdef inline tuple __Pyx_carray_to_tuple_int___5b_3_5d_(base_type *v, Py_ssize_t length):             # <<<<<<<<<<<<<<
- *     cdef size_t i
- *     cdef object value
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("carray.to_py.__Pyx_carray_to_tuple_int___5b_3_5d_", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_value);
-  __Pyx_XDECREF(__pyx_v_t);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -22989,7 +22624,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_join, __pyx_k_join, sizeof(__pyx_k_join), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_max_adj, __pyx_k_max_adj, sizeof(__pyx_k_max_adj), 0, 0, 1, 1},
-  {&__pyx_n_s_max_c_list, __pyx_k_max_c_list, sizeof(__pyx_k_max_c_list), 0, 0, 1, 1},
   {&__pyx_n_s_max_corners, __pyx_k_max_corners, sizeof(__pyx_k_max_corners), 0, 0, 1, 1},
   {&__pyx_n_s_max_val, __pyx_k_max_val, sizeof(__pyx_k_max_val), 0, 0, 1, 1},
   {&__pyx_n_s_maximum, __pyx_k_maximum, sizeof(__pyx_k_maximum), 0, 0, 1, 1},
@@ -23004,15 +22638,14 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_mode, __pyx_k_mode, sizeof(__pyx_k_mode), 0, 0, 1, 1},
   {&__pyx_n_s_move_tiles, __pyx_k_move_tiles, sizeof(__pyx_k_move_tiles), 0, 0, 1, 1},
   {&__pyx_n_s_mult, __pyx_k_mult, sizeof(__pyx_k_mult), 0, 0, 1, 1},
+  {&__pyx_n_s_mult_base, __pyx_k_mult_base, sizeof(__pyx_k_mult_base), 0, 0, 1, 1},
   {&__pyx_n_s_multiplier1, __pyx_k_multiplier1, sizeof(__pyx_k_multiplier1), 0, 0, 1, 1},
   {&__pyx_n_s_multiplier2, __pyx_k_multiplier2, sizeof(__pyx_k_multiplier2), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
   {&__pyx_n_s_name_2, __pyx_k_name_2, sizeof(__pyx_k_name_2), 0, 0, 1, 1},
   {&__pyx_n_s_ndim, __pyx_k_ndim, sizeof(__pyx_k_ndim), 0, 0, 1, 1},
-  {&__pyx_n_s_neg, __pyx_k_neg, sizeof(__pyx_k_neg), 0, 0, 1, 1},
   {&__pyx_n_s_new, __pyx_k_new, sizeof(__pyx_k_new), 0, 0, 1, 1},
   {&__pyx_kp_s_no_default___reduce___due_to_non, __pyx_k_no_default___reduce___due_to_non, sizeof(__pyx_k_no_default___reduce___due_to_non), 0, 0, 1, 0},
-  {&__pyx_n_s_np, __pyx_k_np, sizeof(__pyx_k_np), 0, 0, 1, 1},
   {&__pyx_n_s_num_empty, __pyx_k_num_empty, sizeof(__pyx_k_num_empty), 0, 0, 1, 1},
   {&__pyx_n_s_numpy, __pyx_k_numpy, sizeof(__pyx_k_numpy), 0, 0, 1, 1},
   {&__pyx_n_s_nxt_col, __pyx_k_nxt_col, sizeof(__pyx_k_nxt_col), 0, 0, 1, 1},
@@ -23321,50 +22954,50 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "AutoPlayUtilsCy.pyx":173
  * # Strategy 1:
  * # Simple metric...Rewards Upper-Right aligned chain.
- * def calc_metrics1(tiles):             # <<<<<<<<<<<<<<
+ * def calc_metrics1(tiles, double mult_base):             # <<<<<<<<<<<<<<
  * 
  *     cdef int size = tiles.shape[0]
  */
-  __pyx_tuple__30 = PyTuple_Pack(16, __pyx_n_s_tiles, __pyx_n_s_size, __pyx_n_s_tiles_view, __pyx_n_s_max_val, __pyx_n_s_val, __pyx_n_s_row, __pyx_n_s_col, __pyx_n_s_maxs_len, __pyx_n_s_maxs, __pyx_n_s_maxs_view, __pyx_n_s_in_corner0, __pyx_n_s_i, __pyx_n_s_metric, __pyx_n_s_mult, __pyx_n_s_rgt_col, __pyx_n_s_nxt_col); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 173, __pyx_L1_error)
+  __pyx_tuple__30 = PyTuple_Pack(17, __pyx_n_s_tiles, __pyx_n_s_mult_base, __pyx_n_s_size, __pyx_n_s_tiles_view, __pyx_n_s_max_val, __pyx_n_s_val, __pyx_n_s_row, __pyx_n_s_col, __pyx_n_s_maxs_len, __pyx_n_s_maxs, __pyx_n_s_maxs_view, __pyx_n_s_in_corner0, __pyx_n_s_i, __pyx_n_s_metric, __pyx_n_s_mult, __pyx_n_s_rgt_col, __pyx_n_s_nxt_col); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__30);
   __Pyx_GIVEREF(__pyx_tuple__30);
-  __pyx_codeobj__31 = (PyObject*)__Pyx_PyCode_New(1, 0, 16, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__30, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_AutoPlayUtilsCy_pyx, __pyx_n_s_calc_metrics1, 173, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__31)) __PYX_ERR(0, 173, __pyx_L1_error)
+  __pyx_codeobj__31 = (PyObject*)__Pyx_PyCode_New(2, 0, 17, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__30, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_AutoPlayUtilsCy_pyx, __pyx_n_s_calc_metrics1, 173, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__31)) __PYX_ERR(0, 173, __pyx_L1_error)
 
   /* "AutoPlayUtilsCy.pyx":247
  * # with additional "reward" for empty tiles
  * 
- * def calc_metrics2(tiles):             # <<<<<<<<<<<<<<
+ * def calc_metrics2(tiles, double mult_base):             # <<<<<<<<<<<<<<
  * 
  *     # graph = {(0, 0): ((1, 0), (0, 1)),
  */
-  __pyx_tuple__33 = PyTuple_Pack(32, __pyx_n_s_tiles, __pyx_n_s_size, __pyx_n_s_tiles_view, __pyx_n_s_max_val, __pyx_n_s_val, __pyx_n_s_maxs_len, __pyx_n_s_num_empty, __pyx_n_s_row, __pyx_n_s_col, __pyx_n_s_maxs, __pyx_n_s_maxs_view, __pyx_n_s_max_adj, __pyx_n_s_metrics_len, __pyx_n_s_chain_len, __pyx_n_s_curr_row, __pyx_n_s_curr_col, __pyx_n_s_i, __pyx_n_s_metric, __pyx_n_s_mult, __pyx_n_s_multiplier1, __pyx_n_s_multiplier2, __pyx_n_s_in_corner1, __pyx_n_s_in_corner2, __pyx_n_s_in_corner, __pyx_n_s_same_row, __pyx_n_s_same_col, __pyx_n_s_metrics, __pyx_n_s_metrics_view, __pyx_n_s_chain, __pyx_n_s_chain_view, __pyx_n_s__32, __pyx_n_s_maximum); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 247, __pyx_L1_error)
+  __pyx_tuple__33 = PyTuple_Pack(33, __pyx_n_s_tiles, __pyx_n_s_mult_base, __pyx_n_s_size, __pyx_n_s_tiles_view, __pyx_n_s_max_val, __pyx_n_s_val, __pyx_n_s_maxs_len, __pyx_n_s_num_empty, __pyx_n_s_row, __pyx_n_s_col, __pyx_n_s_maxs, __pyx_n_s_maxs_view, __pyx_n_s_max_adj, __pyx_n_s_metrics_len, __pyx_n_s_chain_len, __pyx_n_s_curr_row, __pyx_n_s_curr_col, __pyx_n_s_i, __pyx_n_s_metric, __pyx_n_s_mult, __pyx_n_s_multiplier1, __pyx_n_s_multiplier2, __pyx_n_s_in_corner1, __pyx_n_s_in_corner2, __pyx_n_s_in_corner, __pyx_n_s_same_row, __pyx_n_s_same_col, __pyx_n_s_metrics, __pyx_n_s_metrics_view, __pyx_n_s_chain, __pyx_n_s_chain_view, __pyx_n_s__32, __pyx_n_s_maximum); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 247, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__33);
   __Pyx_GIVEREF(__pyx_tuple__33);
-  __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(1, 0, 32, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_AutoPlayUtilsCy_pyx, __pyx_n_s_calc_metrics2, 247, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) __PYX_ERR(0, 247, __pyx_L1_error)
+  __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(2, 0, 33, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_AutoPlayUtilsCy_pyx, __pyx_n_s_calc_metrics2, 247, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) __PYX_ERR(0, 247, __pyx_L1_error)
 
   /* "AutoPlayUtilsCy.pyx":481
  * # More advanced metric. Rewards any "chain" anchored in a corner,
  * # with additional "reward" for empty tiles
- * def calc_metrics3(tiles):             # <<<<<<<<<<<<<<
+ * def calc_metrics3(tiles, double mult_base):             # <<<<<<<<<<<<<<
  * 
  *     cdef int size = tiles.shape[0]
  */
-  __pyx_tuple__35 = PyTuple_Pack(35, __pyx_n_s_tiles, __pyx_n_s_size, __pyx_n_s_tiles_view, __pyx_n_s_max_val, __pyx_n_s_val, __pyx_n_s_maxs_len, __pyx_n_s_num_empty, __pyx_n_s_row, __pyx_n_s_col, __pyx_n_s_maxs, __pyx_n_s_maxs_view, __pyx_n_s_row_in_corner, __pyx_n_s_col_in_corner, __pyx_n_s_in_corner, __pyx_n_s_max_corners, __pyx_n_s_i, __pyx_n_s_corners_len, __pyx_n_s_chain00a, __pyx_n_s_chain00b, __pyx_n_s_chain03a, __pyx_n_s_chain03b, __pyx_n_s_chain33a, __pyx_n_s_chain33b, __pyx_n_s_chain30a, __pyx_n_s_chain30b, __pyx_n_s_metrics, __pyx_n_s_metrics_len, __pyx_n_s_mult, __pyx_n_s_metric, __pyx_n_s_chain1, __pyx_n_s_chain2, __pyx_n_s_j, __pyx_n_s_maximum, __pyx_n_s_neg, __pyx_n_s_max_c_list); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 481, __pyx_L1_error)
+  __pyx_tuple__35 = PyTuple_Pack(34, __pyx_n_s_tiles, __pyx_n_s_mult_base, __pyx_n_s_size, __pyx_n_s_tiles_view, __pyx_n_s_max_val, __pyx_n_s_val, __pyx_n_s_maxs_len, __pyx_n_s_num_empty, __pyx_n_s_row, __pyx_n_s_col, __pyx_n_s_maxs, __pyx_n_s_maxs_view, __pyx_n_s_row_in_corner, __pyx_n_s_col_in_corner, __pyx_n_s_in_corner, __pyx_n_s_max_corners, __pyx_n_s_i, __pyx_n_s_corners_len, __pyx_n_s_chain00a, __pyx_n_s_chain00b, __pyx_n_s_chain03a, __pyx_n_s_chain03b, __pyx_n_s_chain33a, __pyx_n_s_chain33b, __pyx_n_s_chain30a, __pyx_n_s_chain30b, __pyx_n_s_metrics, __pyx_n_s_metrics_len, __pyx_n_s_mult, __pyx_n_s_metric, __pyx_n_s_chain1, __pyx_n_s_chain2, __pyx_n_s_j, __pyx_n_s_maximum); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 481, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__35);
   __Pyx_GIVEREF(__pyx_tuple__35);
-  __pyx_codeobj__36 = (PyObject*)__Pyx_PyCode_New(1, 0, 35, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__35, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_AutoPlayUtilsCy_pyx, __pyx_n_s_calc_metrics3, 481, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__36)) __PYX_ERR(0, 481, __pyx_L1_error)
+  __pyx_codeobj__36 = (PyObject*)__Pyx_PyCode_New(2, 0, 34, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__35, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_AutoPlayUtilsCy_pyx, __pyx_n_s_calc_metrics3, 481, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__36)) __PYX_ERR(0, 481, __pyx_L1_error)
 
-  /* "AutoPlayUtilsCy.pyx":606
+  /* "AutoPlayUtilsCy.pyx":605
  * 
  * 
  * def calc_metrics4(const int [:, :] tiles_view):             # <<<<<<<<<<<<<<
  *     cdef int i = 0
  *     return 0
  */
-  __pyx_tuple__37 = PyTuple_Pack(3, __pyx_n_s_tiles_view, __pyx_n_s_tiles_view, __pyx_n_s_i); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(0, 606, __pyx_L1_error)
+  __pyx_tuple__37 = PyTuple_Pack(3, __pyx_n_s_tiles_view, __pyx_n_s_tiles_view, __pyx_n_s_i); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(0, 605, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__37);
   __Pyx_GIVEREF(__pyx_tuple__37);
-  __pyx_codeobj__38 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__37, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_AutoPlayUtilsCy_pyx, __pyx_n_s_calc_metrics4, 606, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__38)) __PYX_ERR(0, 606, __pyx_L1_error)
+  __pyx_codeobj__38 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__37, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_AutoPlayUtilsCy_pyx, __pyx_n_s_calc_metrics4, 605, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__38)) __PYX_ERR(0, 605, __pyx_L1_error)
 
   /* "View.MemoryView":286
  *         return self.name
@@ -23439,6 +23072,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 
 static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  __pyx_float_0_0 = PyFloat_FromDouble(0.0); if (unlikely(!__pyx_float_0_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_184977713 = PyInt_FromLong(184977713L); if (unlikely(!__pyx_int_184977713)) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -23779,27 +23413,40 @@ if (!__Pyx_RefNanny) {
   /* "AutoPlayUtilsCy.pyx":3
  * # cython: language_level=3
  * 
- * import numpy as np             # <<<<<<<<<<<<<<
+ * from numpy import intc, copy             # <<<<<<<<<<<<<<
  * 
- * DTYPE = np.intc # Data type of NumPy arrays (tiles[][])
+ * DTYPE = intc # Data type of NumPy arrays (tiles[][])
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
+  __Pyx_INCREF(__pyx_n_s_intc);
+  __Pyx_GIVEREF(__pyx_n_s_intc);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_intc);
+  __Pyx_INCREF(__pyx_n_s_copy);
+  __Pyx_GIVEREF(__pyx_n_s_copy);
+  PyList_SET_ITEM(__pyx_t_1, 1, __pyx_n_s_copy);
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_numpy, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_intc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_intc, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_copy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_copy, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "AutoPlayUtilsCy.pyx":5
- * import numpy as np
+ * from numpy import intc, copy
  * 
- * DTYPE = np.intc # Data type of NumPy arrays (tiles[][])             # <<<<<<<<<<<<<<
+ * DTYPE = intc # Data type of NumPy arrays (tiles[][])             # <<<<<<<<<<<<<<
  * cdef enum:
  *     SIZE = 4        # Length of single board dimension (4 for 4x4, 5 for 5x5, etc)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_intc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_intc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_DTYPE, __pyx_t_2) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
@@ -23842,7 +23489,7 @@ if (!__Pyx_RefNanny) {
   /* "AutoPlayUtilsCy.pyx":173
  * # Strategy 1:
  * # Simple metric...Rewards Upper-Right aligned chain.
- * def calc_metrics1(tiles):             # <<<<<<<<<<<<<<
+ * def calc_metrics1(tiles, double mult_base):             # <<<<<<<<<<<<<<
  * 
  *     cdef int size = tiles.shape[0]
  */
@@ -23854,7 +23501,7 @@ if (!__Pyx_RefNanny) {
   /* "AutoPlayUtilsCy.pyx":247
  * # with additional "reward" for empty tiles
  * 
- * def calc_metrics2(tiles):             # <<<<<<<<<<<<<<
+ * def calc_metrics2(tiles, double mult_base):             # <<<<<<<<<<<<<<
  * 
  *     # graph = {(0, 0): ((1, 0), (0, 1)),
  */
@@ -23866,7 +23513,7 @@ if (!__Pyx_RefNanny) {
   /* "AutoPlayUtilsCy.pyx":481
  * # More advanced metric. Rewards any "chain" anchored in a corner,
  * # with additional "reward" for empty tiles
- * def calc_metrics3(tiles):             # <<<<<<<<<<<<<<
+ * def calc_metrics3(tiles, double mult_base):             # <<<<<<<<<<<<<<
  * 
  *     cdef int size = tiles.shape[0]
  */
@@ -23875,22 +23522,22 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_calc_metrics3, __pyx_t_2) < 0) __PYX_ERR(0, 481, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "AutoPlayUtilsCy.pyx":606
+  /* "AutoPlayUtilsCy.pyx":605
  * 
  * 
  * def calc_metrics4(const int [:, :] tiles_view):             # <<<<<<<<<<<<<<
  *     cdef int i = 0
  *     return 0
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_15AutoPlayUtilsCy_13calc_metrics4, NULL, __pyx_n_s_AutoPlayUtilsCy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 606, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_15AutoPlayUtilsCy_13calc_metrics4, NULL, __pyx_n_s_AutoPlayUtilsCy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 605, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_calc_metrics4, __pyx_t_2) < 0) __PYX_ERR(0, 606, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_calc_metrics4, __pyx_t_2) < 0) __PYX_ERR(0, 605, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "AutoPlayUtilsCy.pyx":1
  * # cython: language_level=3             # <<<<<<<<<<<<<<
  * 
- * import numpy as np
+ * from numpy import intc, copy
  */
   __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -24800,14 +24447,6 @@ static CYTHON_INLINE void __Pyx_XDEC_MEMVIEW(__Pyx_memviewslice *memslice,
     }
 }
 
-/* DivInt[long] */
-static CYTHON_INLINE long __Pyx_div_long(long a, long b) {
-    long q = a / b;
-    long r = a - q*b;
-    q -= ((r != 0) & ((r ^ b) < 0));
-    return q;
-}
-
 /* PyErrFetchRestore */
 #if CYTHON_FAST_THREAD_STATE
 static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb) {
@@ -24873,65 +24512,6 @@ static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
         PyGILState_Release(state);
 #endif
 }
-
-/* SliceTupleAndList */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE void __Pyx_crop_slice(Py_ssize_t* _start, Py_ssize_t* _stop, Py_ssize_t* _length) {
-    Py_ssize_t start = *_start, stop = *_stop, length = *_length;
-    if (start < 0) {
-        start += length;
-        if (start < 0)
-            start = 0;
-    }
-    if (stop < 0)
-        stop += length;
-    else if (stop > length)
-        stop = length;
-    *_length = stop - start;
-    *_start = start;
-    *_stop = stop;
-}
-static CYTHON_INLINE void __Pyx_copy_object_array(PyObject** CYTHON_RESTRICT src, PyObject** CYTHON_RESTRICT dest, Py_ssize_t length) {
-    PyObject *v;
-    Py_ssize_t i;
-    for (i = 0; i < length; i++) {
-        v = dest[i] = src[i];
-        Py_INCREF(v);
-    }
-}
-static CYTHON_INLINE PyObject* __Pyx_PyList_GetSlice(
-            PyObject* src, Py_ssize_t start, Py_ssize_t stop) {
-    PyObject* dest;
-    Py_ssize_t length = PyList_GET_SIZE(src);
-    __Pyx_crop_slice(&start, &stop, &length);
-    if (unlikely(length <= 0))
-        return PyList_New(0);
-    dest = PyList_New(length);
-    if (unlikely(!dest))
-        return NULL;
-    __Pyx_copy_object_array(
-        ((PyListObject*)src)->ob_item + start,
-        ((PyListObject*)dest)->ob_item,
-        length);
-    return dest;
-}
-static CYTHON_INLINE PyObject* __Pyx_PyTuple_GetSlice(
-            PyObject* src, Py_ssize_t start, Py_ssize_t stop) {
-    PyObject* dest;
-    Py_ssize_t length = PyTuple_GET_SIZE(src);
-    __Pyx_crop_slice(&start, &stop, &length);
-    if (unlikely(length <= 0))
-        return PyTuple_New(0);
-    dest = PyTuple_New(length);
-    if (unlikely(!dest))
-        return NULL;
-    __Pyx_copy_object_array(
-        ((PyTupleObject*)src)->ob_item + start,
-        ((PyTupleObject*)dest)->ob_item,
-        length);
-    return dest;
-}
-#endif
 
 /* ArgTypeTest */
 static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact)
@@ -25873,6 +25453,14 @@ static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED
 /* None */
 static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname) {
     PyErr_Format(PyExc_UnboundLocalError, "local variable '%s' referenced before assignment", varname);
+}
+
+/* DivInt[long] */
+static CYTHON_INLINE long __Pyx_div_long(long a, long b) {
+    long q = a / b;
+    long r = a - q*b;
+    q -= ((r != 0) & ((r ^ b) < 0));
+    return q;
 }
 
 /* ImportFrom */
@@ -27220,35 +26808,8 @@ __pyx_fail:
     return result;
 }
 
-/* IntPow */
-  static CYTHON_INLINE long __Pyx_pow_long(long b, long e) {
-    long t = b;
-    switch (e) {
-        case 3:
-            t *= b;
-        CYTHON_FALLTHROUGH;
-        case 2:
-            t *= b;
-        CYTHON_FALLTHROUGH;
-        case 1:
-            return t;
-        case 0:
-            return 1;
-    }
-    #if 1
-    if (unlikely(e<0)) return 0;
-    #endif
-    t = 1;
-    while (likely(e)) {
-        t *= (b * (e&1)) | ((~e)&1);
-        b *= b;
-        e >>= 1;
-    }
-    return t;
-}
-
 /* ObjectToMemviewSlice */
-  static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_long(PyObject *obj, int writable_flag) {
+  static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_double(PyObject *obj, int writable_flag) {
     __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
     __Pyx_BufFmt_StackElem stack[1];
     int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED) };
@@ -27259,7 +26820,7 @@ __pyx_fail:
     }
     retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, 0,
                                                  PyBUF_RECORDS_RO | writable_flag, 1,
-                                                 &__Pyx_TypeInfo_long, stack,
+                                                 &__Pyx_TypeInfo_double, stack,
                                                  &result, obj);
     if (unlikely(retcode == -1))
         goto __pyx_fail;
@@ -28081,202 +27642,6 @@ raise_neg_overflow:
     PyErr_SetString(PyExc_OverflowError,
         "can't convert negative value to long");
     return (long) -1;
-}
-
-/* CIntFromPy */
-  static CYTHON_INLINE size_t __Pyx_PyInt_As_size_t(PyObject *x) {
-#ifdef __Pyx_HAS_GCC_DIAGNOSTIC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wconversion"
-#endif
-    const size_t neg_one = (size_t) -1, const_zero = (size_t) 0;
-#ifdef __Pyx_HAS_GCC_DIAGNOSTIC
-#pragma GCC diagnostic pop
-#endif
-    const int is_unsigned = neg_one > const_zero;
-#if PY_MAJOR_VERSION < 3
-    if (likely(PyInt_Check(x))) {
-        if (sizeof(size_t) < sizeof(long)) {
-            __PYX_VERIFY_RETURN_INT(size_t, long, PyInt_AS_LONG(x))
-        } else {
-            long val = PyInt_AS_LONG(x);
-            if (is_unsigned && unlikely(val < 0)) {
-                goto raise_neg_overflow;
-            }
-            return (size_t) val;
-        }
-    } else
-#endif
-    if (likely(PyLong_Check(x))) {
-        if (is_unsigned) {
-#if CYTHON_USE_PYLONG_INTERNALS
-            const digit* digits = ((PyLongObject*)x)->ob_digit;
-            switch (Py_SIZE(x)) {
-                case  0: return (size_t) 0;
-                case  1: __PYX_VERIFY_RETURN_INT(size_t, digit, digits[0])
-                case 2:
-                    if (8 * sizeof(size_t) > 1 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(size_t) >= 2 * PyLong_SHIFT) {
-                            return (size_t) (((((size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0]));
-                        }
-                    }
-                    break;
-                case 3:
-                    if (8 * sizeof(size_t) > 2 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(size_t) >= 3 * PyLong_SHIFT) {
-                            return (size_t) (((((((size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0]));
-                        }
-                    }
-                    break;
-                case 4:
-                    if (8 * sizeof(size_t) > 3 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(size_t) >= 4 * PyLong_SHIFT) {
-                            return (size_t) (((((((((size_t)digits[3]) << PyLong_SHIFT) | (size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0]));
-                        }
-                    }
-                    break;
-            }
-#endif
-#if CYTHON_COMPILING_IN_CPYTHON
-            if (unlikely(Py_SIZE(x) < 0)) {
-                goto raise_neg_overflow;
-            }
-#else
-            {
-                int result = PyObject_RichCompareBool(x, Py_False, Py_LT);
-                if (unlikely(result < 0))
-                    return (size_t) -1;
-                if (unlikely(result == 1))
-                    goto raise_neg_overflow;
-            }
-#endif
-            if (sizeof(size_t) <= sizeof(unsigned long)) {
-                __PYX_VERIFY_RETURN_INT_EXC(size_t, unsigned long, PyLong_AsUnsignedLong(x))
-#ifdef HAVE_LONG_LONG
-            } else if (sizeof(size_t) <= sizeof(unsigned PY_LONG_LONG)) {
-                __PYX_VERIFY_RETURN_INT_EXC(size_t, unsigned PY_LONG_LONG, PyLong_AsUnsignedLongLong(x))
-#endif
-            }
-        } else {
-#if CYTHON_USE_PYLONG_INTERNALS
-            const digit* digits = ((PyLongObject*)x)->ob_digit;
-            switch (Py_SIZE(x)) {
-                case  0: return (size_t) 0;
-                case -1: __PYX_VERIFY_RETURN_INT(size_t, sdigit, (sdigit) (-(sdigit)digits[0]))
-                case  1: __PYX_VERIFY_RETURN_INT(size_t,  digit, +digits[0])
-                case -2:
-                    if (8 * sizeof(size_t) - 1 > 1 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(size_t, long, -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(size_t) - 1 > 2 * PyLong_SHIFT) {
-                            return (size_t) (((size_t)-1)*(((((size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
-                        }
-                    }
-                    break;
-                case 2:
-                    if (8 * sizeof(size_t) > 1 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(size_t) - 1 > 2 * PyLong_SHIFT) {
-                            return (size_t) ((((((size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
-                        }
-                    }
-                    break;
-                case -3:
-                    if (8 * sizeof(size_t) - 1 > 2 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(size_t, long, -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(size_t) - 1 > 3 * PyLong_SHIFT) {
-                            return (size_t) (((size_t)-1)*(((((((size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
-                        }
-                    }
-                    break;
-                case 3:
-                    if (8 * sizeof(size_t) > 2 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(size_t) - 1 > 3 * PyLong_SHIFT) {
-                            return (size_t) ((((((((size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
-                        }
-                    }
-                    break;
-                case -4:
-                    if (8 * sizeof(size_t) - 1 > 3 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(size_t, long, -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(size_t) - 1 > 4 * PyLong_SHIFT) {
-                            return (size_t) (((size_t)-1)*(((((((((size_t)digits[3]) << PyLong_SHIFT) | (size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
-                        }
-                    }
-                    break;
-                case 4:
-                    if (8 * sizeof(size_t) > 3 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(size_t) - 1 > 4 * PyLong_SHIFT) {
-                            return (size_t) ((((((((((size_t)digits[3]) << PyLong_SHIFT) | (size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
-                        }
-                    }
-                    break;
-            }
-#endif
-            if (sizeof(size_t) <= sizeof(long)) {
-                __PYX_VERIFY_RETURN_INT_EXC(size_t, long, PyLong_AsLong(x))
-#ifdef HAVE_LONG_LONG
-            } else if (sizeof(size_t) <= sizeof(PY_LONG_LONG)) {
-                __PYX_VERIFY_RETURN_INT_EXC(size_t, PY_LONG_LONG, PyLong_AsLongLong(x))
-#endif
-            }
-        }
-        {
-#if CYTHON_COMPILING_IN_PYPY && !defined(_PyLong_AsByteArray)
-            PyErr_SetString(PyExc_RuntimeError,
-                            "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
-#else
-            size_t val;
-            PyObject *v = __Pyx_PyNumber_IntOrLong(x);
- #if PY_MAJOR_VERSION < 3
-            if (likely(v) && !PyLong_Check(v)) {
-                PyObject *tmp = v;
-                v = PyNumber_Long(tmp);
-                Py_DECREF(tmp);
-            }
- #endif
-            if (likely(v)) {
-                int one = 1; int is_little = (int)*(unsigned char *)&one;
-                unsigned char *bytes = (unsigned char *)&val;
-                int ret = _PyLong_AsByteArray((PyLongObject *)v,
-                                              bytes, sizeof(val),
-                                              is_little, !is_unsigned);
-                Py_DECREF(v);
-                if (likely(!ret))
-                    return val;
-            }
-#endif
-            return (size_t) -1;
-        }
-    } else {
-        size_t val;
-        PyObject *tmp = __Pyx_PyNumber_IntOrLong(x);
-        if (!tmp) return (size_t) -1;
-        val = __Pyx_PyInt_As_size_t(tmp);
-        Py_DECREF(tmp);
-        return val;
-    }
-raise_overflow:
-    PyErr_SetString(PyExc_OverflowError,
-        "value too large to convert to size_t");
-    return (size_t) -1;
-raise_neg_overflow:
-    PyErr_SetString(PyExc_OverflowError,
-        "can't convert negative value to size_t");
-    return (size_t) -1;
 }
 
 /* CIntFromPy */

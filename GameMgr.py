@@ -1,3 +1,10 @@
+
+"""
+This file defines the core functionality of a (2048) game.
+The Game class holds the basic state data of a game, and the methods to "move".
+It is designed to used by separate modules implementing UI and AutoPlay functionality.
+"""
+
 from numpy import zeros, array, random, int32, argwhere
 from copy import deepcopy
 # import pprint
@@ -6,6 +13,29 @@ SIZE = 4
 
 
 class Game(object):
+    """
+    Object to hold the data of a single game, and enable moves.
+
+    ----- Attributes -----
+    - tiles : a NumPy 2D-array containing the tiles numbers
+    - rand : a NumPy random Generator of floats in [0.0, 1.0)
+
+    score, num_moves, num_empty, already_won, game_over
+
+    ----- Methods -----
+    - move_tiles(direction, commit, tiles=None, score=None)
+        Moves tiles in the direction specified per 2048 game rules.
+        If (commit == False) , does NOT change internal game state (for speculative moves)
+
+    - add_random_tile(commit, tiles=None, rands=None, rand_idx=None)
+        Adds a random tile (2 or 4) to an open position in the 2D-array.
+        If (commit == False), does NOT change internal game state (for speculative moves)
+        Also checks to see if the game is over (no more valid moves left).
+
+    check_game_over(tiles)
+        Checks if any remaining valid moves are left.  Returns True if game over, else False
+        Called by add_random_tile().
+    """
 
     def __init__(self, ui, tiles=None, score=0, num_moves=0):
 
@@ -26,6 +56,7 @@ class Game(object):
         self.last_move_valid = True
 
     def __repr__(self):
+
         out = []
         out.append("-"*30 + "\n" +
                    f"Game Score: {self.score} | Num Moves: {self.num_moves} | " +
@@ -40,6 +71,30 @@ class Game(object):
     # 2: called by AutoPlay as confirmed game move (commit = True) that will change Game state
     # 3: called by AutoPlay for speculative game move (commit = False).  Unchanged game state.
     def move_tiles(self, direction, commit, tiles=None, score=None):
+        """
+        Moves tiles in the 'direction' specified per 2048 game rules.
+
+        This function is effectively "overloaded" and supports multiple calling scenarios.
+
+        1. call by UI (game.ui != None), and must calculate and return UI-related features
+        2. call by as a confirmed game move (commit = True) that DOES change Game state
+        3. call by AutoPlay for speculative move (commit = False). Does NOT change game state.
+
+        ----- Parameters -----
+        :param direction: int 0-3. specifies move direction (0: Up, 1: Right, 2: Down, 3: Left)
+        :param commit: bool. if True, this move DOES alter current game state.
+                             if False, function does NOT change current game state.
+        :param tiles: int Numpy 2D-array. default None --> creates empty board
+                                          Else uses provided tiles.
+        :param score: int. default None --> uses current "Game" score.  Else uses provided score
+
+        ----- Return -----
+        :returns:
+        valid_move: bool
+        tile_move_vect: list( int[n][n][2] ) for ui.animate_tiles()
+        tiles2: NumPy int 2D-array of the tile numbers AFTER move
+        score2: int of new score after move
+        """
 
         if not isinstance(direction, int):
             raise TypeError("Game.move_tiles() direction is not int.")
@@ -55,18 +110,14 @@ class Game(object):
                 for col in range(SIZE):
                     self.ui.next_tile_widgets[row][col] = self.ui.tile_widgets[row][col]
 
-        # Create Copy of Tiles
-        # If this is a speculative move, tiles is provided
+        # Create Copy of Tiles. If speculative move, tiles is provided
         if tiles is None:
             tiles2 = self.tiles.copy()
         else:
             tiles2 = tiles.copy()
 
         # If this is a speculative move, score may be provided
-        if score is None:
-            score2 = deepcopy(self.score)
-        else:
-            score2 = deepcopy(score)
+        score2 = deepcopy(self.score) if (score is None) else deepcopy(score)
 
         valid_move = False
 
@@ -164,9 +215,21 @@ class Game(object):
 
         return valid_move, tile_move_vect, tiles2, score2
 
-    # MUST be called after move_tiles()
-    # In the UI case, the animation is called first, then add_random_tile()
+
     def add_random_tile(self, commit, tiles=None, rands=None, rand_idx=None):
+        """
+        Adds new tile to empty spot, if available. (MUST be called after move_tiles())
+
+        This function is effectively "overloaded" and supports multiple calling scenarios.
+
+        :param commit: bool. if True, this move DOES alter current game state.
+                             if False, function does NOT change current game state.
+        :param tiles: int Numpy 2D-array. default None --> creates empty board
+                                          Else uses provided tiles.
+        :param rands: If provided, huge NumPy 1D-array of random floats [0.0, 1.0)
+                        If None, random numbers will be generated on the fly.
+        :param rand_idx: int. If rands is provided, the current index to use for access
+        """
 
         # If tiles is passed in, then it has already been copied in move_tiles()
 
@@ -219,6 +282,9 @@ class Game(object):
         return tiles, num_empty, game_over, rand_idx
 
     def check_game_over(self, tiles):
+        """Checks provided tiles to see if any valid moves are left.
+        :param tiles: Numpy int 2D-array.
+        :return: bool. True if game is over, False, otherwise"""
 
         up_valid, _, _, _ = self.move_tiles(0, False, tiles)
         right_valid, _, _, _ = self.move_tiles(1, False, tiles)

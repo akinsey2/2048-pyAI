@@ -170,7 +170,7 @@ def calc_metrics0(tiles):
 
 # Strategy 1:
 # Simple metric...Rewards Upper-Right aligned chain.
-def calc_metrics1(tiles):
+def calc_metrics1(tiles, double mult_base):
 
     cdef int size = tiles.shape[0]
 
@@ -216,26 +216,26 @@ def calc_metrics1(tiles):
             in_corner0 = True
 
     # --- If max tile is NOT in upper-right, metric is zero.
-    cdef int metric = 0
+    cdef double metric = 0
 
     if in_corner0 == False:
         return metric
 
     # Otherwise, calculate the metric
-    cdef int mult
+    cdef double mult
     cdef int rgt_col = size - 1, nxt_col = size - 2
 
     # Right Col, top to bottom
-    mult = 2 ** (size * 2)
+    mult = mult_base ** (size * 2)
 
     for i in range(size):
         metric += mult * tiles_view[i, rgt_col]
-        mult = mult // 2
+        mult = mult / mult_base
 
     # Second-to-right col, bottom to top
     for i in range(size-1, -1, -1):
         metric += mult * tiles_view[i, nxt_col]
-        mult = mult // 2
+        mult = mult / mult_base
 
     return metric
 
@@ -244,7 +244,7 @@ def calc_metrics1(tiles):
 # More advanced metric. Rewards any "chain" anchored in a corner,
 # with additional "reward" for empty tiles
 
-def calc_metrics2(tiles):
+def calc_metrics2(tiles, double mult_base):
 
     # graph = {(0, 0): ((1, 0), (0, 1)),
     #          (0, 1): ((0, 0), (1, 1), (0, 2)),
@@ -305,12 +305,12 @@ def calc_metrics2(tiles):
     cdef int max_adj[3]
     cdef short metrics_len = 0, chain_len = 0, curr_row, curr_col, i
     # cdef bint end_of_chain
-    cdef long metric, mult, multiplier1, multiplier2
+    cdef double metric, mult, multiplier1, multiplier2
     cdef bint in_corner1, in_corner2, in_corner, same_row, same_col
 
     # Initialize metrics array
-    cdef long metrics[NUM_TILES]
-    cdef long [:] metrics_view = metrics
+    cdef double metrics[NUM_TILES]
+    cdef double [:] metrics_view = metrics
     metrics_view[:] = 0
 
     # Initialize chain 2D array
@@ -368,10 +368,10 @@ def calc_metrics2(tiles):
         multiplier2 = 2 if in_corner and (same_row or same_col) else 1
 
         # Update metric for this chain
-        mult = 8
+        mult = mult_base ** chain_len
         for i in range(chain_len):
             metric += mult*chain[i][0]
-            mult -= 1
+            mult = mult / mult_base
 
         metric = metric * multiplier1 * multiplier2 * num_empty
         metrics[metrics_len] = metric
@@ -382,7 +382,7 @@ def calc_metrics2(tiles):
     # --- Done calculating the metrics for all chains
 
     # --- Find the maximum value of metrics
-    cdef long maximum = 0
+    cdef double maximum = 0
     for i in range(metrics_len):
         if metrics[i] > maximum:
             maximum = metrics[i]
@@ -478,7 +478,7 @@ cdef bint check_in_chain(int chain[NUM_TILES][3], int chain_len, int row, int co
 # Strategy 3:
 # More advanced metric. Rewards any "chain" anchored in a corner,
 # with additional "reward" for empty tiles
-def calc_metrics3(tiles):
+def calc_metrics3(tiles, double mult_base):
 
     cdef int size = tiles.shape[0]
 
@@ -533,7 +533,7 @@ def calc_metrics3(tiles):
 
     # If there are no max tiles in corners, metric is 0
     if not in_corner:
-        return 0, []
+        return 0.0
 
 
     cdef short[9][2] chain00a = [[0, 0], [0, 1], [0, 2], [0, 3], [1, 3], [1, 2], [1, 1], [1, 0], [2, 0]]
@@ -545,9 +545,9 @@ def calc_metrics3(tiles):
     cdef short[9][2] chain30a = [[3, 0], [2, 0], [1, 0], [0, 0], [0, 1], [1, 1], [2, 1], [3, 1], [3, 2]]
     cdef short[9][2] chain30b = [[3, 0], [3, 1], [3, 2], [3, 3], [2, 3], [2, 2], [2, 1], [2, 0], [1, 0]]
 
-    cdef long metrics[8]
+    cdef double metrics[8]
     cdef short metrics_len = 0
-    cdef long mult = 256, metric = 0
+    cdef double mult = 256, metric = 0
     cdef short[9][2] chain1, chain2
 
     for i in range(corners_len):
@@ -568,39 +568,38 @@ def calc_metrics3(tiles):
             chain1 = chain33a
             chain2 = chain33b
 
-        metric = 0
-        mult = 65536
+        metric = 0.0
+        mult = mult_base ** 9
         for j in range(9):
             row = chain1[j][0]
             col = chain1[j][1]
             metric += tiles_view[row][col] * mult
-            mult = mult // 4
+            mult = mult / mult_base
 
         metrics[metrics_len] = metric
         metrics_len += 1
 
-        metric = 0
-        mult = 65536
+        metric = 0.0
+        mult = mult_base ** 9
         for j in range(9):
             row = chain2[j][0]
             col = chain2[j][1]
             metric += tiles_view[row][col] * mult
-            mult = mult // 4
+            mult = mult / mult_base
 
         metrics[metrics_len] = metric
         metrics_len += 1
 
-    cdef long maximum = 0
+    # Find the largest of the metrics calculated for this board
+    cdef double maximum = 0
 
     for i in range(metrics_len):
-        if metrics[i] < 0:
-            neg = True
         if metrics[i] > maximum:
             maximum = metrics[i]
 
-    max_c_list = list(max_corners)
-    max_c_list = max_c_list[:corners_len]
-    return maximum, max_c_list
+    # max_c_list = list(max_corners)
+    # max_c_list = max_c_list[:corners_len]
+    return maximum
 
 
 def calc_metrics4(const int [:, :] tiles_view):
