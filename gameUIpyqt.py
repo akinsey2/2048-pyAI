@@ -299,7 +299,7 @@ class UiMain(object):
 
         # Auto-Play Area
         self.ap_area_widget = QWidget(self.centralwidget)
-        self.ap_area_widget.setGeometry(QRect(260, 600, 211, 131))
+        self.ap_area_widget.setGeometry(QRect(260, 600, 211, 150))
         self.ap_area_widget.setObjectName("widget")
         self.verticalLayout_3 = QVBoxLayout(self.ap_area_widget)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -333,6 +333,15 @@ class UiMain(object):
         self.verticalLayout_3.addWidget(self.horizontalSlider)
 
         # Autoplay Strategy ComboBox
+        self.ap_strat_label = QLabel(self.ap_area_widget)
+        self.ap_strat_label.setEnabled(False)
+        font = QFont()
+        font.setPointSize(10)
+        self.ap_strat_label.setFont(font)
+        self.ap_strat_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.ap_strat_label.setObjectName("ap_strat_label")
+        self.verticalLayout_3.addWidget(self.ap_strat_label)
+
         self.comboBox = QComboBox(self.ap_area_widget)
         self.comboBox.addItems(["Most Blank Tiles", "Maximize Upper Right Chain",
                                 "Any Corner Chain + Blanks", "Aligned Corner Chains Only"])
@@ -403,7 +412,8 @@ class UiMain(object):
         self.curr_score.setText(_translate("MainWindow", "0"))
         self.record_score_label.setText(_translate("MainWindow", "Record High Score"))
         self.record_score.setText(_translate("MainWindow", "0"))
-        self.ap_spd_label.setText(_translate("MainWindow", "Auto-Play Speed"))
+        self.ap_spd_label.setText(_translate("MainWindow", "Slow   --   Auto-Play Speed   --   Fast"))
+        self.ap_strat_label.setText(_translate("MainWindow", "Auto-Play Strategy"))
         self.ap_start_button.setText(_translate("MainWindow", "Start Auto-Play"))
 
     def start_clicked(self):
@@ -420,6 +430,8 @@ class UiMain(object):
                 self.start_button.setText("Pause")
                 self.ap_start_button.setEnabled(True)
                 self.horizontalSlider.setEnabled(True)
+                self.ap_spd_label.setEnabled(True)
+                self.ap_strat_label.setEnabled(True)
                 self.load_button.setEnabled(False)
                 self.save_button.setEnabled(False)
 
@@ -431,8 +443,12 @@ class UiMain(object):
                 self.start_button.setText("Play")
                 self.ap_start_button.setEnabled(False)
                 self.horizontalSlider.setEnabled(False)
+                self.ap_spd_label.setEnabled(False)
+                self.ap_strat_label.setEnabled(False)
                 self.load_button.setEnabled(True)
                 self.save_button.setEnabled(True)
+                self.anim_duration = 100
+
 
     def save_clicked(self):
         """Handler auto-called when Save button is clicked"""
@@ -587,6 +603,8 @@ class UiMain(object):
 
         self.centralwidget.releaseKeyboard()
         self.comboBox.setEnabled(False)
+        self.ap_strat_label.setEnabled(False)
+        self.ap_speed_changed()     # Update speed (specifically anim_duration)
         # self.load_button.setEnabled(False)
         # self.save_button.setEnabled(False)
 
@@ -601,7 +619,9 @@ class UiMain(object):
 
         self.autoplay_timer.stop()
         self.autoplaying = False
+        self.ap_strat_label.setEnabled(True)
         self.comboBox.setEnabled(True)
+        self.anim_duration = 100
         # self.load_button.setEnabled(False)
         # self.save_button.setEnabled(True)
         self.ap_start_button.setText("Start AutoPlay")
@@ -723,6 +743,10 @@ class UiMain(object):
         self.start_button.setText("New Game")
         self.load_button.setEnabled(True)
         self.save_button.setEnabled(True)
+        self.ap_spd_label.setEnabled(False)
+        self.ap_strat_label.setEnabled(False)
+        self.comboBox.setEnabled(False)
+        self.horizontalSlider.setEnabled(False)
 
     def won_game(self):
         """Updates UI state upon game win with dialog to ask user for next action
@@ -765,6 +789,8 @@ class UiMain(object):
         self.start_button.setText("Pause")
         self.ap_start_button.setEnabled(True)
         self.horizontalSlider.setEnabled(True)
+        self.ap_spd_label.setEnabled(True)
+        self.ap_strat_label.setEnabled(True)
         self.load_button.setEnabled(False)
         self.save_button.setEnabled(False)
 

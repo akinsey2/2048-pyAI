@@ -1,5 +1,4 @@
-(['C:\\Users\\Stephanie\\Documents\\Machine '
-  'Learning\\2048\\2048project\\gameUIpyqt.py'],
+(['gameUIpyqt.py'],
  ['C:\\Users\\Stephanie\\Documents\\Machine Learning\\2048\\2048project'],
  ['codecs'],
  ['C:\\Users\\Stephanie\\Documents\\Machine '
@@ -242,6 +241,12 @@
   ('zipimport',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\zipimport.py',
    'PYMODULE'),
+  ('importlib.abc',
+   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\importlib\\abc.py',
+   'PYMODULE'),
+  ('typing',
+   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\typing.py',
+   'PYMODULE'),
   ('importlib.util',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\importlib\\util.py',
    'PYMODULE'),
@@ -479,9 +484,6 @@
   ('asyncio.staggered',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\asyncio\\staggered.py',
    'PYMODULE'),
-  ('typing',
-   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\typing.py',
-   'PYMODULE'),
   ('asyncio.tasks',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\asyncio\\tasks.py',
    'PYMODULE'),
@@ -698,9 +700,6 @@
   ('configparser',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\configparser.py',
    'PYMODULE'),
-  ('importlib.abc',
-   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\importlib\\abc.py',
-   'PYMODULE'),
   ('importlib._bootstrap',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\importlib\\_bootstrap.py',
    'PYMODULE'),
@@ -722,14 +721,14 @@
   ('ast',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\ast.py',
    'PYMODULE'),
-  ('stringprep',
-   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\stringprep.py',
-   'PYMODULE'),
   ('tracemalloc',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\tracemalloc.py',
    'PYMODULE'),
   ('_py_abc',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\_py_abc.py',
+   'PYMODULE'),
+  ('stringprep',
+   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\stringprep.py',
    'PYMODULE'),
   ('AutoPlay',
    'C:\\Users\\Stephanie\\Documents\\Machine '
@@ -1469,7 +1468,10 @@
   ('csv',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\lib\\csv.py',
    'PYMODULE')],
- [('api-ms-win-crt-heap-l1-1-0.dll',
+ [('VCRUNTIME140.dll',
+   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\VCRUNTIME140.dll',
+   'BINARY'),
+  ('api-ms-win-crt-heap-l1-1-0.dll',
    'C:\\Program '
    'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-crt-heap-l1-1-0.dll',
    'BINARY'),
@@ -1477,42 +1479,43 @@
    'C:\\Program '
    'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-crt-runtime-l1-1-0.dll',
    'BINARY'),
-  ('VCRUNTIME140.dll',
-   'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\VCRUNTIME140.dll',
-   'BINARY'),
-  ('api-ms-win-crt-stdio-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-crt-stdio-l1-1-0.dll',
-   'BINARY'),
   ('python39.dll',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\python39.dll',
-   'BINARY'),
-  ('api-ms-win-crt-math-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-crt-math-l1-1-0.dll',
    'BINARY'),
   ('api-ms-win-crt-locale-l1-1-0.dll',
    'C:\\Program '
    'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-crt-locale-l1-1-0.dll',
    'BINARY'),
-  ('ucrtbase.dll',
-   'C:\\Program Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\ucrtbase.dll',
-   'BINARY'),
-  ('api-ms-win-crt-string-l1-1-0.dll',
+  ('api-ms-win-crt-stdio-l1-1-0.dll',
    'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-crt-string-l1-1-0.dll',
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-crt-stdio-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-math-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-crt-math-l1-1-0.dll',
    'BINARY'),
   ('api-ms-win-crt-convert-l1-1-0.dll',
    'C:\\Program '
    'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-crt-convert-l1-1-0.dll',
    'BINARY'),
-  ('api-ms-win-crt-conio-l1-1-0.dll',
+  ('api-ms-win-crt-string-l1-1-0.dll',
    'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-crt-conio-l1-1-0.dll',
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-crt-string-l1-1-0.dll',
+   'BINARY'),
+  ('ucrtbase.dll',
+   'C:\\Program Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\ucrtbase.dll',
    'BINARY'),
   ('api-ms-win-crt-environment-l1-1-0.dll',
    'C:\\Program '
    'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-crt-environment-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-conio-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-crt-conio-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-filesystem-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-crt-filesystem-l1-1-0.dll',
    'BINARY'),
   ('api-ms-win-crt-time-l1-1-0.dll',
    'C:\\Program '
@@ -1522,165 +1525,161 @@
    'C:\\Program '
    'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-crt-process-l1-1-0.dll',
    'BINARY'),
-  ('api-ms-win-crt-filesystem-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-crt-filesystem-l1-1-0.dll',
-   'BINARY'),
   ('api-ms-win-core-errorhandling-l1-1-0.dll',
    'C:\\Program '
    'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-errorhandling-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-file-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-file-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-util-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-util-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-synch-l1-2-0.dll',
-   'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-synch-l1-2-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-namedpipe-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-namedpipe-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-processthreads-l1-1-1.dll',
-   'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-processthreads-l1-1-1.dll',
-   'BINARY'),
-  ('api-ms-win-core-sysinfo-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-sysinfo-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-file-l2-1-0.dll',
-   'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-file-l2-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-profile-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-profile-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-synch-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-synch-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-string-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-string-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-processenvironment-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-processenvironment-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-file-l1-2-0.dll',
-   'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-file-l1-2-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-heap-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-heap-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-console-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-console-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-timezone-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-timezone-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-libraryloader-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-libraryloader-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-rtlsupport-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-rtlsupport-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-localization-l1-2-0.dll',
-   'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-localization-l1-2-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-debug-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-debug-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-interlocked-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-interlocked-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-processthreads-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-processthreads-l1-1-0.dll',
    'BINARY'),
   ('api-ms-win-core-memory-l1-1-0.dll',
    'C:\\Program '
    'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-memory-l1-1-0.dll',
    'BINARY'),
+  ('api-ms-win-core-util-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-util-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-profile-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-profile-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-file-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-file-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-libraryloader-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-libraryloader-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-namedpipe-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-namedpipe-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-processthreads-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-processthreads-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-synch-l1-2-0.dll',
+   'C:\\Program '
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-synch-l1-2-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-heap-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-heap-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-localization-l1-2-0.dll',
+   'C:\\Program '
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-localization-l1-2-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-timezone-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-timezone-l1-1-0.dll',
+   'BINARY'),
   ('api-ms-win-core-handle-l1-1-0.dll',
    'C:\\Program '
    'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-handle-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-file-l2-1-0.dll',
+   'C:\\Program '
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-file-l2-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-synch-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-synch-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-console-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-console-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-debug-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-debug-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-rtlsupport-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-rtlsupport-l1-1-0.dll',
    'BINARY'),
   ('api-ms-win-core-datetime-l1-1-0.dll',
    'C:\\Program '
    'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-datetime-l1-1-0.dll',
    'BINARY'),
-  ('PyQt6\\Qt6\\plugins\\imageformats\\qicns.dll',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\plugins\\imageformats\\qicns.dll',
+  ('api-ms-win-core-sysinfo-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-sysinfo-l1-1-0.dll',
    'BINARY'),
-  ('PyQt6\\Qt6\\plugins\\styles\\qwindowsvistastyle.dll',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\plugins\\styles\\qwindowsvistastyle.dll',
+  ('api-ms-win-core-file-l1-2-0.dll',
+   'C:\\Program '
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-file-l1-2-0.dll',
    'BINARY'),
-  ('PyQt6\\Qt6\\plugins\\imageformats\\qjpeg.dll',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\plugins\\imageformats\\qjpeg.dll',
+  ('api-ms-win-core-processenvironment-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-processenvironment-l1-1-0.dll',
    'BINARY'),
-  ('PyQt6\\Qt6\\plugins\\imageformats\\qsvg.dll',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\plugins\\imageformats\\qsvg.dll',
+  ('api-ms-win-core-processthreads-l1-1-1.dll',
+   'C:\\Program '
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-processthreads-l1-1-1.dll',
+   'BINARY'),
+  ('api-ms-win-core-interlocked-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-interlocked-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-string-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\AdoptOpenJDK\\jdk-11.0.11.9-hotspot\\bin\\api-ms-win-core-string-l1-1-0.dll',
    'BINARY'),
   ('opengl32sw.dll',
    'C:\\Users\\Stephanie\\Documents\\Machine '
    'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\bin\\opengl32sw.dll',
    'BINARY'),
-  ('PyQt6\\Qt6\\plugins\\platforms\\qminimal.dll',
+  ('PyQt6\\Qt6\\plugins\\imageformats\\qsvg.dll',
    'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\plugins\\platforms\\qminimal.dll',
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\plugins\\imageformats\\qsvg.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\plugins\\styles\\qwindowsvistastyle.dll',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\plugins\\styles\\qwindowsvistastyle.dll',
    'BINARY'),
   ('libopenblas.EL2C6PLE4ZYW3ECEVIV3OXXGRN2NRFM2.gfortran-win_amd64.dll',
    'C:\\Users\\Stephanie\\Documents\\Machine '
    'Learning\\2048\\2048project\\venv\\lib\\site-packages\\numpy\\.libs\\libopenblas.EL2C6PLE4ZYW3ECEVIV3OXXGRN2NRFM2.gfortran-win_amd64.dll',
    'BINARY'),
-  ('PyQt6\\Qt6\\plugins\\imageformats\\qgif.dll',
+  ('PyQt6\\Qt6\\plugins\\imageformats\\qjpeg.dll',
    'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\plugins\\imageformats\\qgif.dll',
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\plugins\\imageformats\\qjpeg.dll',
    'BINARY'),
-  ('PyQt6\\Qt6\\plugins\\imageformats\\qwebp.dll',
+  ('PyQt6\\Qt6\\plugins\\platforms\\qminimal.dll',
    'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\plugins\\imageformats\\qwebp.dll',
-   'BINARY'),
-  ('PyQt6\\Qt6\\plugins\\imageformats\\qtiff.dll',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\plugins\\imageformats\\qtiff.dll',
-   'BINARY'),
-  ('PyQt6\\Qt6\\plugins\\imageformats\\qico.dll',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\plugins\\imageformats\\qico.dll',
-   'BINARY'),
-  ('PyQt6\\Qt6\\plugins\\platforms\\qwindows.dll',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\plugins\\platforms\\qwindows.dll',
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\plugins\\platforms\\qminimal.dll',
    'BINARY'),
   ('PyQt6\\Qt6\\plugins\\iconengines\\qsvgicon.dll',
    'C:\\Users\\Stephanie\\Documents\\Machine '
    'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\plugins\\iconengines\\qsvgicon.dll',
    'BINARY'),
+  ('PyQt6\\Qt6\\plugins\\imageformats\\qwebp.dll',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\plugins\\imageformats\\qwebp.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\plugins\\platforms\\qwindows.dll',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\plugins\\platforms\\qwindows.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\plugins\\imageformats\\qicns.dll',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\plugins\\imageformats\\qicns.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\plugins\\imageformats\\qtiff.dll',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\plugins\\imageformats\\qtiff.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\plugins\\imageformats\\qgif.dll',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\plugins\\imageformats\\qgif.dll',
+   'BINARY'),
   ('PyQt6\\Qt6\\plugins\\imageformats\\qtga.dll',
    'C:\\Users\\Stephanie\\Documents\\Machine '
    'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\plugins\\imageformats\\qtga.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\plugins\\imageformats\\qico.dll',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\plugins\\imageformats\\qico.dll',
    'BINARY'),
   ('PyQt6\\Qt6\\plugins\\imageformats\\qwbmp.dll',
    'C:\\Users\\Stephanie\\Documents\\Machine '
@@ -1808,24 +1807,24 @@
    'C:\\Users\\Stephanie\\Documents\\Machine '
    'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\QtCore.pyd',
    'EXTENSION'),
-  ('Qt6Gui.dll',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\bin\\Qt6Gui.dll',
-   'BINARY'),
   ('Qt6Core.dll',
    'C:\\Users\\Stephanie\\Documents\\Machine '
    'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\bin\\Qt6Core.dll',
    'BINARY'),
-  ('Qt6Widgets.dll',
+  ('Qt6Svg.dll',
    'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\bin\\Qt6Widgets.dll',
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\bin\\Qt6Svg.dll',
+   'BINARY'),
+  ('Qt6Gui.dll',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\bin\\Qt6Gui.dll',
    'BINARY'),
   ('VCRUNTIME140_1.dll',
    'C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python39\\VCRUNTIME140_1.dll',
    'BINARY'),
-  ('Qt6Svg.dll',
+  ('Qt6Widgets.dll',
    'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\bin\\Qt6Svg.dll',
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\bin\\Qt6Widgets.dll',
    'BINARY'),
   ('api-ms-win-crt-utility-l1-1-0.dll',
    'C:\\Program '
@@ -1858,133 +1857,201 @@
    'C:\\Users\\Stephanie\\Documents\\Machine '
    'Learning\\2048\\2048project\\build\\gameUIpyqt\\base_library.zip',
    'DATA'),
-  ('PyQt6\\Qt6\\translations\\qtbase_zh_CN.qm',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_zh_CN.qm',
-   'DATA'),
-  ('PyQt6\\Qt6\\translations\\qtbase_ar.qm',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_ar.qm',
-   'DATA'),
-  ('PyQt6\\Qt6\\translations\\qtbase_ca.qm',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_ca.qm',
-   'DATA'),
   ('PyQt6\\Qt6\\translations\\qtbase_it.qm',
    'C:\\Users\\Stephanie\\Documents\\Machine '
    'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_it.qm',
-   'DATA'),
-  ('PyQt6\\Qt6\\translations\\qtbase_de.qm',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_de.qm',
-   'DATA'),
-  ('PyQt6\\Qt6\\translations\\qtbase_fa.qm',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_fa.qm',
-   'DATA'),
-  ('PyQt6\\Qt6\\translations\\qtbase_es.qm',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_es.qm',
-   'DATA'),
-  ('PyQt6\\Qt6\\translations\\qtbase_hu.qm',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_hu.qm',
-   'DATA'),
-  ('PyQt6\\Qt6\\translations\\qtbase_pt_BR.qm',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_pt_BR.qm',
-   'DATA'),
-  ('PyQt6\\Qt6\\translations\\qtbase_ru.qm',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_ru.qm',
-   'DATA'),
-  ('PyQt6\\Qt6\\translations\\qtbase_gd.qm',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_gd.qm',
-   'DATA'),
-  ('PyQt6\\Qt6\\translations\\qtbase_da.qm',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_da.qm',
-   'DATA'),
-  ('PyQt6\\Qt6\\translations\\qtbase_uk.qm',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_uk.qm',
-   'DATA'),
-  ('PyQt6\\Qt6\\translations\\qtbase_zh_TW.qm',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_zh_TW.qm',
-   'DATA'),
-  ('PyQt6\\Qt6\\translations\\qtbase_bg.qm',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_bg.qm',
-   'DATA'),
-  ('PyQt6\\Qt6\\translations\\qtbase_lv.qm',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_lv.qm',
-   'DATA'),
-  ('PyQt6\\Qt6\\translations\\qtbase_nl.qm',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_nl.qm',
    'DATA'),
   ('PyQt6\\Qt6\\translations\\qtbase_cs.qm',
    'C:\\Users\\Stephanie\\Documents\\Machine '
    'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_cs.qm',
    'DATA'),
-  ('PyQt6\\Qt6\\translations\\qtbase_hr.qm',
+  ('PyQt6\\Qt6\\translations\\qtbase_lv.qm',
    'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_hr.qm',
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_lv.qm',
    'DATA'),
-  ('PyQt6\\Qt6\\translations\\qtbase_nn.qm',
+  ('PyQt6\\Qt6\\translations\\qtbase_gd.qm',
    'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_nn.qm',
-   'DATA'),
-  ('PyQt6\\Qt6\\translations\\qtbase_tr.qm',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_tr.qm',
-   'DATA'),
-  ('PyQt6\\Qt6\\translations\\qtbase_pl.qm',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_pl.qm',
-   'DATA'),
-  ('PyQt6\\Qt6\\translations\\qtbase_ko.qm',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_ko.qm',
-   'DATA'),
-  ('PyQt6\\Qt6\\translations\\qtbase_he.qm',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_he.qm',
-   'DATA'),
-  ('PyQt6\\Qt6\\translations\\qtbase_ja.qm',
-   'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_ja.qm',
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_gd.qm',
    'DATA'),
   ('PyQt6\\Qt6\\translations\\qtbase_en.qm',
    'C:\\Users\\Stephanie\\Documents\\Machine '
    'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_en.qm',
    'DATA'),
+  ('PyQt6\\Qt6\\translations\\qtbase_sk.qm',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_sk.qm',
+   'DATA'),
   ('PyQt6\\Qt6\\translations\\qtbase_fi.qm',
    'C:\\Users\\Stephanie\\Documents\\Machine '
    'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_fi.qm',
    'DATA'),
-  ('PyQt6\\Qt6\\translations\\qtbase_sk.qm',
+  ('PyQt6\\Qt6\\translations\\qtbase_ko.qm',
    'C:\\Users\\Stephanie\\Documents\\Machine '
-   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_sk.qm',
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_ko.qm',
+   'DATA'),
+  ('PyQt6\\Qt6\\translations\\qtbase_nn.qm',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_nn.qm',
+   'DATA'),
+  ('PyQt6\\Qt6\\translations\\qtbase_he.qm',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_he.qm',
+   'DATA'),
+  ('PyQt6\\Qt6\\translations\\qtbase_pt_BR.qm',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_pt_BR.qm',
+   'DATA'),
+  ('PyQt6\\Qt6\\translations\\qtbase_da.qm',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_da.qm',
+   'DATA'),
+  ('PyQt6\\Qt6\\translations\\qtbase_pl.qm',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_pl.qm',
+   'DATA'),
+  ('PyQt6\\Qt6\\translations\\qtbase_es.qm',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_es.qm',
+   'DATA'),
+  ('PyQt6\\Qt6\\translations\\qtbase_zh_CN.qm',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_zh_CN.qm',
+   'DATA'),
+  ('PyQt6\\Qt6\\translations\\qtbase_bg.qm',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_bg.qm',
    'DATA'),
   ('PyQt6\\Qt6\\translations\\qtbase_fr.qm',
    'C:\\Users\\Stephanie\\Documents\\Machine '
    'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_fr.qm',
    'DATA'),
+  ('PyQt6\\Qt6\\translations\\qtbase_de.qm',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_de.qm',
+   'DATA'),
+  ('PyQt6\\Qt6\\translations\\qtbase_ca.qm',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_ca.qm',
+   'DATA'),
+  ('PyQt6\\Qt6\\translations\\qtbase_ja.qm',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_ja.qm',
+   'DATA'),
+  ('PyQt6\\Qt6\\translations\\qtbase_uk.qm',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_uk.qm',
+   'DATA'),
+  ('PyQt6\\Qt6\\translations\\qtbase_ar.qm',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_ar.qm',
+   'DATA'),
+  ('PyQt6\\Qt6\\translations\\qtbase_nl.qm',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_nl.qm',
+   'DATA'),
+  ('PyQt6\\Qt6\\translations\\qtbase_ru.qm',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_ru.qm',
+   'DATA'),
+  ('PyQt6\\Qt6\\translations\\qtbase_tr.qm',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_tr.qm',
+   'DATA'),
+  ('PyQt6\\Qt6\\translations\\qtbase_fa.qm',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_fa.qm',
+   'DATA'),
+  ('PyQt6\\Qt6\\translations\\qtbase_zh_TW.qm',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_zh_TW.qm',
+   'DATA'),
+  ('PyQt6\\Qt6\\translations\\qtbase_hu.qm',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_hu.qm',
+   'DATA'),
+  ('PyQt6\\Qt6\\translations\\qtbase_hr.qm',
+   'C:\\Users\\Stephanie\\Documents\\Machine '
+   'Learning\\2048\\2048project\\venv\\lib\\site-packages\\PyQt6\\Qt6\\translations\\qtbase_hr.qm',
+   'DATA'),
+  ('setuptools-61.2.0.dist-info\\REQUESTED',
+   'c:\\users\\stephanie\\documents\\machine '
+   'learning\\2048\\2048project\\venv\\lib\\site-packages\\setuptools-61.2.0.dist-info\\REQUESTED',
+   'DATA'),
+  ('altgraph-0.17.2.dist-info\\INSTALLER',
+   'c:\\users\\stephanie\\documents\\machine '
+   'learning\\2048\\2048project\\venv\\lib\\site-packages\\altgraph-0.17.2.dist-info\\INSTALLER',
+   'DATA'),
+  ('setuptools-61.2.0.dist-info\\INSTALLER',
+   'c:\\users\\stephanie\\documents\\machine '
+   'learning\\2048\\2048project\\venv\\lib\\site-packages\\setuptools-61.2.0.dist-info\\INSTALLER',
+   'DATA'),
+  ('altgraph-0.17.2.dist-info\\RECORD',
+   'c:\\users\\stephanie\\documents\\machine '
+   'learning\\2048\\2048project\\venv\\lib\\site-packages\\altgraph-0.17.2.dist-info\\RECORD',
+   'DATA'),
+  ('pyinstaller-4.10.dist-info\\top_level.txt',
+   'c:\\users\\stephanie\\documents\\machine '
+   'learning\\2048\\2048project\\venv\\lib\\site-packages\\pyinstaller-4.10.dist-info\\top_level.txt',
+   'DATA'),
+  ('setuptools-61.2.0.dist-info\\entry_points.txt',
+   'c:\\users\\stephanie\\documents\\machine '
+   'learning\\2048\\2048project\\venv\\lib\\site-packages\\setuptools-61.2.0.dist-info\\entry_points.txt',
+   'DATA'),
+  ('pyinstaller-4.10.dist-info\\INSTALLER',
+   'c:\\users\\stephanie\\documents\\machine '
+   'learning\\2048\\2048project\\venv\\lib\\site-packages\\pyinstaller-4.10.dist-info\\INSTALLER',
+   'DATA'),
+  ('altgraph-0.17.2.dist-info\\WHEEL',
+   'c:\\users\\stephanie\\documents\\machine '
+   'learning\\2048\\2048project\\venv\\lib\\site-packages\\altgraph-0.17.2.dist-info\\WHEEL',
+   'DATA'),
+  ('altgraph-0.17.2.dist-info\\METADATA',
+   'c:\\users\\stephanie\\documents\\machine '
+   'learning\\2048\\2048project\\venv\\lib\\site-packages\\altgraph-0.17.2.dist-info\\METADATA',
+   'DATA'),
+  ('wheel-0.36.2.dist-info\\INSTALLER',
+   'c:\\users\\stephanie\\documents\\machine '
+   'learning\\2048\\2048project\\venv\\lib\\site-packages\\wheel-0.36.2.dist-info\\INSTALLER',
+   'DATA'),
+  ('pyinstaller-4.10.dist-info\\REQUESTED',
+   'c:\\users\\stephanie\\documents\\machine '
+   'learning\\2048\\2048project\\venv\\lib\\site-packages\\pyinstaller-4.10.dist-info\\REQUESTED',
+   'DATA'),
+  ('setuptools-61.2.0.dist-info\\WHEEL',
+   'c:\\users\\stephanie\\documents\\machine '
+   'learning\\2048\\2048project\\venv\\lib\\site-packages\\setuptools-61.2.0.dist-info\\WHEEL',
+   'DATA'),
+  ('wheel-0.36.2.dist-info\\METADATA',
+   'c:\\users\\stephanie\\documents\\machine '
+   'learning\\2048\\2048project\\venv\\lib\\site-packages\\wheel-0.36.2.dist-info\\METADATA',
+   'DATA'),
+  ('pyinstaller-4.10.dist-info\\entry_points.txt',
+   'c:\\users\\stephanie\\documents\\machine '
+   'learning\\2048\\2048project\\venv\\lib\\site-packages\\pyinstaller-4.10.dist-info\\entry_points.txt',
+   'DATA'),
   ('setuptools-61.2.0.dist-info\\top_level.txt',
    'c:\\users\\stephanie\\documents\\machine '
    'learning\\2048\\2048project\\venv\\lib\\site-packages\\setuptools-61.2.0.dist-info\\top_level.txt',
+   'DATA'),
+  ('wheel-0.36.2.dist-info\\entry_points.txt',
+   'c:\\users\\stephanie\\documents\\machine '
+   'learning\\2048\\2048project\\venv\\lib\\site-packages\\wheel-0.36.2.dist-info\\entry_points.txt',
    'DATA'),
   ('wheel-0.36.2.dist-info\\top_level.txt',
    'c:\\users\\stephanie\\documents\\machine '
    'learning\\2048\\2048project\\venv\\lib\\site-packages\\wheel-0.36.2.dist-info\\top_level.txt',
    'DATA'),
-  ('pyinstaller-4.10.dist-info\\top_level.txt',
+  ('pyinstaller-4.10.dist-info\\COPYING.txt',
    'c:\\users\\stephanie\\documents\\machine '
-   'learning\\2048\\2048project\\venv\\lib\\site-packages\\pyinstaller-4.10.dist-info\\top_level.txt',
+   'learning\\2048\\2048project\\venv\\lib\\site-packages\\pyinstaller-4.10.dist-info\\COPYING.txt',
+   'DATA'),
+  ('setuptools-61.2.0.dist-info\\METADATA',
+   'c:\\users\\stephanie\\documents\\machine '
+   'learning\\2048\\2048project\\venv\\lib\\site-packages\\setuptools-61.2.0.dist-info\\METADATA',
+   'DATA'),
+  ('wheel-0.36.2.dist-info\\WHEEL',
+   'c:\\users\\stephanie\\documents\\machine '
+   'learning\\2048\\2048project\\venv\\lib\\site-packages\\wheel-0.36.2.dist-info\\WHEEL',
    'DATA'),
   ('setuptools-61.2.0.dist-info\\LICENSE',
    'c:\\users\\stephanie\\documents\\machine '
@@ -1994,104 +2061,36 @@
    'c:\\users\\stephanie\\documents\\machine '
    'learning\\2048\\2048project\\venv\\lib\\site-packages\\altgraph-0.17.2.dist-info\\zip-safe',
    'DATA'),
-  ('pyinstaller-4.10.dist-info\\WHEEL',
+  ('wheel-0.36.2.dist-info\\RECORD',
    'c:\\users\\stephanie\\documents\\machine '
-   'learning\\2048\\2048project\\venv\\lib\\site-packages\\pyinstaller-4.10.dist-info\\WHEEL',
-   'DATA'),
-  ('wheel-0.36.2.dist-info\\LICENSE.txt',
-   'c:\\users\\stephanie\\documents\\machine '
-   'learning\\2048\\2048project\\venv\\lib\\site-packages\\wheel-0.36.2.dist-info\\LICENSE.txt',
-   'DATA'),
-  ('pyinstaller-4.10.dist-info\\COPYING.txt',
-   'c:\\users\\stephanie\\documents\\machine '
-   'learning\\2048\\2048project\\venv\\lib\\site-packages\\pyinstaller-4.10.dist-info\\COPYING.txt',
+   'learning\\2048\\2048project\\venv\\lib\\site-packages\\wheel-0.36.2.dist-info\\RECORD',
    'DATA'),
   ('altgraph-0.17.2.dist-info\\top_level.txt',
    'c:\\users\\stephanie\\documents\\machine '
    'learning\\2048\\2048project\\venv\\lib\\site-packages\\altgraph-0.17.2.dist-info\\top_level.txt',
    'DATA'),
-  ('wheel-0.36.2.dist-info\\METADATA',
+  ('wheel-0.36.2.dist-info\\LICENSE.txt',
    'c:\\users\\stephanie\\documents\\machine '
-   'learning\\2048\\2048project\\venv\\lib\\site-packages\\wheel-0.36.2.dist-info\\METADATA',
+   'learning\\2048\\2048project\\venv\\lib\\site-packages\\wheel-0.36.2.dist-info\\LICENSE.txt',
    'DATA'),
-  ('setuptools-61.2.0.dist-info\\INSTALLER',
+  ('pyinstaller-4.10.dist-info\\RECORD',
    'c:\\users\\stephanie\\documents\\machine '
-   'learning\\2048\\2048project\\venv\\lib\\site-packages\\setuptools-61.2.0.dist-info\\INSTALLER',
+   'learning\\2048\\2048project\\venv\\lib\\site-packages\\pyinstaller-4.10.dist-info\\RECORD',
    'DATA'),
-  ('pyinstaller-4.10.dist-info\\INSTALLER',
+  ('pyinstaller-4.10.dist-info\\WHEEL',
    'c:\\users\\stephanie\\documents\\machine '
-   'learning\\2048\\2048project\\venv\\lib\\site-packages\\pyinstaller-4.10.dist-info\\INSTALLER',
-   'DATA'),
-  ('wheel-0.36.2.dist-info\\RECORD',
-   'c:\\users\\stephanie\\documents\\machine '
-   'learning\\2048\\2048project\\venv\\lib\\site-packages\\wheel-0.36.2.dist-info\\RECORD',
-   'DATA'),
-  ('setuptools-61.2.0.dist-info\\REQUESTED',
-   'c:\\users\\stephanie\\documents\\machine '
-   'learning\\2048\\2048project\\venv\\lib\\site-packages\\setuptools-61.2.0.dist-info\\REQUESTED',
-   'DATA'),
-  ('altgraph-0.17.2.dist-info\\RECORD',
-   'c:\\users\\stephanie\\documents\\machine '
-   'learning\\2048\\2048project\\venv\\lib\\site-packages\\altgraph-0.17.2.dist-info\\RECORD',
+   'learning\\2048\\2048project\\venv\\lib\\site-packages\\pyinstaller-4.10.dist-info\\WHEEL',
    'DATA'),
   ('setuptools-61.2.0.dist-info\\RECORD',
    'c:\\users\\stephanie\\documents\\machine '
    'learning\\2048\\2048project\\venv\\lib\\site-packages\\setuptools-61.2.0.dist-info\\RECORD',
    'DATA'),
-  ('altgraph-0.17.2.dist-info\\WHEEL',
-   'c:\\users\\stephanie\\documents\\machine '
-   'learning\\2048\\2048project\\venv\\lib\\site-packages\\altgraph-0.17.2.dist-info\\WHEEL',
-   'DATA'),
-  ('setuptools-61.2.0.dist-info\\entry_points.txt',
-   'c:\\users\\stephanie\\documents\\machine '
-   'learning\\2048\\2048project\\venv\\lib\\site-packages\\setuptools-61.2.0.dist-info\\entry_points.txt',
-   'DATA'),
-  ('altgraph-0.17.2.dist-info\\METADATA',
-   'c:\\users\\stephanie\\documents\\machine '
-   'learning\\2048\\2048project\\venv\\lib\\site-packages\\altgraph-0.17.2.dist-info\\METADATA',
-   'DATA'),
-  ('setuptools-61.2.0.dist-info\\WHEEL',
-   'c:\\users\\stephanie\\documents\\machine '
-   'learning\\2048\\2048project\\venv\\lib\\site-packages\\setuptools-61.2.0.dist-info\\WHEEL',
-   'DATA'),
-  ('altgraph-0.17.2.dist-info\\INSTALLER',
-   'c:\\users\\stephanie\\documents\\machine '
-   'learning\\2048\\2048project\\venv\\lib\\site-packages\\altgraph-0.17.2.dist-info\\INSTALLER',
-   'DATA'),
-  ('pyinstaller-4.10.dist-info\\entry_points.txt',
-   'c:\\users\\stephanie\\documents\\machine '
-   'learning\\2048\\2048project\\venv\\lib\\site-packages\\pyinstaller-4.10.dist-info\\entry_points.txt',
-   'DATA'),
-  ('wheel-0.36.2.dist-info\\entry_points.txt',
-   'c:\\users\\stephanie\\documents\\machine '
-   'learning\\2048\\2048project\\venv\\lib\\site-packages\\wheel-0.36.2.dist-info\\entry_points.txt',
-   'DATA'),
   ('altgraph-0.17.2.dist-info\\LICENSE',
    'c:\\users\\stephanie\\documents\\machine '
    'learning\\2048\\2048project\\venv\\lib\\site-packages\\altgraph-0.17.2.dist-info\\LICENSE',
    'DATA'),
-  ('setuptools-61.2.0.dist-info\\METADATA',
-   'c:\\users\\stephanie\\documents\\machine '
-   'learning\\2048\\2048project\\venv\\lib\\site-packages\\setuptools-61.2.0.dist-info\\METADATA',
-   'DATA'),
   ('pyinstaller-4.10.dist-info\\METADATA',
    'c:\\users\\stephanie\\documents\\machine '
    'learning\\2048\\2048project\\venv\\lib\\site-packages\\pyinstaller-4.10.dist-info\\METADATA',
-   'DATA'),
-  ('pyinstaller-4.10.dist-info\\REQUESTED',
-   'c:\\users\\stephanie\\documents\\machine '
-   'learning\\2048\\2048project\\venv\\lib\\site-packages\\pyinstaller-4.10.dist-info\\REQUESTED',
-   'DATA'),
-  ('wheel-0.36.2.dist-info\\WHEEL',
-   'c:\\users\\stephanie\\documents\\machine '
-   'learning\\2048\\2048project\\venv\\lib\\site-packages\\wheel-0.36.2.dist-info\\WHEEL',
-   'DATA'),
-  ('wheel-0.36.2.dist-info\\INSTALLER',
-   'c:\\users\\stephanie\\documents\\machine '
-   'learning\\2048\\2048project\\venv\\lib\\site-packages\\wheel-0.36.2.dist-info\\INSTALLER',
-   'DATA'),
-  ('pyinstaller-4.10.dist-info\\RECORD',
-   'c:\\users\\stephanie\\documents\\machine '
-   'learning\\2048\\2048project\\venv\\lib\\site-packages\\pyinstaller-4.10.dist-info\\RECORD',
    'DATA')],
  [])
