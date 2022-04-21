@@ -301,6 +301,7 @@ def calc_metrics2(tiles, double mult_base):
                 maxs_len += 1
 
     # --- Master Loop: Traverses chain(s) and calculates chain quality metric/score
+    # Tiles must be adjacent, and weakly decreasing to comprise a chain.
 
     cdef int max_adj[3]
     cdef short metrics_len = 0, chain_len = 0, curr_row, curr_col, i

@@ -1,6 +1,8 @@
 # Various functions for AutoPlay implemented in (slower) Python
 # See also AutoPlayUtilsCy for faster implementations of highest-cost functions
 
+from numpy import amax
+
 SIZE = int(4)
 
 def node_tree_max_DFS(node, max_metrics):
@@ -40,12 +42,48 @@ def calc_metrics0(tiles):
 
 # Strategy 1:
 # Simple metric...Rewards Upper-Right aligned chain.
-def calc_metrics1(tiles):
+# Currently only handles 4x4
+def calc_metrics1(tiles, mult_base):
 
-    metric = int(tiles[0][3]*256 + tiles[1][3]*128 +
-                 tiles[2][3]*64 + tiles[3][3]*32 +
-                 tiles[3][2]*16 + tiles[2][2]*8 +
-                 tiles[1][2]*4 + tiles[0][2]*2)
+    assert tiles.shape[0] == tiles.shape[1]
+
+    size = tiles.shape[0]
+
+    # Check to see if max tile is in upper-right
+    max_val = amax(tiles, axis=None)
+
+    in_corner = False
+    max_ind = size-1
+    for row in range(size):
+        for col in range(size):
+
+            if tiles[row][col] == max_val:
+                if row in [0,max_ind] and col in [0, max_ind]:
+                    in_corner = True
+
+    # Return a metric of 0 if max tile is not in corner
+    if in_corner == False:
+        return 0.0
+
+    # If tile IS in corner, Calculate metric
+
+    # tile_seq = [((0, 3), (1, 3), (2, 3), (3, 3), (3, 2), (2, 2), (1, 2), (0, 2), (0, 1))]
+    tile_seq = [[i, size-1] for i in range(size)]
+    for i in range(size-1, -1, -1):
+        tile_seq.append([i, size-2])
+    tile_seq.append([0, size-3])
+
+    mult = float(mult_base ** (size*2 + 1))
+    metric = 0.0
+
+    for [row, col] in tile_seq:
+        metric += mult * tiles[row][col]
+        mult = mult / mult_base
+
+    # metric = int(tiles[0][3]*256 + tiles[1][3]*128 +
+    #              tiles[2][3]*64 + tiles[3][3]*32 +
+    #              tiles[3][2]*16 + tiles[2][2]*8 +
+    #              tiles[1][2]*4 + tiles[0][2]*2)
 
     return metric
 
@@ -53,7 +91,12 @@ def calc_metrics1(tiles):
 # Strategy 2:
 # More advanced metric. Rewards any "chain" anchored in a corner,
 # with additional "reward" for empty tiles
-def calc_metrics2(tiles):
+# Currently hard-coded for 4x4 boards via "graph"
+def calc_metrics2(tiles, mult_base):
+
+    assert tiles.shape[0] == tiles.shape[1]
+
+    size = tiles.shape[0]
 
     # tiles_byval = {0: [], 2: [], 4: [], 8: [], 16: [], 32: [], 64: [], 128: [],
     #                256: [], 512: [], 1024: [], 2048: [], 4096: [], 8192: [], 16384: []}
@@ -86,8 +129,8 @@ def calc_metrics2(tiles):
     max_val = 0
     maxs = []
     num_empty = 0
-    for row in range(SIZE):
-        for col in range(SIZE):
+    for row in range(size):
+        for col in range(size):
 
             val = tiles[row][col]
 
@@ -108,14 +151,14 @@ def calc_metrics2(tiles):
     metrics = []
     for (val, row, col) in maxs:
 
-        metric = 0              # "Score" metric for the overall chain
+        metric = 0.              # "Score" metric for the overall chain
 
         # Start with "max" tile
         chain_vals = [val]
         chain_idxs = [(row, col)]
 
-        # --- Process next 3 (or SIZE-1) "largest" tiles
-        for _ in range(7):
+        # --- Process next up to 8 (or SIZE*2) "largest" tiles
+        for _ in range(size*2):
 
             max_adj_val = 0
             max_adj_idx = (None, None)
@@ -123,13 +166,14 @@ def calc_metrics2(tiles):
             # Explore adjacent tiles for largest
             for (a_row, a_col) in graph[(row, col)]:
 
-                # Don't explore empty tiles or tiles already in chain
+                # Don't explore empty tiles, tiles already in chain, or larger tiles
                 val = tiles[a_row][a_col]
                 if val == 0 or (a_row, a_col) in chain_idxs or val > tiles[row][col]:
                     continue
 
+                # Keep record of (one of) the largest adjacent tiles
                 if val > max_adj_val:
-                    max_adj_val = tiles[a_row][a_col]
+                    max_adj_val = val
                     max_adj_idx = (a_row, a_col)
 
             # Reached the end of the chain, stop looking for more tiles
@@ -146,18 +190,18 @@ def calc_metrics2(tiles):
         in_corner = (chain_idxs[0][0] in [0, SIZE-1]) and (chain_idxs[0][1] in [0, SIZE-1])
         multiplier1 = 2 if in_corner else 1
 
-        # If these first tiles in the chain are all in the same row or col
-        same_row = all([chain_idxs[0][0] == chain_idxs[i][0] for i in range(1, min(4, len(chain_idxs)))])
-        same_col = all([chain_idxs[0][1] == chain_idxs[i][1] for i in range(1, min(4, len(chain_idxs)))])
+        # If the first "size" tiles in the chain are all in the same row or col
+        same_row = all([chain_idxs[0][0] == chain_idxs[i][0] for i in range(1, min(size, len(chain_idxs)))])
+        same_col = all([chain_idxs[0][1] == chain_idxs[i][1] for i in range(1, min(size, len(chain_idxs)))])
 
         # Give "bonus" for these tiles being in same row or col
         multiplier2 = 2 if in_corner and (same_row or same_col) else 1
 
         # Update metric for this chain
-        mult = 8
+        mult = mult_base ** (size*2 + 1)
         for tile_val in chain_vals:
             metric += tile_val * mult
-            mult -= 1
+            mult = mult / mult_base
 
         # multiplier3 = 2 ** num_empty
         metric = metric * multiplier1 * multiplier2 * num_empty
@@ -167,7 +211,14 @@ def calc_metrics2(tiles):
     return max(metrics)
 
 
-def calc_metrics3(tiles):
+# Strategy 3:
+# More advanced metric. Rewards any "chain" anchored in a corner
+# Currently hard-coded for 4x4 board via "graph"
+def calc_metrics3(tiles, mult_base):
+
+    assert tiles.shape[0] == tiles.shape[1]
+
+    size = tiles.shape[0]
 
     graph = {0: ((0, 0), (0, 1), (0, 2), (0, 3), (1, 3), (1, 2), (1, 1), (1, 0), (2, 0)),
              1: ((0, 0), (1, 0), (2, 0), (3, 0), (3, 1), (2, 1), (1, 1), (0, 1), (0, 2)),
@@ -186,8 +237,8 @@ def calc_metrics3(tiles):
     max_val = 0
     maxs = []
     num_empty = 0
-    for row in range(SIZE):
-        for col in range(SIZE):
+    for row in range(size):
+        for col in range(size):
 
             val = tiles[row][col]
 
@@ -206,7 +257,7 @@ def calc_metrics3(tiles):
     in_corner = False
     corners = []
     for max1 in maxs:
-        if (max1[1] in [0, 3]) and (max1[2] in [0, 3]):
+        if (max1[1] in [0, size-1]) and (max1[2] in [0, size-1]):
             in_corner = True
             corners.append((max1[1], max1[2]))
 
@@ -217,11 +268,11 @@ def calc_metrics3(tiles):
 
     for cnr_idx in corners:
         for tile_idxs in graph2[cnr_idx]:
-            metric = int(0)
-            mult = int(2**8)
+            metric = 0.
+            mult = mult_base ** (size*2 + 1)
             for idx in tile_idxs:
                 metric += tiles[idx[0]][idx[1]] * mult
-                mult = mult // 2
+                mult = mult / mult_base
             # metric = metric * num_empty
             metrics.append(metric)
 

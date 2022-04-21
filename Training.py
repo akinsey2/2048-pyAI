@@ -12,15 +12,15 @@ if __name__ == '__main__':
     # Parameters
     calc_min = 3
     calc_max = 3
-    tree_depth_min = 5
-    tree_depth_max = 7
-    topx_min = .03
-    topx_max = .05
+    tree_depth_min = 6
+    tree_depth_max = 6
+    topx_min = .02
+    topx_max = .04
     topx_steps = 3
-    calc_mult_min = 1.3
-    calc_mult_max = 5
-    calc_mult_steps = 5
-    reps = 12
+    calc_mult_min = 1
+    calc_mult_max = 2
+    calc_mult_steps = 6
+    reps = 25
 
     # Estimate Time Required
     tot_games = (calc_max - calc_min + 1) * (tree_depth_max - tree_depth_min + 1) * (topx_max - topx_min + 1) * reps

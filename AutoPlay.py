@@ -37,7 +37,7 @@ class AutoPlayer:
         Determines best move with get_move() and takes it, changing game state.
     """
 
-    def __init__(self, game, tree_depth=6, topx_perc=0.05, calc_option=3, rand=None, mult_base=2.0):
+    def __init__(self, game, tree_depth=6, topx_perc=0.05, calc_option=3, rand=None, mult_base=1.5):
         """
         :param game: GameMgr.Game instance holding current game state
 
@@ -229,11 +229,11 @@ class MoveTree:
             if ap.calc_option == 0:
                 self.metric = AutoPlayUtilsPy.calc_metrics0(tiles)
             elif ap.calc_option == 1:
-                self.metric = AutoPlayUtilsPy.calc_metrics1(tiles)
+                self.metric = AutoPlayUtilsPy.calc_metrics1(tiles, ap.mult_base)
             elif ap.calc_option == 2:
-                self.metric = AutoPlayUtilsPy.calc_metrics2(tiles)
+                self.metric = AutoPlayUtilsPy.calc_metrics2(tiles, ap.mult_base)
             elif ap.calc_option == 3:
-                self.metric = AutoPlayUtilsPy.calc_metrics3(tiles)
+                self.metric = AutoPlayUtilsPy.calc_metrics3(tiles, ap.mult_base)
 
         # Base Case: If already traversed to proper tree depth, stop
         if self.level > ap.tree_depth - 1:

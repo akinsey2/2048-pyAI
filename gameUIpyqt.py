@@ -746,6 +746,7 @@ class UiMain(object):
         self.ap_spd_label.setEnabled(False)
         self.ap_strat_label.setEnabled(False)
         self.comboBox.setEnabled(False)
+        self.ap_start_button.setEnabled(False)
         self.horizontalSlider.setEnabled(False)
 
     def won_game(self):
@@ -791,6 +792,7 @@ class UiMain(object):
         self.horizontalSlider.setEnabled(True)
         self.ap_spd_label.setEnabled(True)
         self.ap_strat_label.setEnabled(True)
+        self.comboBox.setEnabled(True)
         self.load_button.setEnabled(False)
         self.save_button.setEnabled(False)
 
